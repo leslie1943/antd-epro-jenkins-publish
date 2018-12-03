@@ -47,7 +47,7 @@ class BasicPublish extends Component{
 
         validateFieldsAndScroll((error, values) => {
           if (!error) {
-            console.info(values);
+            // console.info(values);
             dispatch({
               type: 'publish/send',
               payload: values,
@@ -62,7 +62,7 @@ class BasicPublish extends Component{
         const { form: { getFieldDecorator , getFieldValue}} = this.props;
         // from mapStateToProps
         const serviceResult = this.props.result;
-        console.info(serviceResult);
+        // console.info(serviceResult);
 
         // Item 布局
         const formItemLayout = {
@@ -86,78 +86,97 @@ class BasicPublish extends Component{
           };
         return(
             <PageHeaderWrapper title="易普网发版" content="">
-                <Card bordered={false}>
-                    <Form style={{marginTop: 8}}>
-                        
-                        {/* ---------------- 私钥  ---------------- */}
-                        <FormItem {...formItemLayout} label={fieldLabels.privateKey}>{
-                            getFieldDecorator('privateKey',{
-                                initialValue: 'K4Qoz7woxAYZ4v6NKyZ9',
-                                rules: [{required: true, message: '请输入私钥'}]
-                            })(<TextArea placeholder='请输入私钥' ></TextArea>)
-                        }</FormItem>
+                <Collapse>
+                {/* ####################### Panel_Step 1 ###################################### */}
+                    <Panel header="Step 1: 提交 Merge Request" key="1">
+                        <Card bordered={false}>
+                            <Form style={{marginTop: 8}}>
+                            {/* ---------------- 私钥  ---------------- */}
+                            <FormItem {...formItemLayout} label={fieldLabels.privateKey}>{
+                                getFieldDecorator('privateKey',{
+                                    initialValue: 'K4Qoz7woxAYZ4v6NKyZ9',
+                                    rules: [{required: true, message: '请输入私钥'}]
+                                })(<TextArea placeholder='请输入私钥' ></TextArea>)
+                            }</FormItem>
 
-                        {/* ---------------- 选择类型  ---------------- */}
-                        {/* <FormItem {...formItemLayout} label={fieldLabels.mrType}>{
-                            getFieldDecorator('mrType',{
-                                rules: [{required: true, message: '请输入私钥'}]
-                            })(<Select placeholder="清选择类型" >
-                            {types.map(item => <Option key={item.id} value={item.id}>{item.desc}</Option>)}
-                        </Select>)
-                        }</FormItem> */}
+                            {/* ---------------- 选择类型  ---------------- */}
+                            {/* <FormItem {...formItemLayout} label={fieldLabels.mrType}>{
+                                getFieldDecorator('mrType',{
+                                    rules: [{required: true, message: '请输入私钥'}]
+                                })(<Select placeholder="清选择类型" >
+                                {types.map(item => <Option key={item.id} value={item.id}>{item.desc}</Option>)}
+                            </Select>)
+                            }</FormItem> */}
 
-                        <FormItem {...formItemLayout} label='Gitlab项目'>
-                            <Collapse >
-                                <Panel header="点击查看Git项目列表" key="1">
-                                    <List size="small"
-                                    // bordered
-                                    dataSource={types}
-                                    // renderItem={item => (<List.Item>{item.desc.toUpperCase()}</List.Item>)}/>
-                                    renderItem={item => (<List.Item>{item.desc}</List.Item>)}/>
-                                </Panel>
-                            </Collapse>
-                        </FormItem>
+                            <FormItem {...formItemLayout} label='Gitlab项目'>
+                                <Collapse >
+                                    <Panel header="点击查看Git项目列表" key="10">
+                                        <List size="small"
+                                        // bordered
+                                        dataSource={types}
+                                        // renderItem={item => (<List.Item>{item.desc.toUpperCase()}</List.Item>)}/>
+                                        renderItem={item => (<List.Item>{item.desc}</List.Item>)}/>
+                                    </Panel>
+                                </Collapse>
+                            </FormItem>
 
-                        {/* ---------------- 原分支  ---------------- */}
-                        <FormItem {...formItemLayout} label={fieldLabels.originBranch}>{
-                            getFieldDecorator('originBranch',{
-                                rules: [{required: true, message: '清选择原分支'}]
-                            })(<Select placeholder="清选择原分支" >
-                            <Option value="develop">develop</Option>
-                            <Option value="master">master</Option>
-                        </Select>)
-                        }</FormItem>
-                        {/* ---------------- 目标分支 ---------------- */}
-                        <FormItem {...formItemLayout} label={fieldLabels.targetBranch}>{
-                            getFieldDecorator('targetBranch',{
-                                rules: [{required: true, message: '清选择目标分支'}]
-                            })(<Select placeholder="清选择目标分支" >
-                            <Option value="develop">develop</Option>
-                            <Option value="master">master</Option>
-                        </Select>)
-                        }</FormItem>
+                            {/* ---------------- 原分支  ---------------- */}
+                            <FormItem {...formItemLayout} label={fieldLabels.originBranch}>{
+                                getFieldDecorator('originBranch',{
+                                    rules: [{required: true, message: '清选择原分支'}]
+                                })(<Select placeholder="清选择原分支" >
+                                <Option value="develop">develop</Option>
+                                <Option value="master">master</Option>
+                            </Select>)
+                            }</FormItem>
+                            {/* ---------------- 目标分支 ---------------- */}
+                            <FormItem {...formItemLayout} label={fieldLabels.targetBranch}>{
+                                getFieldDecorator('targetBranch',{
+                                    rules: [{required: true, message: '清选择目标分支'}]
+                                })(<Select placeholder="清选择目标分支" >
+                                <Option value="develop">develop</Option>
+                                <Option value="master">master</Option>
+                            </Select>)
+                            }</FormItem>
 
-                        {/* ---------------- 标题 ---------------- */}
-                        <FormItem {...formItemLayout} label={fieldLabels.title}>{
-                            getFieldDecorator('title',{
-                                rules: [{required: true, message: '请输入标题'}]
-                            })(<Input placeholder="请输入Merge request标题" ></Input>)
-                        }</FormItem>
+                            {/* ---------------- 标题 ---------------- */}
+                            <FormItem {...formItemLayout} label={fieldLabels.title}>{
+                                getFieldDecorator('title',{
+                                    rules: [{required: true, message: '请输入标题'}]
+                                })(<Input placeholder="请输入Merge request标题" ></Input>)
+                            }</FormItem>
 
-                        {/* ---------------- 描述 ---------------- */}
-                        <FormItem {...formItemLayout} label={fieldLabels.description}>{
-                            getFieldDecorator('description',{
-                                rules: [{required: true, message: '请输入描述'}]
-                            })(<TextArea placeholder="请输入Merge request描述" ></TextArea>)
-                        }</FormItem>
+                            {/* ---------------- 描述 ---------------- */}
+                            <FormItem {...formItemLayout} label={fieldLabels.description}>{
+                                getFieldDecorator('description',{
+                                    rules: [{required: true, message: '请输入描述'}]
+                                })(<TextArea placeholder="请输入Merge request描述" ></TextArea>)
+                            }</FormItem>
 
-                        {/*  */}
-                        <FormItem {...submitFormLayout} style={{ marginTop: 10 }}>
-                            <Button type="primary" onClick={this.validate}>提交MR</Button>
-                            
-                        </FormItem>
-                    </Form>
-                </Card>
+                            {/*  */}
+                            <FormItem {...submitFormLayout} style={{ marginTop: 10 }}>
+                                <Button type="primary" onClick={this.validate}>提交MR</Button>      
+                             </FormItem>
+                         </Form>
+                    </Card>
+                </Panel>
+                {/* ####################### Panel_Step 2 ###################################### */}
+                <Panel header="Step 2: 接收 Merge Request" key="2">
+                    <Card bordered={false}>
+                        <Form style={{marginTop: 8}}>
+                        </Form>
+                    </Card>
+                </Panel>
+
+                {/* ####################### Panel_Step 3 ###################################### */}
+                <Panel header="Step 3: 创建 Tag" key="3">
+                    <Card bordered={false}>
+                        <Form style={{marginTop: 8}}>
+                        </Form>
+                    </Card>
+                </Panel>
+
+            </Collapse>
                 
                 <hr/>
                 {/* <Card bordered={false}>

@@ -39,6 +39,7 @@ export default {
   'menu.publish': 'Epro Publish',
   'menu.publish.basic': 'Basic',
   'menu.publish.close': 'Close',
+  'menu.publish.search-mr': 'Search',
   'app.home.introduce': 'introduce',
   'app.analysis.test': 'Gongzhuan No.{no} shop',
   'app.analysis.introduce': 'Introduce',

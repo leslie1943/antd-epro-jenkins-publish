@@ -38,14 +38,17 @@ export default {
   
   proxy: {
     '/api': {
-      // target: 'http://jsonplaceholder.typicode.com/', + /api/users/
-      target: 'https://gitlab.devops.viewchain.net',
+      // target: 'https://gitlab.devops.viewchain.net/api', -------- WAY_1: WORKS 👍
+      target: 'https://gitlab.devops.viewchain.net',     // -------- WAY_2: WORKS 👍
       changeOrigin: true,
-      pathRewrite: { '^/api': '/api' },
+      // pathRewrite: { '^/api': '' },                      -------- WAY_1: WORKS 👍
+      pathRewrite: { '^/api': '/api' },                  // -------- WAY_2: WORKS 👍
       secure: false,
     },
   },
+
   /**
+   * 约定好的字段
    * chainWebpack, context, exportStatic, outputPath, plugins, routes, runtimePublicPath, 
    * singular, base, mountElementId, history, alias, babel, 
    * browserslist, chainConfig, copy, cssLoaderOptions, cssModulesExcludes, cssModulesWithAffix, 

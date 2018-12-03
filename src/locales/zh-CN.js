@@ -39,8 +39,9 @@ export default {
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
   'menu.publish': '易普网发布',
-  'menu.publish.basic': '基础版',
+  'menu.publish.basic': '步骤',
   'menu.publish.close': '关闭MR',
+  'menu.publish.search-mr': '查询MR',
   // -------------- the code of Leslie demo.
   // 'menu.demo': 'Demo',
   // 'menu.demo.products': 'Demo-物品',
