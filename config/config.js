@@ -38,7 +38,7 @@ export default {
   
   proxy: {
     '/api': {
-      // target: 'http://jsonplaceholder.typicode.com/',
+      // target: 'http://jsonplaceholder.typicode.com/', + /api/users/
       target: 'https://gitlab.devops.viewchain.net',
       changeOrigin: true,
       pathRewrite: { '^/api': '/api' },
