@@ -1,0 +1,13 @@
+
+.container {
+  text-align: center;
+}
+
+.stepTitle{
+  font-weight: 900;
+  color: #5A77B3;
+}
+hr{
+  opacity: 0.3;
+  background-color:#5aaafa;
+}
