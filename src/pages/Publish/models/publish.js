@@ -1,4 +1,6 @@
 import * as publishService from '@/services/publish';
+import { message } from 'antd';
+
 
 export default {
     namespace: 'publish',

@@ -3,6 +3,8 @@ import styles from './BasicPublish.css';
 import { connect } from 'dva';
 import {Form, Card, Icon, DatePicker, TimePicker, Input, List,Collapse, Select, Popover, Button,Checkbox,message,Row,Col} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import {getGitMap} from '../../utils/gitMap';
+const gitMap = getGitMap();
 
 const { Option } = Select;
 const FormItem = Form.Item;
@@ -40,11 +42,12 @@ class BasicPublish extends Component{
     constructor(props){
         super(props)
     }
-      // 校验
-      validate = () => {
-        const {
-          form: { validateFieldsAndScroll },dispatch,} = this.props;
-
+    accept(iid){
+        message.success(iid);
+    }
+    // 校验
+    validate = () => {
+        const {form: { validateFieldsAndScroll },dispatch,} = this.props;
         validateFieldsAndScroll((error, values) => {
           if (!error) {
             // console.info(values);
@@ -54,7 +57,7 @@ class BasicPublish extends Component{
             });
           }
         });
-      };
+    };
 
     componentDidMount(){}
     render(){
@@ -163,8 +166,24 @@ class BasicPublish extends Component{
                 {/* ####################### Panel_Step 2 ###################################### */}
                 <Panel header="Step 2: 接收 Merge Request" key="2">
                     <Card bordered={false}>
-                        <Form style={{marginTop: 8}}>
-                        </Form>
+                        {/* <ul>
+                            {serviceResult.map(function(item){
+                                return(
+                                    <li key={item.id}>{item.project_id}</li>
+                                )
+                            })}
+                        </ul> */}
+                        <List
+                            grid={{gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3,}}
+                            dataSource={serviceResult}
+                            renderItem={item => (
+                            <List.Item>
+                                <Card title={item.iid}extra={<a onClick={this.accept(item.iid)} href="#">Accept</a>}>
+                                    <strong><span style={{color:'green'}}>{gitMap[item.project_id]}</span></strong>
+                                </Card>
+                            </List.Item>
+                            )}
+                        />
                     </Card>
                 </Panel>
 
@@ -177,54 +196,7 @@ class BasicPublish extends Component{
                 </Panel>
 
             </Collapse>
-                
-                <hr/>
-                {/* <Card bordered={false}>
-                    <Form style={{marginTop: 8}}>
-                        <FormItem {...formItemLayout} label={fieldLabels.privateKey}>{
-                            getFieldDecorator('privateKey',{
-                                rules: [{required: true, message: '请输入私钥'}]
-                            })(<TextArea placeholder='请输入私钥'></TextArea>)
-                        }</FormItem>
-                        <FormItem {...formItemLayout} label="Web">epro-mall-web</FormItem>
-                        <FormItem {...formItemLayout} label="api">epro-mall</FormItem>
-                        <FormItem {...formItemLayout} label="service">epro-dmcc , epro-certificate , epro-user</FormItem>
-                        <FormItem {...submitFormLayout} style={{ marginTop: 10 }}>
-                            <Button type="primary">接收MR</Button>
-                        </FormItem>
-                    </Form>
-                </Card>
-
-                <hr/>
-                <Card bordered={false}>
-                    <Form style={{marginTop: 8}}>
-                        <FormItem {...formItemLayout} label={fieldLabels.privateKey}>{
-                            getFieldDecorator('privateKey',{
-                                rules: [{required: true, message: '请输入私钥'}]
-                            })(<TextArea placeholder='请输入私钥'></TextArea>)
-                        }</FormItem>
-                        <FormItem {...formItemLayout} label={fieldLabels.tagName}>{
-                            getFieldDecorator('tagName',{
-                                rules: [{required: true, message: '请输入tag名称'}]
-                            })(<Input placeholder="请输入tag名称" ></Input>)
-                        }</FormItem>
-                        <FormItem {...formItemLayout} label={fieldLabels.tagBranch}>{
-                            getFieldDecorator('tagBranch',{
-                                rules: [{required: true, message: '清选择tag分支'}]
-                            })(<Select placeholder="清选择tag分支" >
-                            <Option value="develop">develop</Option>
-                            <Option value="master">master</Option>
-                        </Select>)
-                        }</FormItem>
-
-                        <FormItem {...formItemLayout} label="Web">epro-mall-web</FormItem>
-                        <FormItem {...formItemLayout} label="api">epro-mall</FormItem>
-                        <FormItem {...formItemLayout} label="service">epro-dmcc , epro-certificate , epro-user</FormItem>
-                        <FormItem {...submitFormLayout} style={{ marginTop: 10 }}>
-                            <Button type="primary">创建Tag</Button>
-                        </FormItem>
-                    </Form>
-                </Card> */}
+               
             </PageHeaderWrapper>
         )
     }

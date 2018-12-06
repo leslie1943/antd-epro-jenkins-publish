@@ -82,7 +82,7 @@ class SearchMR extends Component{
             <PageHeaderWrapper title="关闭 Merge request" content="">
                 <Card bordered={false}>
                     <div style={{textAlign:'center'}}>
-                    <Tag color="#2db7f5">当前有<strong>{mrList.length}</strong>个Merge Requests</Tag>
+                    <Tag color="#2db7f5">当前有<strong>{mrList? mrList.length:0}</strong>个待Merge Requests</Tag>
                     </div>
                    
                     <Form style={{marginTop: 8}}>
@@ -106,7 +106,7 @@ class SearchMR extends Component{
 
                         {/*  */}
                         <FormItem {...submitFormLayout} style={{ marginTop: 10 }}>
-                            <Button type="danger" onClick={this.validate}>查询 MR</Button>      
+                            <Button type="primary" onClick={this.validate}>查询 MR</Button>      
                          </FormItem>
                      </Form>
                 </Card>
