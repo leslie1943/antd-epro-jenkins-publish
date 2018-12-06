@@ -1,18 +1,21 @@
-import * as publishService from '@/services/publish';
+import * as publish from '@/services/publish';
+import { setStore,getStore } from '@/utils/localStore';
 import { message } from 'antd';
+import { getRepository } from '@/utils/gitMap';
 
 
 export default {
     namespace: 'publish',
     state: {
-        result:[],
+        result: getStore("epro_publish_tool_mergeRequest"),
         mrList:[],
+        mr_loading: false,
     },
     reducers:{
         update(state,payload){
-            // console.info(payload);
+            console.info(payload);
             return {
-                result: payload.payload.res,
+                result: payload.payload.res, // res should be same from different effect's methods.
             }
         },
         freshMrList(state,payload){
@@ -23,39 +26,33 @@ export default {
         },
     },
     effects:{
-        // ----------- send 
-        *send({payload : v},{call, put, select}){
+        // ----------- sendMR 
+        *sendMR({payload : v},{call, put, select}){
             console.info('[Debug-Log: params in model start]')
             console.info(v);
-            
-            let res = [];
-            const types = [
-                // { id: 106, desc: 'epro-mall' },
-                // { id: 116, desc: 'epro-dmcc-svc' },
-                // { id: 104, desc: 'epro-user-svc' },
-                // { id: 103, desc: 'epro-certificate-svc' },
-                // { id: 173, desc: 'epro-gateway' },
-                // { id: 166, desc: 'epro-job' },
-                // { id: 207, desc: 'epro-flyway' },
-                // { id: 113, desc: 'epro-message' },
-                // { id: 211, desc: 'utility-epro' },
-                { id: 107, desc: 'epro-mall-web' },
-            ];
-           
+            // get git repositories which should be submitted merge request.
+            const types = getRepository();
+            // assemble params
             let params = {
             //   id: 'in for loop',
-              title: v.title,
-              description: v.description,
-              target_branch: v.targetBranch,
-              source_branch: v.originBranch,
-              privateKey: v.privateKey,
+              title: v.mr_title,
+              description: v.mr_description,
+              target_branch: v.mr_targetBranch,
+              source_branch: v.mr_originBranch,
+              privateKey: v.mr_privateKey,
             }
+
+            // start call services.
+            let res = [];
             for(var i = 0; i< types.length;i++){
                 params.id = types[i].id;
-                const r = yield call(publishService.send,params);
+                const r = yield call(publish.sendMR,params);
                 res.push(r);
             }
-            console.info(res)
+
+            // set localstore incase refresh page.
+            setStore('epro_publish_tool_mergeRequest',res);
+            // update state: result
             yield put({type: 'update', payload:{res}})
         },
         // ----------- close
@@ -66,7 +63,7 @@ export default {
                 id: v.mrType,
                 iid: v.mrId,
             }
-            const r = yield call(publishService.close, params);
+            const r = yield call(publish.close, params);
             console.info(r);
         },
         // ----------- close
@@ -76,9 +73,34 @@ export default {
             let params = {
                 id: v.mrType,
             }
-            const r = yield call(publishService.searchMR, params);
+            const r = yield call(publish.searchMR, params);
             console.info(r);
             yield put({type: 'freshMrList', payload:{r}})
+        },
+        // ----------- merge
+        *acceptMR({payload: v},{call, put, select}){
+            // -------------------- Step_1: Before accepting.
+            let params = {
+                id: v.id,
+                iid: v.iid,
+            }
+            // -------------------- Step_2: Doing accept.
+            // const r = yield call(publish.acceptMR, params);
+            // console.info(r);
+            // yield put({type: 'freshMrList', payload:{r}})
+
+            // -------------------- Step_3: After accept.
+            // get merge requests from local storage.
+            let current_mrs = getStore("epro_publish_tool_mergeRequest");
+            // filter item from local items
+            let res = current_mrs.filter(item => {
+                return item.iid !== v.iid;
+            });
+
+            // update state: result.
+            yield put({type: 'update', payload:{res}})
+            // update local storage.
+            setStore('epro_publish_tool_mergeRequest',res);
         }
     },
 }

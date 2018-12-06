@@ -3,7 +3,7 @@ import styles from './BasicPublish.css';
 import { connect } from 'dva';
 import {Form, Card, Icon, DatePicker, TimePicker, Input, List,Collapse, Select, Popover, Button,Checkbox,message,Row,Col} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import {getGitMap} from '../../utils/gitMap';
+import { getGitMap } from '../../utils/gitMap';
 const gitMap = getGitMap();
 
 const { Option } = Select;
@@ -14,13 +14,13 @@ const Panel = Collapse.Panel;
 
 const fieldLabels = {
     mrType: "Merge 类型",
-    privateKey: '私钥',
-    originBranch: '原分支',
-    targetBranch: '目标分支',
-    tagBranch: 'Tag分支',
-    tagName: 'Tag名称',
-    title: '标题',
-    description: '描述',
+    mr_privateKey: '私钥',
+    mr_originBranch: '原分支',
+    mr_targetBranch: '目标分支',
+    // tagBranch: 'Tag分支',
+    // tagName: 'Tag名称',
+    mr_title: '标题',
+    mr_description: '描述',
   };
 
 const types = [
@@ -41,20 +41,33 @@ const types = [
 class BasicPublish extends Component{
     constructor(props){
         super(props)
+        // this.state = {
+        //     loading:false
+        // }
+        // this.accept = this.accept.bind(this);
     }
-    accept(iid){
-        message.success(iid);
+
+    accept(id,iid){
+        message.success(id + "-" + iid);
+        const {dispatch} = this.props;
+        dispatch({
+            type: 'publish/acceptMR',
+            payload: {id:id,iid:iid},
+        });
     }
     // 校验
     validate = () => {
         const {form: { validateFieldsAndScroll },dispatch,} = this.props;
         validateFieldsAndScroll((error, values) => {
           if (!error) {
-            // console.info(values);
-            dispatch({
-              type: 'publish/send',
-              payload: values,
-            });
+              if(values.mr_originBranch === values.mr_targetBranch){
+                message.error('Can not be same branch!!!');
+              }else{
+                dispatch({
+                    type: 'publish/sendMR',
+                    payload: values,
+                });
+            }
           }
         });
     };
@@ -66,6 +79,7 @@ class BasicPublish extends Component{
         // from mapStateToProps
         const serviceResult = this.props.result;
         // console.info(serviceResult);
+        // let loading = true;
 
         // Item 布局
         const formItemLayout = {
@@ -92,11 +106,11 @@ class BasicPublish extends Component{
                 <Collapse>
                 {/* ####################### Panel_Step 1 ###################################### */}
                     <Panel header="Step 1: 提交 Merge Request" key="1">
-                        <Card bordered={false}>
-                            <Form style={{marginTop: 8}}>
+                        <Card bordered={false} >
+                            <Form style={{marginTop: 8}}  >
                             {/* ---------------- 私钥  ---------------- */}
-                            <FormItem {...formItemLayout} label={fieldLabels.privateKey}>{
-                                getFieldDecorator('privateKey',{
+                            <FormItem {...formItemLayout} label={fieldLabels.mr_privateKey}>{
+                                getFieldDecorator('mr_privateKey',{
                                     initialValue: 'K4Qoz7woxAYZ4v6NKyZ9',
                                     rules: [{required: true, message: '请输入私钥'}]
                                 })(<TextArea placeholder='请输入私钥' ></TextArea>)
@@ -124,8 +138,8 @@ class BasicPublish extends Component{
                             </FormItem>
 
                             {/* ---------------- 原分支  ---------------- */}
-                            <FormItem {...formItemLayout} label={fieldLabels.originBranch}>{
-                                getFieldDecorator('originBranch',{
+                            <FormItem {...formItemLayout} label={fieldLabels.mr_originBranch}>{
+                                getFieldDecorator('mr_originBranch',{
                                     rules: [{required: true, message: '清选择原分支'}]
                                 })(<Select placeholder="清选择原分支" >
                                 <Option value="develop">develop</Option>
@@ -133,8 +147,8 @@ class BasicPublish extends Component{
                             </Select>)
                             }</FormItem>
                             {/* ---------------- 目标分支 ---------------- */}
-                            <FormItem {...formItemLayout} label={fieldLabels.targetBranch}>{
-                                getFieldDecorator('targetBranch',{
+                            <FormItem {...formItemLayout} label={fieldLabels.mr_targetBranch}>{
+                                getFieldDecorator('mr_targetBranch',{
                                     rules: [{required: true, message: '清选择目标分支'}]
                                 })(<Select placeholder="清选择目标分支" >
                                 <Option value="develop">develop</Option>
@@ -143,22 +157,22 @@ class BasicPublish extends Component{
                             }</FormItem>
 
                             {/* ---------------- 标题 ---------------- */}
-                            <FormItem {...formItemLayout} label={fieldLabels.title}>{
-                                getFieldDecorator('title',{
+                            <FormItem {...formItemLayout} label={fieldLabels.mr_title}>{
+                                getFieldDecorator('mr_title',{
                                     rules: [{required: true, message: '请输入标题'}]
                                 })(<Input placeholder="请输入Merge request标题" ></Input>)
                             }</FormItem>
 
                             {/* ---------------- 描述 ---------------- */}
-                            <FormItem {...formItemLayout} label={fieldLabels.description}>{
-                                getFieldDecorator('description',{
+                            <FormItem {...formItemLayout} label={fieldLabels.mr_description}>{
+                                getFieldDecorator('mr_description',{
                                     rules: [{required: true, message: '请输入描述'}]
                                 })(<TextArea placeholder="请输入Merge request描述" ></TextArea>)
                             }</FormItem>
 
                             {/*  */}
                             <FormItem {...submitFormLayout} style={{ marginTop: 10 }}>
-                                <Button type="primary" onClick={this.validate}>提交MR</Button>      
+                                <Button type="primary" onClick={()=>this.validate()}>提交Merge request</Button>      
                              </FormItem>
                          </Form>
                     </Card>
@@ -166,25 +180,21 @@ class BasicPublish extends Component{
                 {/* ####################### Panel_Step 2 ###################################### */}
                 <Panel header="Step 2: 接收 Merge Request" key="2">
                     <Card bordered={false}>
-                        {/* <ul>
-                            {serviceResult.map(function(item){
-                                return(
-                                    <li key={item.id}>{item.project_id}</li>
-                                )
-                            })}
-                        </ul> */}
                         <List
                             grid={{gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3,}}
                             dataSource={serviceResult}
                             renderItem={item => (
                             <List.Item>
-                                <Card title={item.iid}extra={<a onClick={this.accept(item.iid)} href="#">Accept</a>}>
+                                <Card title={item.iid}extra={<a onClick={()=>this.accept(item.project_id,item.iid)} href="#">Accept</a>}>
                                     <strong><span style={{color:'green'}}>{gitMap[item.project_id]}</span></strong>
                                 </Card>
                             </List.Item>
                             )}
                         />
                     </Card>
+                    <div style={{textAlign:'center'}}>
+                        <Button type="primary" onClick={this.validate}>接收Merge request</Button>      
+                    </div>
                 </Panel>
 
                 {/* ####################### Panel_Step 3 ###################################### */}
@@ -205,7 +215,7 @@ class BasicPublish extends Component{
 function mapStateToProps(state){
     // console.info(state.publish.result);
     return {
-        result: state.publish.result
+        result: state.publish.result,
     }
 }
 
