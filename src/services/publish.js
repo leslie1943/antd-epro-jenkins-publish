@@ -7,7 +7,7 @@ const token = "fbixW_k1of1GqTxQta8M";
 
 export async function sendMR(params) {
   // Call service
-  return request('/api/v4/projects/' + params.id + '/merge_requests', {
+  const res = await request('/api/v4/projects/' + params.id + '/merge_requests', {
     method: 'POST',
     body: params,
     headers: {
@@ -15,6 +15,22 @@ export async function sendMR(params) {
       "PRIVATE-TOKEN": token,
     },
   });
+  /*********************************************************
+   * In order to check all content of http request, 
+   * change the code at line 133 in '/util/request.js'
+   * Original : return response.json()
+   * Current: return response
+   *********************************************************/
+
+  if(res.status === 201){
+    return res.json();
+  }else{
+    return {
+      status: -1,
+      message: 'error',
+      result: null,
+    }
+  }
 }
 
 export async function close(params) {

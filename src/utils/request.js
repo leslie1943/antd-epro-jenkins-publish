@@ -14,6 +14,7 @@ const codeMessage = {
   403: '用户得到授权，但是访问是被禁止的。',
   404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
   406: '请求的格式不可得。',
+  409: '请求冲突',
   410: '请求的资源被永久删除，且不会再得到的。',
   422: '当创建一个对象时，发生一个验证错误。',
   500: '服务器发生错误，请检查服务器。',
@@ -121,14 +122,15 @@ export default function request(
   }
   return fetch(url, newOptions)
     .then(checkStatus)
-    .then(response => cachedSave(response, hashcode))
+    // .then(response => cachedSave(response, hashcode))
     .then(response => {
       // DELETE and 204 do not return data by default
       // using .json will report an error.
       if (newOptions.method === 'DELETE' || response.status === 204) {
         return response.text();
       }
-      return response.json();
+      // return response.json();
+      return response;
     })
     .catch(e => {
       const status = e.name;
@@ -143,6 +145,9 @@ export default function request(
       // environment should not be used
       if (status === 403) {
         router.push('/exception/403');
+        return;
+      }
+      if (status === 409) {
         return;
       }
       if (status <= 504 && status >= 500) {
