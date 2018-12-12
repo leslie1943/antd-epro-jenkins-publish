@@ -40,6 +40,7 @@ export default {
   'menu.publish.basic': 'Basic',
   'menu.publish.close': 'Close',
   'menu.publish.search-mr': 'Search',
+  'menu.publish.tags': 'Tags',
   'app.home.introduce': 'introduce',
   'app.analysis.test': 'Gongzhuan No.{no} shop',
   'app.analysis.introduce': 'Introduce',

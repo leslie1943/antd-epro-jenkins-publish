@@ -15,12 +15,12 @@ export function getGitMap() {
 
 export function getRepository() {
     return [
-        // { id: 106, desc: 'epro-mall' },
-        // { id: 116, desc: 'epro-dmcc-svc' },
-        // { id: 104, desc: 'epro-user-svc' },
-        // { id: 103, desc: 'epro-certificate-svc' },
-        // { id: 173, desc: 'epro-gateway' },
-        // { id: 166, desc: 'epro-job' },
+        { id: 106, desc: 'epro-mall' },
+        { id: 116, desc: 'epro-dmcc-svc' },
+        { id: 104, desc: 'epro-user-svc' },
+        { id: 103, desc: 'epro-certificate-svc' },
+        { id: 173, desc: 'epro-gateway' },
+        { id: 166, desc: 'epro-job' },
         // { id: 207, desc: 'epro-flyway' },
         // { id: 113, desc: 'epro-message' },
         // { id: 211, desc: 'utility-epro' },

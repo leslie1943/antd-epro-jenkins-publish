@@ -42,6 +42,7 @@ export default {
   'menu.publish.basic': '步骤',
   'menu.publish.close': '关闭MR',
   'menu.publish.search-mr': '查询MR',
+  'menu.publish.tags': 'Git tags',
   // -------------- the code of Leslie demo.
   // 'menu.demo': 'Demo',
   // 'menu.demo.products': 'Demo-物品',

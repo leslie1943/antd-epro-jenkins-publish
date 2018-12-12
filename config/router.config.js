@@ -72,19 +72,27 @@ export default [
             icon: 'pushpin',
             component: './Publish/BasicPublish',
           },
+          // {
+          //   path: '/publish/close',
+          //   name: 'close',
+          //   icon: 'close-circle',
+          //   component: './Publish/CloseRequest',
+          // },
+          // {
+          //   path: '/publish/search-mr',
+          //   name: 'search-mr',
+          //   icon: 'search',
+          //   component: './Publish/SearchMR',
+          // },
           {
-            path: '/publish/close',
-            name: 'close',
-            icon: 'close-circle',
-            component: './Publish/CloseRequest',
-          },
-          {
-            path: '/publish/search-mr',
-            name: 'search-mr',
-            icon: 'search',
-            component: './Publish/SearchMR',
+            path: '/publish/tags',
+            name: 'tags',
+            icon: 'tags',
+            component: './Publish/Tags',
           },
         ],
+
+        
       },
       // forms
       // {

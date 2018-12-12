@@ -41,6 +41,12 @@ export default {
                 ...state,
                 sendLoading: loading
             }
+        },
+        setTags(state,{payload:{tags}}){
+            return {
+                ...state,
+                tags: tags,
+            }           
         }
     },
     effects:{
@@ -113,9 +119,9 @@ export default {
             while(current_mrs.length != 0){
                 // 组织数据=>accept merge request=>get result=>set local && state
                 let params = {id:'', iid:''};
-                params.id = current_mrs[0].id;
+                params.id = current_mrs[0].project_id;
                 params.iid = current_mrs[0].iid;
-                // const r = yield call(publish.acceptMR,params);
+                const r = yield call(publish.acceptMR,params);
                 // 将accept结果存储
                 res_accept.push(r);
 
@@ -131,15 +137,64 @@ export default {
             setStore('epro_publish_tool_acceptRequest',res_accept);
             // update state 
             yield put({type: 'setAcceptResult', payload:{res: res_accept}})
-        }
+        },
 
+        // ------------------------------- Search Tags -------------------------------
+        *searchTags(_,{call,put}){
+            // const repositories = getRepository();
+            const repositories = [
+                { id: 106, desc: 'epro-mall' },
+                { id: 116, desc: 'epro-dmcc-svc' },
+                { id: 104, desc: 'epro-user-svc' },
+                { id: 103, desc: 'epro-certificate-svc' },
+                { id: 173, desc: 'epro-gateway' },
+                { id: 166, desc: 'epro-job' },
+                // { id: 207, desc: 'epro-flyway' },
+                // { id: 113, desc: 'epro-message' },
+                // { id: 211, desc: 'utility-epro' },
+                { id: 107, desc: 'epro-mall-web' },
+            ];
 
+            // start call services.
+            let res = [];
+            for(var i = 0; i< repositories.length; i++){
+                let params = {};
+                params.id = repositories[i].id;
+                const r = yield call(publish.searchTags,params);
+                if(r.length > 0){
+                    r[0].project_id = repositories[i].id;
+                    r[0].key = repositories[i].id;
+                    res.push(r[0]);
+                }
+            }
+            console.info(res);
+            yield put({type: 'setTags', payload:{tags:res}})
+        },
 
-
-
-
-
-
+        *newTag({payload:record},{call,put}){
+            let tag = record
+        },
+        *createTags({payload:tags},{call,put}){
+            console.info(tags);
+            for(let i = 0; i < tags.length; i++){
+                let tag = tags[i];
+                // 处理tag
+                let name = tag.name;
+                let prefix = '';
+                let suffix = '';
+                if(name){
+                    prefix = name.substring(0, name.length - 1);
+                    suffix = parseInt(name.substring(name.length - 1, name.length)) + 1;
+                }
+                let params = {
+                    id: tag.project_id,
+                    tag_name: prefix + '' + suffix,
+                    ref: 'master',
+                }
+                console.info(params);
+                const r = yield call(publish.createTag,params);
+            }
+        },
 
         // ----------- close
         // *close({payload: v},{call, put, select}){

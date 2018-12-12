@@ -3,8 +3,9 @@ import styles from './BasicPublish.css';
 import { connect } from 'dva';
 import {Form, Card, Icon, DatePicker, TimePicker, Input, Spin,List,Collapse, Select, Popover, Button,Checkbox,message,Row,Col} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import { getGitMap, getGitToken } from '../../utils/gitMap';
+import { getGitMap, getGitToken,getRepository } from '../../utils/gitMap';
 const gitMap = getGitMap();
+const repository = getRepository();
 const tokens = getGitToken();
 
 const { Option } = Select;
@@ -16,15 +17,21 @@ const Panel = Collapse.Panel;
 const fieldLabels = {
     mrType: "Merge 类型",
     mr_privateKey: '提交Merge request私钥',
-    accept_privateKey: '接收Merge request私钥',
     mr_originBranch: '原分支',
     mr_targetBranch: '目标分支',
-
-    tag_privateKey: 'Tag私钥',
-    // tag_Branch: 'Tag分支',
-    // tag_Name: 'Tag名称',
     mr_title: '标题',
     mr_description: '描述',
+  };
+
+  const acceptLabels = {
+    accept_privateKey: '接收Merge request私钥',
+  }
+
+  const tagLabels = {
+    tag_privateKey: 'Tag私钥',
+    tag_Branch: 'Tag分支',
+    tag_Name: 'Tag名称',
+    tag_repository: 'Tag项目',
   };
 
 const types = [
@@ -58,8 +65,9 @@ class BasicPublish extends Component{
     }
     // 校验
     validate = () => {
-        const {form: { validateFieldsAndScroll },dispatch,} = this.props;
-        validateFieldsAndScroll((error, values) => {
+        const {form: { validateFieldsAndScroll,validateFields },dispatch,} = this.props;
+        validateFields(['mr_privateKey','mr_originBranch','mr_targetBranch','mr_title','mr_description'],(error, values) => {
+        // validateFieldsAndScroll((error, values) => {
           if (!error) {
               if(values.mr_originBranch === values.mr_targetBranch){
                 message.error('Can not be same branch!!!');
@@ -82,8 +90,8 @@ class BasicPublish extends Component{
 
     // 校验
     validateAccept = () => {
-        const {form: { validateFieldsAndScroll },dispatch,} = this.props;
-        validateFieldsAndScroll((error, values) => {
+        const {form: { validateFields },dispatch,} = this.props;
+        validateFields((error, values) => {
           if (!error) {
             //   if(values.mr_originBranch === values.mr_targetBranch){
             //     message.error('Can not be same branch!!!');
@@ -205,9 +213,9 @@ class BasicPublish extends Component{
                     <Card bordered={false}>
                         <Form style={{marginTop: 8}}>
                         {/* ---------------- 接收Merge request私钥  ---------------- */}
-                            <FormItem {...formItemLayout} label={fieldLabels.accept_privateKey}>{
+                            <FormItem {...formItemLayout} label={acceptLabels.accept_privateKey}>{
                                 getFieldDecorator('accept_privateKey',{
-                                    initialValue: 'K4Qoz7woxAYZ4v6NKyZ9',
+                                    initialValue: '',
                                     rules: [{required: true, message: '清选择Token'}]
                                 })(<Select placeholder="清选择Token" >
                                     {tokens.map(item => <Option key={item.index} value={item.val}>{item.text + '-' + item.val}</Option>)}
@@ -239,7 +247,7 @@ class BasicPublish extends Component{
                     <Card bordered={false}>
                         <Form style={{marginTop: 8}}>
                             {/* ---------------- 私钥  ---------------- */}
-                            <FormItem {...formItemLayout} label={fieldLabels.tag_privateKey}>{
+                            <FormItem {...formItemLayout} label={tagLabels.tag_privateKey}>{
                                 getFieldDecorator('tag_privateKey',{
                                     initialValue: 'K4Qoz7woxAYZ4v6NKyZ9',
                                     rules: [{required: true, message: '请输入Tag私钥'}]
@@ -248,19 +256,34 @@ class BasicPublish extends Component{
                                 </Select>)
                             }</FormItem>
 
+                            {/* ---------------- 项目 ---------------- */}
+                            <FormItem {...formItemLayout} label={tagLabels.tag_repository}>{
+                                getFieldDecorator('tag_repository',{
+                                    rules:  [{required: true, message: '请选择Tag项目'}]
+                                })(<Select placeholder="请选择Tag项目" >
+                                {repository.map(item => <Option key={item.id} value={item.id}>{item.desc}</Option>)}
+                                </Select>)
+                            }                               
+                            </FormItem>
+
+                            {/* ---------------- Tag 分支 ---------------- */}
+                            <FormItem {...formItemLayout} label={tagLabels.tag_Branch}>{
+                                getFieldDecorator('tag_Branch',{
+                                    initialValue: 'master',
+                                    rules: [{required: true, message: '请选中Tag分支'}]
+                                })(<Select placeholder="请选择tag分支">
+                                <Option value="master">master</Option>
+                                </Select>)
+                            }</FormItem>
+
                             {/* ---------------- Tag 名称 ---------------- */}
-                            {/* <FormItem {...formItemLayout} label={fieldLabels.tag_Name}>{
+                            <FormItem {...formItemLayout} label={tagLabels.tag_Name}>{
                                 getFieldDecorator('tag_Name',{
                                     rules: [{required: true, message: '请输入Tag名称'}]
                                 })(<Input placeholder='请输入Tag名称' ></Input>)
-                            }</FormItem> */}
+                            }</FormItem>
 
-                            {/* ---------------- Tag 分支 ---------------- */}
-                            {/* <FormItem {...formItemLayout} label={fieldLabels.tag_Branch}>{
-                                getFieldDecorator('tag_Branch',{
-                                    rules: [{required: true, message: '请选中Tag分支'}]
-                                })(<TextArea placeholder='请选中Tag分支' ></TextArea>)
-                            }</FormItem> */}
+                            
                             
                             {/* ---------------- 创建 Tag  ---------------- */}
                             <FormItem {...submitFormLayout} style={{ marginTop: 10 }}>
