@@ -28,7 +28,6 @@ class Tags extends Component{
         });
     }
     createTags(){
-        
         const {dispatch} = this.props;
         dispatch({
             type: 'publish/createTags',
@@ -96,9 +95,8 @@ class Tags extends Component{
         ];
 
         return(
-            <PageHeaderWrapper title="Epro project tags" content="">
+            <PageHeaderWrapper title="Create repository tags" content="">
                 <Card bordered={false}>
-               
                     <Form style={{marginTop: 8}}>
                         <FormItem  style={{ marginTop: 10 }}>
                             <Button icon="search" type="primary" onClick={() => this.searchTags()}>Get tags of all repositories</Button>

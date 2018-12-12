@@ -41,8 +41,10 @@ export default {
   'menu.publish': '易普网发布',
   'menu.publish.basic': '步骤',
   'menu.publish.close': '关闭MR',
-  'menu.publish.search-mr': '查询MR',
-  'menu.publish.tags': 'Git tags',
+  'menu.publish.search-mr': '查询 merge request',
+  'menu.publish.send-mr': '发送 merge request',
+  'menu.publish.accept-mr': '接收 merge request',
+  'menu.publish.tags': '创建 repository tag',
   // -------------- the code of Leslie demo.
   // 'menu.demo': 'Demo',
   // 'menu.demo.products': 'Demo-物品',

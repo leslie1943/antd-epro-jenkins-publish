@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import styles from './BasicPublish.css';
+import moment from 'moment';
 import { connect } from 'dva';
-import {Form, Card, Icon, Tag, DatePicker, TimePicker, Input, List,Collapse, Select, Popover, Button,Checkbox,message,Row,Col} from 'antd';
+import {Form, Card,  List, Select, Table,Button,message,Row,Col} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 const { Option } = Select;
 const FormItem = Form.Item;
-const { TextArea } = Input;
-const Panel = Collapse.Panel;
 
 
 const fieldLabels = {
-    mrType: "Merge 项目",
-    privateKey: '私钥',
-    mrId: 'MR id',
+    repository: "Repository name",
   };
 
 const types = [
@@ -29,34 +26,72 @@ const types = [
     { id: 107, desc: 'epro-mall-web' },
 ];
 
-
 @Form.create()
 class SearchMR extends Component{
     constructor(props){
         super(props)
     }
-      // 校验
-      validate = () => {
-        const {
-          form: { validateFieldsAndScroll },dispatch,} = this.props;
 
-        validateFieldsAndScroll((error, values) => {
+    search = () => {
+        const {form: { validateFields,getFieldValue}, dispatch} = this.props;
+        validateFields(['repository'],(error, values) => {
+            // 🎃🎃🎃KEEP DESC🎃🎃🎃 [getFieldValue('fieldName')]
+            // 🎃🎃🎃KEEP DESC🎃🎃🎃 validateFieldsAndScroll: 校验所有当前页面所有的字段
+            // 🎃🎃🎃KEEP DESC🎃🎃🎃 validateFields: 校验指定的Fields
+            // 🎃🎃🎃KEEP DESC🎃🎃🎃 validateFieldsAndScroll((error, values) => {
           if (!error) {
-            // console.info(values);
+            let project_id = getFieldValue('repository');
             dispatch({
-              type: 'publish/searchMR',
-              payload: values,
+                type: 'publish/searchMR',
+                // payload: project_id,
+                payload: values, // 👌👌👌 payload 可以是其他命名,但要和model里的参数名保持一致👌👌👌
             });
           }
         });
-      };
+    };
 
     componentDidMount(){}
+    
     render(){
         const { form: { getFieldDecorator , getFieldValue}} = this.props;
         // from mapStateToProps
-        const serviceResult = this.props.result;
         const mrList  = this.props.mrList
+
+         // 列数据...
+         const columns = [
+            {
+              title: 'ID',
+              dataIndex: 'id',
+              key: 'id',
+            },
+            {
+                title: 'Title',
+                dataIndex: 'title',
+                key: 'title'
+            },
+            {
+                title: 'Merge status',
+                dataIndex: 'merge_status',
+                key: 'merge_status'
+            },
+            {
+                title: 'Source branch',
+                dataIndex: 'source_branch',
+                key: 'source_branch'
+            },
+            {
+                title: 'Target branch',
+                dataIndex: 'target_branch',
+                key: 'target_branch'
+            },
+            {
+                title: 'Creation date',
+                render: (text, record) => {
+                    return moment(record.created_at).format("YYYY-MM-DD HH:mm:ss");
+                }
+            },
+
+        ];
 
         // Item 布局
         const formItemLayout = {
@@ -79,36 +114,25 @@ class SearchMR extends Component{
             },
           };
         return(
-            <PageHeaderWrapper title="关闭 Merge request" content="">
+            <PageHeaderWrapper title="Query merge request" content="">
                 <Card bordered={false}>
-                    <div style={{textAlign:'center'}}>
-                    <Tag color="#2db7f5">当前有<strong>{mrList? mrList.length:0}</strong>个待Merge Requests</Tag>
-                    </div>
-                   
                     <Form style={{marginTop: 8}}>
- 
-
                         {/* ---------------- 选择类型  ---------------- */}
-                        <FormItem {...formItemLayout} label={fieldLabels.mrType}>{
-                            getFieldDecorator('mrType',{
-                                rules: [{required: true, message: '请选择项目'}]
-                            })(<Select placeholder="清选择项目" >
+                        <FormItem {...formItemLayout} label={fieldLabels.repository}>{
+                            getFieldDecorator('repository',{
+                                rules:[{required:true,message:'请选择Repository'}]
+                            })(<Select placeholder="全部项目" >
                             {types.map(item => <Option key={item.id} value={item.id}>{item.desc}</Option>)}
                         </Select>)
                         }</FormItem>
 
-                        {/* ---------------- 标题 ---------------- */}
-                        {/* <FormItem {...formItemLayout} label={fieldLabels.mrId}>{
-                            getFieldDecorator('mrId',{
-                                rules: [{required: true, message: '请输入要关闭的 merge request id'}]
-                            })(<Input placeholder="请输入merge request id" ></Input>)
-                        }</FormItem> */}
-
                         {/*  */}
                         <FormItem {...submitFormLayout} style={{ marginTop: 10 }}>
-                            <Button type="primary" onClick={this.validate}>查询 MR</Button>      
+                            <Button type="primary" onClick={()=>this.search()}>查询 merge request</Button>      
                          </FormItem>
                      </Form>
+
+                     <Table rowKey="id"  columns={columns} dataSource={mrList} />
                 </Card>
             </PageHeaderWrapper>
         )

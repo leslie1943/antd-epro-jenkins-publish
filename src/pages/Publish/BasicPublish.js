@@ -52,22 +52,15 @@ const types = [
 class BasicPublish extends Component{
     constructor(props){
         super(props)
-        // this.accept = this.accept.bind(this);
     }
-
-    accept(id,iid){
-        message.success(id + "-" + iid);
-        const {dispatch} = this.props;
-        dispatch({
-            type: 'publish/acceptOne',
-            payload: {id:id,iid:iid},
-        });
-    }
-    // 校验
+    
+    // 提交merge request的校验
     validate = () => {
         const {form: { validateFieldsAndScroll,validateFields },dispatch,} = this.props;
         validateFields(['mr_privateKey','mr_originBranch','mr_targetBranch','mr_title','mr_description'],(error, values) => {
-        // validateFieldsAndScroll((error, values) => {
+            // validateFieldsAndScroll: 校验所有当前页面所有的字段
+            // validateFields: 校验指定的Fields
+            // validateFieldsAndScroll((error, values) => {
           if (!error) {
               if(values.mr_originBranch === values.mr_targetBranch){
                 message.error('Can not be same branch!!!');
@@ -81,31 +74,24 @@ class BasicPublish extends Component{
         });
     };
 
+    // 接收一个merge request
+    acceptOne(id,iid){
+        message.success(id + "-" + iid);
+        const {dispatch} = this.props;
+        dispatch({
+            type: 'publish/acceptOne',
+            payload: {id:id,iid:iid},
+        });
+    }
+    // 接收全部merge request
     acceptAll(){
         const {dispatch} = this.props;
         dispatch({
             type: 'publish/acceptAll',
         });
     }
-
-    // 校验
-    validateAccept = () => {
-        const {form: { validateFields },dispatch,} = this.props;
-        validateFields((error, values) => {
-          if (!error) {
-            //   if(values.mr_originBranch === values.mr_targetBranch){
-            //     message.error('Can not be same branch!!!');
-            //   }else{
-            //     dispatch({
-            //         type: 'publish/sendMR',
-            //         payload: values,
-            //     });
-            // }
-          }
-        });
-    };
-
-    componentDidMount(){}
+    // componentDidMount(){}
+    
     render(){
         const { form: { getFieldDecorator , getFieldValue}} = this.props;
         // from mapStateToProps
@@ -228,7 +214,7 @@ class BasicPublish extends Component{
                                 dataSource={mrResult}
                                 renderItem={item => (
                                 <List.Item>
-                                    <Card title={item.iid}extra={<a onClick={()=>this.accept(item.project_id,item.iid)} href="#">Accept</a>}>
+                                    <Card title={item.iid}extra={<a onClick={()=>this.acceptOne(item.project_id,item.iid)} href="#">Accept</a>}>
                                         <strong><span style={{color:'green'}}>{gitMap[item.project_id]}</span></strong>
                                     </Card>
                                 </List.Item>

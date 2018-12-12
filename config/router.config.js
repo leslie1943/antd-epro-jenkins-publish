@@ -19,7 +19,7 @@ export default [
     routes: [
       // dashboard
       // { path: '/', redirect: '/dashboard/analysis' },
-      { path: '/', redirect: '/publish/basic' },
+      { path: '/', redirect: '/publish/send-mr' },
       // {
       //   path: '/dashboard',
       //   name: 'dashboard',
@@ -66,11 +66,25 @@ export default [
         name: 'publish',
         icon: 'fork',
         routes: [
+          // {
+          //   path: '/publish/basic',
+          //   name: 'basic',
+          //   icon: 'pushpin',
+          //   component: './Publish/BasicPublish',
+          // },
+
           {
-            path: '/publish/basic',
-            name: 'basic',
-            icon: 'pushpin',
-            component: './Publish/BasicPublish',
+            path: '/publish/send-mr',
+            name: 'send-mr',
+            icon: 'rocket',
+            component: './Publish/SendMR',
+          },
+
+          {
+            path: '/publish/accept-mr',
+            name: 'accept-mr',
+            icon: 'check',
+            component: './Publish/AcceptMR',
           },
           // {
           //   path: '/publish/close',
@@ -78,17 +92,18 @@ export default [
           //   icon: 'close-circle',
           //   component: './Publish/CloseRequest',
           // },
-          // {
-          //   path: '/publish/search-mr',
-          //   name: 'search-mr',
-          //   icon: 'search',
-          //   component: './Publish/SearchMR',
-          // },
           {
             path: '/publish/tags',
             name: 'tags',
             icon: 'tags',
             component: './Publish/Tags',
+          },
+
+          {
+            path: '/publish/search-mr',
+            name: 'search-mr',
+            icon: 'search',
+            component: './Publish/SearchMR',
           },
         ],
 

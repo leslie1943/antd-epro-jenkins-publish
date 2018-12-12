@@ -93,7 +93,7 @@ export default {
                 iid: v.iid,
             }
             // -------------------- Step_2: Doing accept.
-            // const r = yield call(publish.acceptMR, params);
+            const r = yield call(publish.acceptMR, params);
 
             // -------------------- Step_3: After accept.
             // get merge requests from local storage.
@@ -117,7 +117,7 @@ export default {
             // 🚧🚧🚧 call api to accept one by one.
             let res_accept = [];
             while(current_mrs.length != 0){
-                // 组织数据=>accept merge request=>get result=>set local && state
+                // id is project_id
                 let params = {id:'', iid:''};
                 params.id = current_mrs[0].project_id;
                 params.iid = current_mrs[0].iid;
@@ -208,16 +208,15 @@ export default {
         //     console.info(r);
         // },
         // ----------- searchMR
-        // *searchMR({payload: v},{call, put, select}){
-        //     console.info('[Debug-Log: params in model start]')
-        //     console.info(v);
-        //     let params = {
-        //         id: v.mrType,
-        //     }
-        //     const r = yield call(publish.searchMR, params);
-        //     console.info(r);
-        //     yield put({type: 'freshMrList', payload:{r}})
-        // },
+        *searchMR({payload},{call, put, select}){
+            console.info(payload);
+            let params = {
+                project_id: payload.repository
+            }
+            const r = yield call(publish.searchMR, params);
+            console.info(r);
+            yield put({type: 'freshMrList', payload:{r}})
+        },
         
     },
 }
