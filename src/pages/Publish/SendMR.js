@@ -29,7 +29,8 @@ class SendMR extends Component{
     // 提交merge request的校验
     validate = () => {
         const {form: { validateFieldsAndScroll,validateFields },dispatch,} = this.props;
-        validateFields(['mr_privateKey','mr_originBranch','mr_targetBranch','mr_title','mr_description'],(error, values) => {
+        // validateFields(['mr_privateKey','mr_originBranch','mr_targetBranch','mr_title','mr_description'],(error, values) => {
+        validateFields(['mr_originBranch','mr_targetBranch','mr_title','mr_description'],(error, values) => {
             // validateFieldsAndScroll: 校验所有当前页面所有的字段
             // validateFields: 校验指定的Fields
             // validateFieldsAndScroll((error, values) => {
@@ -78,14 +79,14 @@ class SendMR extends Component{
                         <Spin spinning={sendLoading} tip="Merge requests are submitting...">
                             <Form style={{marginTop: 8}}  >
                                 {/* ---------------- 私钥  ---------------- */}
-                                <FormItem {...formItemLayout} label={fieldLabels.mr_privateKey}>{
+                                {/* <FormItem {...formItemLayout} label={fieldLabels.mr_privateKey}>{
                                     getFieldDecorator('mr_privateKey',{
                                         initialValue: 'K4Qoz7woxAYZ4v6NKyZ9',
                                         rules: [{required: true, message: '清选择Token'}]
                                     })(<Select placeholder="清选择Token" >
                                         {tokens.map(item => <Option key={item.index} value={item.val}>{item.text + '-' + item.val}</Option>)}
                                         </Select>)
-                                }</FormItem>
+                                }</FormItem> */}
 
                                 {/* ---------------- Gitlab项目  ---------------- */}
                                 <FormItem {...formItemLayout} label='Gitlab项目'>

@@ -1,4 +1,5 @@
 import request from '@/utils/request';
+import { validateResult } from '@/utils/utils';
 
 // fbixW_k1of1GqTxQta8M YUCHAO
 // K4Qoz7woxAYZ4v6NKyZ9 SUZHEN
@@ -80,13 +81,6 @@ export async function searchMR(params) {
     },
   });
   return validateResult(res);
-}
-
-// validate result.
-function validateResult(res){
-  console.info('validate result from api');
-  console.info(res);
-  return res ? res.json() : {status: -1, message: 'error', result: null }
 }
 
 // export async function close(params) {

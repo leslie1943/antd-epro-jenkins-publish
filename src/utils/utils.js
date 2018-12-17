@@ -215,3 +215,10 @@ export function generateLatestTag(tagName) {
       }
   }
 }
+
+// validate result.
+export function validateResult(res){
+  console.info('validate result from api');
+  console.info(res);
+  return res ? res.json() : {status: -1, message: 'error', result: null }
+}

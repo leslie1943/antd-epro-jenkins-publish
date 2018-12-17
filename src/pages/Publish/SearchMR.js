@@ -69,11 +69,11 @@ class SearchMR extends Component{
                 dataIndex: 'title',
                 key: 'title'
             },
-            {
-                title: 'Merge status',
-                dataIndex: 'merge_status',
-                key: 'merge_status'
-            },
+            // {
+            //     title: 'Merge status',
+            //     dataIndex: 'merge_status',
+            //     key: 'merge_status'
+            // },
             {
                 title: 'Source branch',
                 dataIndex: 'source_branch',
@@ -138,7 +138,7 @@ class SearchMR extends Component{
                          </FormItem>
                      </Form>
 
-                     <Table rowKey="id"  columns={columns} dataSource={mrList?mrList:[]} />
+                     <Table rowKey="id" size='small' columns={columns} dataSource={mrList?mrList:[]} />
                 </Card>
             </PageHeaderWrapper>
         )

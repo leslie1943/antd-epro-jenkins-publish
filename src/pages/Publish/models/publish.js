@@ -54,8 +54,6 @@ export default {
     effects:{
         // ------------------------------- Submit All Merge Request  -------------------------------
         *sendMR({payload : v},{call, put, select}){
-            console.info('[Debug-Log: params in model start]')
-            console.info(v);
             // assemble params
             let params = {
             //   id: 'in for loop',
@@ -63,7 +61,7 @@ export default {
               description: v.mr_description,
               target_branch: v.mr_targetBranch,
               source_branch: v.mr_originBranch,
-              privateKey: v.mr_privateKey,
+            //   privateKey: v.mr_privateKey,
             }
 
             // send_loading: true
