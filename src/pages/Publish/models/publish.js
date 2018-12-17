@@ -1,5 +1,7 @@
 import * as publish from '@/services/publish';
 import { setStore,getStore } from '@/utils/localStore';
+import { getLatestRecord, generateLatestTag } from '@/utils/utils';
+
 import { message } from 'antd';
 import { getRepository } from '@/utils/gitMap';
 
@@ -142,58 +144,78 @@ export default {
         // ------------------------------- Search Tags -------------------------------
         *searchTags(_,{call,put}){
             // const repositories = getRepository();
-            const repositories = [
+            const tag_reps = [
                 { id: 106, desc: 'epro-mall' },
                 { id: 116, desc: 'epro-dmcc-svc' },
                 { id: 104, desc: 'epro-user-svc' },
                 { id: 103, desc: 'epro-certificate-svc' },
                 { id: 173, desc: 'epro-gateway' },
                 { id: 166, desc: 'epro-job' },
-                // { id: 207, desc: 'epro-flyway' },
-                // { id: 113, desc: 'epro-message' },
-                // { id: 211, desc: 'utility-epro' },
+                // { id: 207, desc: 'epro-flyway' }, // 
+                // { id: 113, desc: 'epro-message' }, //
+                // { id: 211, desc: 'utility-epro' }, //
                 { id: 107, desc: 'epro-mall-web' },
             ];
 
             // start call services.
             let res = [];
-            for(var i = 0; i< repositories.length; i++){
+            for(var i = 0; i < tag_reps.length; i++){
                 let params = {};
-                params.id = repositories[i].id;
-                const r = yield call(publish.searchTags,params);
-                if(r.length > 0){
-                    r[0].project_id = repositories[i].id;
-                    r[0].key = repositories[i].id;
-                    res.push(r[0]);
+                params.id = tag_reps[i].id;
+                const r = yield call(publish.searchTags , params);
+
+                // 查询最新的.
+                let latest = getLatestRecord(r);
+                if(latest){
+                    latest.project_id = tag_reps[i].id;
+                    latest.key = tag_reps[i].id;
+                    res.push(latest);
                 }
             }
-            console.info(res);
             yield put({type: 'setTags', payload:{tags:res}})
         },
 
+        // ----------- Create one tag
         *newTag({payload:record},{call,put}){
             let tag = record
+            let latest_tag = generateLatestTag(tag.name);
+            let params = {
+                id: tag.project_id,
+                tag_name: latest_tag,
+                ref: 'master',
+            }
+            message.info(JSON.stringify(params));
+            // const r = yield call(publish.createTag,params);
         },
+
+        // ----------- Create tags for all available repositories.
         *createTags({payload:tags},{call,put}){
             console.info(tags);
             for(let i = 0; i < tags.length; i++){
                 let tag = tags[i];
-                // 处理tag
-                let name = tag.name;
-                let prefix = '';
-                let suffix = '';
-                if(name){
-                    prefix = name.substring(0, name.length - 1);
-                    suffix = parseInt(name.substring(name.length - 1, name.length)) + 1;
-                }
+                
+                let latest_tag = generateLatestTag(tag.name);
+
                 let params = {
                     id: tag.project_id,
-                    tag_name: prefix + '' + suffix,
+                    tag_name: latest_tag,
                     ref: 'master',
                 }
                 console.info(params);
-                const r = yield call(publish.createTag,params);
+                message.info(JSON.stringify(params));
+                // const r = yield call(publish.createTag,params);
             }
+        },
+        
+        // ----------- searchMR
+        *searchMR({payload},{call, put, select}){
+            console.info(payload);
+            let params = {
+                project_id: payload.repository
+            }
+            const r = yield call(publish.searchMR, params);
+            console.info(r);
+            yield put({type: 'freshMrList', payload:{r}})
         },
 
         // ----------- close
@@ -207,16 +229,6 @@ export default {
         //     const r = yield call(publish.close, params);
         //     console.info(r);
         // },
-        // ----------- searchMR
-        *searchMR({payload},{call, put, select}){
-            console.info(payload);
-            let params = {
-                project_id: payload.repository
-            }
-            const r = yield call(publish.searchMR, params);
-            console.info(r);
-            yield put({type: 'freshMrList', payload:{r}})
-        },
         
     },
 }

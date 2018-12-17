@@ -2,6 +2,8 @@ import moment from 'moment';
 import React from 'react';
 import nzh from 'nzh/cn';
 import { parse, stringify } from 'qs';
+import _ from 'lodash';
+
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -160,18 +162,7 @@ export function formatWan(val) {
     result = (
       <span>
         {result}
-        <span
-          styles={{
-            position: 'relative',
-            top: -2,
-            fontSize: 14,
-            fontStyle: 'normal',
-            lineHeight: 20,
-            marginLeft: 2,
-          }}
-        >
-          万
-        </span>
+        <span styles={{ position: 'relative', top: -2, fontSize: 14, fontStyle: 'normal', lineHeight: 20, marginLeft: 2,}}>万</span>
       </span>
     );
   }
@@ -180,4 +171,47 @@ export function formatWan(val) {
 
 export function isAntdPro() {
   return window.location.hostname === 'preview.pro.ant.design';
+}
+
+export function getLatestRecord(r) {
+  if(r.length > 0){
+    let sortedRes = _.orderBy(r,['commit.committed_date'], ['desc']);
+    return sortedRes[0];
+  }
+  return null;
+}
+
+export function generateLatestTag(tagName) {
+  // 处理tag
+  let prefix = '';
+  let suffix = '';
+
+  //2.0.0-hx-dev4
+  if(tagName){
+      // 2.0.0-hx-dev4
+      if(tagName.indexOf('2.0.0-hx-dev') > -1){
+        prefix = tagName.substring(0, 12);
+        suffix = parseInt(tagName.substring(12)) + 1;
+        // return
+        return prefix + '' + suffix;
+      }
+      // 2.0.0-dev4
+      else if(tagName.indexOf('2.0.0-dev') > -1){
+        prefix = tagName.substring(0, 9);
+        suffix = parseInt(tagName.substring(9)) + 1;
+        // return
+        return prefix + '' + suffix;
+      }
+      // 1.0.7
+      else {
+        let res = '';
+        let temp_tags = tagName.split(".");
+        // 前缀
+        for(let i = 0; i < temp_tags.length - 1; i++){
+          res += temp_tags[i] + '.';
+        }
+        // 后缀
+        return res + (parseInt(temp_tags[temp_tags.length - 1]) + 1);
+      }
+  }
 }

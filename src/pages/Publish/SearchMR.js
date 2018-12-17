@@ -85,6 +85,12 @@ class SearchMR extends Component{
                 key: 'target_branch'
             },
             {
+                title: 'Author',
+                render: (text, record) => {
+                    return record.author.username
+                }
+            },
+            {
                 title: 'Creation date',
                 render: (text, record) => {
                     return moment(record.created_at).format("YYYY-MM-DD HH:mm:ss");
@@ -132,7 +138,7 @@ class SearchMR extends Component{
                          </FormItem>
                      </Form>
 
-                     <Table rowKey="id"  columns={columns} dataSource={mrList} />
+                     <Table rowKey="id"  columns={columns} dataSource={mrList?mrList:[]} />
                 </Card>
             </PageHeaderWrapper>
         )

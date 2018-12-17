@@ -105,7 +105,7 @@ class Tags extends Component{
                      <hr></hr>
                      <Table rowKey="key"  columns={columns} dataSource={tags} />
                      <div>
-                         {tags.length > 0 ? <Button icon="tags" type="primary" onClick={() => this.createTags()}>Create tags for these repositories</Button>:''}
+                         {tags && tags.length > 0 ? <Button icon="tags" type="primary" onClick={() => this.createTags()}>Create tags for these repositories</Button>:''}
                      </div>
                 </Card>
                 

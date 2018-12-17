@@ -82,7 +82,7 @@ class AcceptMR extends Component{
                         {/* 待接收的Merge requests */}
                         <List
                             grid={{gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3,}}
-                            dataSource={mrResult}
+                            dataSource={mrResult?mrResult:[]}
                             renderItem={item => (
                             <List.Item>
                                 <Card title={item.iid}extra={<a onClick={()=>this.acceptOne(item.project_id,item.iid)} href="#">Accept</a>}>

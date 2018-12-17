@@ -3,7 +3,7 @@ import request from '@/utils/request';
 // fbixW_k1of1GqTxQta8M YUCHAO
 // K4Qoz7woxAYZ4v6NKyZ9 SUZHEN
 // ts5aSmzM7r2eUzobzFb6 PEIJIANG
-const token = "ts5aSmzM7r2eUzobzFb6";
+const token = "fbixW_k1of1GqTxQta8M";
 
 export async function sendMR(params) {
   // Call service
@@ -40,7 +40,7 @@ export async function acceptMR(params) {
 
 export async function searchTags(params) {
   // Call service
-  const res = await request('/api/v4/projects/'+ params.id + '/repository/tags', {
+  const res = await request('/api/v4/projects/'+ params.id + '/repository/tags?per_page=200', {
     method: 'GET',
     headers: {
       'Content-Type':'application/json;charset=UTF-8',
@@ -72,7 +72,7 @@ export async function createTag(params) {
 // Get Merge request
 export async function searchMR(params) {
   // Call service
-  const res = await request('/api/v4/projects/' + params.project_id + '/merge_requests', {
+  const res = await request('/api/v4/projects/' + params.project_id + '/merge_requests?per_page=200', {
     method: 'GET',
     headers: {
       'Content-Type':'application/json;charset=UTF-8',

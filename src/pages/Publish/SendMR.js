@@ -123,7 +123,7 @@ class SendMR extends Component{
                                 {/* ---------------- 标题 ---------------- */}
                                 <FormItem {...formItemLayout} label={fieldLabels.mr_title}>{
                                     getFieldDecorator('mr_title',{
-                                        initialValue: '测试代码-请勿合并！！！',
+                                        initialValue: '',
                                         rules: [{required: true, message: '请输入标题'}]
                                     })(<Input placeholder="请输入Merge request标题" ></Input>)
                                 }</FormItem>
@@ -131,7 +131,7 @@ class SendMR extends Component{
                                 {/* ---------------- 描述 ---------------- */}
                                 <FormItem {...formItemLayout} label={fieldLabels.mr_description}>{
                                     getFieldDecorator('mr_description',{
-                                        initialValue: '测试代码-请勿合并！！！',
+                                        initialValue: '',
                                         rules: [{required: true, message: '请输入描述'}]
                                     })(<TextArea placeholder="请输入Merge request描述" ></TextArea>)
                                 }</FormItem>
