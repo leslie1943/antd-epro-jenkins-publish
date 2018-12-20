@@ -74,7 +74,7 @@ export async function createTag(params) {
 // Get Merge request
 export async function searchMR(params) {
   // Call service
-  const res = await request('/api/v4/projects/' + params.project_id + '/merge_requests?per_page=200', {
+  const res = await request('/api/v4/projects/' + params.id + '/merge_requests?per_page=200', {
     method: 'GET',
     headers: {
       'Content-Type':'application/json;charset=UTF-8',
@@ -84,13 +84,13 @@ export async function searchMR(params) {
   return validateResult(res);
 }
 
-// export async function close(params) {
-//   // Call service
-//   return request('/api/v4/projects/' + params.id + '/merge_requests/' + params.iid, {
-//     method: 'DELETE',
-//     headers: {
-//       'Content-Type':'application/json;charset=UTF-8',
-//       "PRIVATE-TOKEN": token,
-//     },
-//   });
-// }
+export async function close(params) {
+  // Call service
+  return request('/api/v4/projects/' + params.id + '/merge_requests/' + params.iid, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type':'application/json;charset=UTF-8',
+      "PRIVATE-TOKEN": 'DhpUBsnfVjswWpAZehV4', //RenZhiSen's Token
+    },
+  });
+}

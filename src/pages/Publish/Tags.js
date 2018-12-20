@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import {Form, Table,Divider,Card, Tag, Select,Modal,Button,message,Row,Col,List} from 'antd';
+import {Form, Table, Divider, Card, Tag, Select, Modal, Button, message} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import { getGitMap, getGitToken,getRepository } from '../../utils/gitMap';
+import { getGitMap } from '../../utils/gitMap';
 const gitMap = getGitMap();
-
 
 const { Option } = Select;
 const FormItem = Form.Item;

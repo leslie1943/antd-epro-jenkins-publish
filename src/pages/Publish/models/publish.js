@@ -13,27 +13,25 @@ export default {
         acceptResult: getStore("epro_publish_tool_acceptRequest"),
         mrList:[],
         sendLoading: false,
+        tagLoading: false,
         acceptLoading: false,
         tags:[],
         exist_tags:[],
     },
     reducers:{
         setMrResult(state,payload){
-            // console.info(payload);
             return {
                 ...state,
                 mrResult: payload.payload.res, // res should be same from different effect's methods.
             }
         },
         setAcceptResult(state,payload){
-            // console.info(payload);
             return {
                 ...state,
                 acceptResult: payload.payload.res, // res should be same from different effect's methods.
             }
         },
         freshMrList(state,payload){
-            // console.info(payload);
             return {
                 ...state,
                 mrList: payload.payload.r,
@@ -43,6 +41,12 @@ export default {
             return {
                 ...state,
                 sendLoading: loading
+            }
+        },
+        setTagLoading(state,{payload:{loading}}){
+            return {
+                ...state,
+                tagLoading: loading,
             }
         },
         setTags(state,{payload:{tags}}){
@@ -61,7 +65,6 @@ export default {
     effects:{
         // ------------------------------- Submit All Merge Request  -------------------------------
         *sendMR({payload : v},{call, put, select}){
-            console.info(v);
             // assemble params
             let params = {
             //   id: 'in for loop',
@@ -88,7 +91,6 @@ export default {
                     res.push(r);
                 }
             }
-
             // set localstore incase refresh page.
             setStore('epro_publish_tool_mergeRequest',res);
             // update state: result
@@ -96,7 +98,7 @@ export default {
             yield put({type: 'setSendLoading', payload:{loading: false}})
         },
 
-        // ------------------------------- ACCEPT ONE -------------------------------
+        // ------------------------------- 接受单个Merge request -------------------------------
         *acceptOne({payload: v},{call, put, select}){
             // -------------------- Step_1: Before accepting.
             let params = {
@@ -120,7 +122,7 @@ export default {
             setStore('epro_publish_tool_mergeRequest',res);
         },
 
-        // ------------------------------- ACCEPT ALL -------------------------------
+        // ------------------------------- 接受全部Merge request -------------------------------
         *acceptAll(_, {call , put}){
             // get all merge request from local.
             let current_mrs = getStore("epro_publish_tool_mergeRequest");
@@ -150,11 +152,9 @@ export default {
             yield put({type: 'setAcceptResult', payload:{res: res_accept}})
         },
 
-        // ------------------------------- Search Tags -------------------------------
+        // ------------------------------- 一次性查询所有项目的tags -------------------------------
         *searchTags(_,{call,put}){
-            // const repositories = ();
             const tag_reps = getRepository();
-
             // start call services.
             let res = [];
             for(var i = 0; i < tag_reps.length; i++){
@@ -173,30 +173,22 @@ export default {
             yield put({type: 'setTags', payload:{tags:res}})
         },
 
+         // ------------------------------- 根据项目查询tags -------------------------------
         *searchProjectTags({payload:project_id},{call,put}){
+            yield put({type: 'setTagLoading', payload:{loading: true}})
             // 清空list
             yield put({type: 'update_exist_tags', payload:{exist_tags:[]}})
+            
             let params = {
                 id: project_id,
             }
             const r = yield call(publish.searchTags , params);
             //刷新list
             yield put({type: 'update_exist_tags', payload:{exist_tags:r}})
+            yield put({type: 'setTagLoading', payload:{loading: false}})
         },
 
-        // ----------- Create one tag
-        *newTag({payload:record},{call,put}){
-            let tag = record
-            let latest_tag = generateLatestTag(tag.name);
-            let params = {
-                id: tag.project_id,
-                tag_name: latest_tag,
-                ref: 'master',
-            }
-            message.info(JSON.stringify(params));
-            // const r = yield call(publish.createTag,params);
-        },
-        
+        // ------------------------------- 根据输入内容创建Tag -------------------------------
         *newSingleTag({payload},{call,put}){
             let params = {
                 id: payload.tag_project,
@@ -207,7 +199,19 @@ export default {
             const r = yield call(publish.createTag,params);
         },
 
-        // ----------- Create tags for all available repositories.
+        // ------------------------------- 从列表选区后创建Tag -------------------------------
+        *newTag({payload:record},{call,put}){
+            let tag = record
+            let latest_tag = generateLatestTag(tag.name);
+            let params = {
+                id: tag.project_id,
+                tag_name: latest_tag,
+                ref: 'master',
+            }
+            const r = yield call(publish.createTag,params);
+        },
+
+        // ------------------------------- 全局性的创建Tags. -------------------------------
         *createTagsAuto({payload:tags},{call,put}){
             for(let i = 0; i < tags.length; i++){
                 let tag = tags[i];
@@ -218,12 +222,11 @@ export default {
                     ref: 'master',
                     message: '',
                 }
-                message.info(JSON.stringify(params));
                 const r = yield call(publish.createTag,params);
             }
         },
 
-        // ----------- Create tags for all available repositories.
+        // ------------------------------- 指定版本为全局创建Tags -------------------------------
         *createTagsManually(_,{call,put}){
             const repositories = getRepository();
             for(let i = 0; i<repositories.length; i++){
@@ -233,33 +236,30 @@ export default {
                     ref: 'master',
                     message: '[2018-12-20] 2.0.0版本发布',
                 }
-                message.info(JSON.stringify(params));
                 const r = yield call(publish.createTag , params);
             }
         },
         
-        // ----------- searchMR
+        // ------------------------------- 查询Merge request -------------------------------
         *searchMR({payload},{call, put, select}){
-            console.info(payload);
             let params = {
-                project_id: payload.repository
+                id: payload.repository
             }
             const r = yield call(publish.searchMR, params);
-            console.info(r);
             yield put({type: 'freshMrList', payload:{r}})
         },
 
-        // ----------- close
-        // *close({payload: v},{call, put, select}){
-        //     console.info('[Debug-Log: params in model start]')
-        //     console.info(v);
-        //     let params = {
-        //         id: v.mrType,
-        //         iid: v.mrId,
-        //     }
-        //     const r = yield call(publish.close, params);
-        //     console.info(r);
-        // },
+        // ------------------------------- close -------------------------------
+        *close({payload: record},{call, put, select}){
+            let params = {
+                id: record.project_id,
+                iid: record.iid,
+            }
+            yield call(publish.close, params);
+            
+            const r = yield call(publish.searchMR, params);
+            yield put({type: 'freshMrList', payload:{r}})
+        },
         
     },
 }

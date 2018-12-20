@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import {Form, Table,Divider,Card, Tag, Select,Input,Modal,Button,message,Row,Col,List} from 'antd';
+import {Form, Table,Divider, Card, Select,Input,Modal,Button,Spin,message} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getRepository } from '../../utils/gitMap';
 const repositories = getRepository();
@@ -63,6 +63,7 @@ class NewTag extends Component{
         const { form: { getFieldDecorator , getFieldValue}} = this.props;
         // from mapStateToProps
         const exist_tags = this.props.exist_tags;
+        const tagLoading = this.props.tagLoading;
 
         // Item 布局
         const formItemLayout = {
@@ -89,6 +90,7 @@ class NewTag extends Component{
         return(
             <PageHeaderWrapper title="New tag" content="">
                 <Card bordered={false}>
+                <Spin spinning={tagLoading} tip="Searching tags...">
                     <Form style={{marginTop: 8}}>
                         {/* ------------ Tag project ------------ */}
                         <FormItem {...formItemLayout} label={fieldLabels.tag_project}>{
@@ -130,7 +132,7 @@ class NewTag extends Component{
                             <Button icon="tag" type="primary" onClick={() => this.newSingleTag()}>Create tag</Button>
                         </FormItem>
                      </Form>
-
+                     </Spin>
                 </Card>
                 
             </PageHeaderWrapper>
@@ -140,7 +142,8 @@ class NewTag extends Component{
 
 function mapStateToProps(state){
     return {
-        exist_tags: state.publish.exist_tags
+        exist_tags: state.publish.exist_tags,
+        tagLoading: state.publish.tagLoading
     }
 }
 

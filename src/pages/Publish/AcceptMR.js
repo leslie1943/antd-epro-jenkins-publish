@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import {Form, Card, Input, Spin,List, Select,Table, Button,message,Row,Col} from 'antd';
+import {Form, Card, Input, Spin,List, Select,Table, Button,message} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getGitMap, getGitToken } from '../../utils/gitMap';
 const repositories = getGitMap();

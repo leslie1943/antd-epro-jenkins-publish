@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from './BasicPublish.css';
 import { connect } from 'dva';
-import {Form, Card, Icon, DatePicker, TimePicker, Input, Spin,List,Collapse, Select, Popover, Button,Checkbox,message,Row,Col} from 'antd';
+import {Form, Card, Input, Spin,List,Collapse, Select, Button,message} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getGitMap, getGitToken,getRepository } from '../../utils/gitMap';
 const gitMap = getGitMap();

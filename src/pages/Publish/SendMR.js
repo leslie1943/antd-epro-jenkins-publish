@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import {Form, Card, Input, Spin,List,Collapse, Select, Checkbox, Button,message,Row,Col} from 'antd';
+import {Form, Card, Input, Spin,List,Collapse, Select, Checkbox, Modal, Button,message,Row,Col} from 'antd';
 const CheckboxGroup = Checkbox.Group;
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getGitToken ,getRepository} from '../../utils/gitMap';
@@ -52,10 +52,16 @@ class SendMR extends Component{
               if(values.mr_originBranch === values.mr_targetBranch){
                 message.error('Can not be same branch!!!');
               }else{
-                dispatch({
-                    type: 'publish/sendMR',
-                    payload: values,
-                });
+                Modal.confirm({
+                    title: '勾选的项目发送 Merge request',
+                    content: '请确认你的操作?',
+                    okText: '确定',
+                    cancelText: '取消',
+                    onOk: () => dispatch({
+                        type: 'publish/sendMR',
+                        payload: values,
+                    })
+                })
             }
           }
         });

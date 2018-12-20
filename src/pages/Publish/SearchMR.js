@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styles from './BasicPublish.css';
 import moment from 'moment';
 import { connect } from 'dva';
-import {Form, Card,  List, Select, Table,Button,message,Row,Col} from 'antd';
+import {Form, Card, Select, Table, Button, message,Modal } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import { getRepository} from '../../utils/gitMap';
@@ -40,6 +40,20 @@ class SearchMR extends Component{
         });
     };
 
+    deleteRecord(record){
+        const {dispatch } = this.props;
+        Modal.confirm({
+            title: `删除 ${record.id} 这条merger equest`,
+            content: '请确认你的操作?',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => dispatch({
+                type: 'publish/close',
+                payload: record,
+            })
+        })
+    }
+
     componentDidMount(){}
     
     render(){
@@ -57,13 +71,9 @@ class SearchMR extends Component{
             {
                 title: 'Title',
                 dataIndex: 'title',
-                key: 'title'
+                key: 'title',
+                width: 200,
             },
-            // {
-            //     title: 'Merge status',
-            //     dataIndex: 'merge_status',
-            //     key: 'merge_status'
-            // },
             {
                 title: 'Source branch',
                 dataIndex: 'source_branch',
@@ -84,6 +94,26 @@ class SearchMR extends Component{
                 title: 'Creation date',
                 render: (text, record) => {
                     return moment(record.created_at).format("YYYY-MM-DD HH:mm:ss");
+                }
+            },
+            {
+                title: 'Status',
+                render: (text, record) => {
+                    return record.state;
+                }
+            },
+            {
+                title: 'Action',
+                render: (text, record) => {
+                    if(record.state === 'opened'){
+                        return (
+                            <span >
+                                <a href="javascript:;" style={{color:'red'}} onClick={()=>this.deleteRecord(record)}>DELETE</a>
+                            </span>
+                        )
+                    }else{
+                        return "";
+                    }
                 }
             },
 
@@ -128,7 +158,7 @@ class SearchMR extends Component{
                          </FormItem>
                      </Form>
 
-                     <Table rowKey="id" size='small' columns={columns} dataSource={mrList?mrList:[]} />
+                     <Table pagination={{ pageSize: 50 }} rowKey="id" scroll={{ y: 300 }} columns={columns} dataSource={mrList?mrList:[]} />
                 </Card>
             </PageHeaderWrapper>
         )
