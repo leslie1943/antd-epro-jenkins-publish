@@ -64,7 +64,7 @@ export default [
       {
         path: '/publish',
         name: 'publish',
-        icon: 'fork',
+        icon: 'gitlab',
         routes: [
           // {
           //   path: '/publish/basic',
@@ -112,8 +112,20 @@ export default [
             component: './Publish/SearchMR',
           },
         ],
-
-        
+      },
+      // jenkins
+      {
+        path: '/jenkins',
+        name: 'jenkins',
+        icon: 'deployment-unit',
+        routes:[
+          {
+            path: '/jenkins/login',
+            name: 'login',
+            icon: 'login',
+            component: './Jenkins/JenkinsLogin',
+          },
+        ],
       },
       // forms
       // {

@@ -38,7 +38,7 @@ export default {
   'menu.account.settings': '个人设置',
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
-  'menu.publish': '易普网发布',
+  'menu.publish': 'GitLab - 操作',
   'menu.publish.basic': '步骤',
   'menu.publish.close': '关闭MR',
   'menu.publish.search-mr': '查询 merge request',
@@ -46,6 +46,8 @@ export default {
   'menu.publish.accept-mr': '接收 merge request',
   'menu.publish.tags': '创建 repository tag',
   'menu.publish.new-tag': '创建 repository tag',
+  'menu.jenkins': 'Jenkins- 操作',
+  'menu.jenkins.login': 'Jenkins- Login',
   // -------------- the code of Leslie demo.
   // 'menu.demo': 'Demo',
   // 'menu.demo.products': 'Demo-物品',

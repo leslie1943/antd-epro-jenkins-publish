@@ -111,7 +111,7 @@ export default class SiderMenu extends PureComponent {
           <Link to="/">
             <img src={logo} alt="logo" />
             {/* <h1>Ant Design Pro</h1> */}
-            <h1>Epro Publish</h1>
+            <h1>Happy Merge</h1>
           </Link>
         </div>
         <BaseMenu

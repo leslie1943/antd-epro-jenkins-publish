@@ -36,6 +36,7 @@ export default {
   'menu.account.settings': 'Account Settings',
   'menu.account.trigger': 'Trigger Error',
   'menu.account.logout': 'Logout',
+  // publish
   'menu.publish': 'Epro Publish',
   'menu.publish.basic': 'Basic',
   'menu.publish.close': 'Close',
@@ -44,6 +45,10 @@ export default {
   'menu.publish.search-mr': 'Search merge request',
   'menu.publish.tags': 'Create repository tag',
   'menu.publish.new-tag': 'New tag',
+  // Jenkins
+  'menu.jenkins': 'Jenkins - 操作',
+  'menu.jenkins.login': 'Jenkins- Login',
+  //
   'app.home.introduce': 'introduce',
   'app.analysis.test': 'Gongzhuan No.{no} shop',
   'app.analysis.introduce': 'Introduce',
