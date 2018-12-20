@@ -13,6 +13,12 @@ class JenkinsLogin extends Component{
         super(props)
     }
 
+    getMallWebConfig(){
+        const {dispatch} = this.props;
+        dispatch({
+            type: 'jenkins/mall_web_config'
+        })
+    }
     render(){
         const { form: { getFieldDecorator , getFieldValue}} = this.props;
 
@@ -20,7 +26,7 @@ class JenkinsLogin extends Component{
             <PageHeaderWrapper title="Jenkins login" content="">
                 <Card bordered={false}>
                     <Form style={{marginTop: 8}}>
-                        <div>Jenkins login test</div>
+                        <Button onClick={()=>this.getMallWebConfig()}>Get Mall Web Config</Button>
                      </Form>
                 </Card>
             </PageHeaderWrapper>

@@ -37,6 +37,7 @@ export default {
   ],
   
   proxy: {
+    // --------------------- ✨✨✨Gitlab 代理配置 ✨✨✨---------------------
     '/api': {
       // target: 'https://gitlab.devops.viewchain.net/api', -------- WAY_1: WORKS 👍
       target: 'https://gitlab.devops.viewchain.net',     // -------- WAY_2: WORKS 👍
@@ -45,6 +46,19 @@ export default {
       pathRewrite: { '^/api': '/api' },                  // -------- WAY_2: WORKS 👍
       secure: false,
     },
+    // --------------------- ✨✨✨ Jenkins 代理配置 (易普网) ✨✨✨---------------------
+    /*** 
+     * jenkins域名:  https://ci.devops.viewchain.net/job/vhepro2.0
+     * 通过 【jenkins域名 + /job/{项目名称}/api】查看对应的 API, 比如:
+     * https://ci.devops.viewchain.net/job/vhepro2.0/job/epro-mall/api
+     * https://ci.devops.viewchain.net/job/vhepro2.0/job/epro-mall-web/api
+    */
+    '/job': {
+      target: 'https://ci.devops.viewchain.net/job/vhepro2.0',
+      changeOrigin: true,
+      pathRewrite: { '^/job' : '/job' },
+      secure: false,
+    }
   },
 
   /**

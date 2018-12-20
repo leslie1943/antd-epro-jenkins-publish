@@ -123,7 +123,7 @@ export default [
             path: '/jenkins/login',
             name: 'login',
             icon: 'login',
-            component: './Jenkins/JenkinsLogin',
+            component: './Jenkins/Login',
           },
         ],
       },
