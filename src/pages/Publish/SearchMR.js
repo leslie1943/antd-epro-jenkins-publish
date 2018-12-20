@@ -5,6 +5,9 @@ import { connect } from 'dva';
 import {Form, Card,  List, Select, Table,Button,message,Row,Col} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
+import { getRepository} from '../../utils/gitMap';
+const repository = getRepository();
+
 const { Option } = Select;
 const FormItem = Form.Item;
 
@@ -12,19 +15,6 @@ const FormItem = Form.Item;
 const fieldLabels = {
     repository: "Repository name",
   };
-
-const types = [
-    { id: 106, desc: 'epro-mall' },
-    { id: 116, desc: 'epro-dmcc-svc' },
-    { id: 104, desc: 'epro-user-svc' },
-    { id: 103, desc: 'epro-certificate-svc' },
-    { id: 173, desc: 'epro-gateway' },
-    { id: 166, desc: 'epro-job' },
-    { id: 207, desc: 'epro-flyway' },
-    { id: 113, desc: 'epro-message' },
-    { id: 211, desc: 'utility-epro' },
-    { id: 107, desc: 'epro-mall-web' },
-];
 
 @Form.create()
 class SearchMR extends Component{
@@ -128,7 +118,7 @@ class SearchMR extends Component{
                             getFieldDecorator('repository',{
                                 rules:[{required:true,message:'请选择Repository'}]
                             })(<Select placeholder="全部项目" >
-                            {types.map(item => <Option key={item.id} value={item.id}>{item.desc}</Option>)}
+                            {repository.map(item => <Option key={item.value} value={item.value}>{item.label}</Option>)}
                         </Select>)
                         }</FormItem>
 

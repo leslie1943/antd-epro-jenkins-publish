@@ -92,11 +92,17 @@ export default [
           //   icon: 'close-circle',
           //   component: './Publish/CloseRequest',
           // },
+          // {
+          //   path: '/publish/tags',
+          //   name: 'tags',
+          //   icon: 'tags',
+          //   component: './Publish/Tags',
+          // },
           {
-            path: '/publish/tags',
-            name: 'tags',
-            icon: 'tags',
-            component: './Publish/Tags',
+            path: '/publish/new-tag',
+            name: 'new-tag',
+            icon: 'tag',
+            component: './Publish/NewTag',
           },
 
           {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import {Form, Card, Input, Spin,List,Collapse, Select,  Button,message,Row,Col} from 'antd';
+import {Form, Card, Input, Spin,List,Collapse, Select, Checkbox, Button,message,Row,Col} from 'antd';
+const CheckboxGroup = Checkbox.Group;
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getGitToken ,getRepository} from '../../utils/gitMap';
 
@@ -21,6 +22,18 @@ const fieldLabels = {
     mr_description: '描述',
   };
 
+  function RepositoryColumns(props){
+    const R_Columns = props.options.map((col) => 
+        <Col span={8} key={col.value}>
+            <Checkbox  value={col.value}>{col.label}</Checkbox>
+        </Col>
+    );
+    return(
+        <Row>{R_Columns}</Row>
+    );
+  }
+  
+
 @Form.create()
 class SendMR extends Component{
     constructor(props){
@@ -30,7 +43,8 @@ class SendMR extends Component{
     validate = () => {
         const {form: { validateFieldsAndScroll,validateFields },dispatch,} = this.props;
         // validateFields(['mr_privateKey','mr_originBranch','mr_targetBranch','mr_title','mr_description'],(error, values) => {
-        validateFields(['mr_originBranch','mr_targetBranch','mr_title','mr_description'],(error, values) => {
+        validateFields(['mr_repos','mr_originBranch','mr_targetBranch','mr_title','mr_description'],(error, values) => {
+            console.info(values);
             // validateFieldsAndScroll: 校验所有当前页面所有的字段
             // validateFields: 校验指定的Fields
             // validateFieldsAndScroll((error, values) => {
@@ -87,18 +101,27 @@ class SendMR extends Component{
                                         {tokens.map(item => <Option key={item.index} value={item.val}>{item.text + '-' + item.val}</Option>)}
                                         </Select>)
                                 }</FormItem> */}
+                                
+                                <Form.Item {...formItemLayout} label="Gitlab项目">{
+                                    getFieldDecorator('mr_repos',{
+                                        rules:[{required:true,message: '请选择仓库'}]
+                                    })(<Checkbox.Group style={{ width: '100%' }}>
+                                        <RepositoryColumns options={repository}></RepositoryColumns>
+                                    </Checkbox.Group>)
+                                }
+                                </Form.Item>
 
                                 {/* ---------------- Gitlab项目  ---------------- */}
-                                <FormItem {...formItemLayout} label='Gitlab项目'>
+                                {/* <FormItem {...formItemLayout} label='Gitlab项目'>
                                     <Collapse >
                                         <Panel header="点击查将要提交Merge request的Git项目列表" key="10">
                                             <List size="small"
                                             // bordered
                                             dataSource={repository}
-                                            renderItem={item => (<List.Item>{item.desc}</List.Item>)}/>
+                                            renderItem={item => (<List.Item>{item.label}</List.Item>)}/>
                                         </Panel>
                                     </Collapse>
-                                </FormItem>
+                                </FormItem> */}
 
                                 {/* ---------------- 原分支  ---------------- */}
                                 <FormItem {...formItemLayout} label={fieldLabels.mr_originBranch}>{

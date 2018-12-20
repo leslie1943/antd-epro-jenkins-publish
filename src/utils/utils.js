@@ -175,7 +175,7 @@ export function isAntdPro() {
 
 export function getLatestRecord(r) {
   if(r.length > 0){
-    let sortedRes = _.orderBy(r,['commit.committed_date'], ['desc']);
+    let sortedRes = _.orderBy(r,['commit.committed_date','name'], ['desc','desc']);
     return sortedRes[0];
   }
   return null;
@@ -220,5 +220,6 @@ export function generateLatestTag(tagName) {
 export function validateResult(res){
   console.info('validate result from api');
   console.info(res);
-  return res ? res.json() : {status: -1, message: 'error', result: null }
+  // return res ? res.json() : {status: -1, message: 'error', result: null }
+  return res ? res.json() : null;
 }

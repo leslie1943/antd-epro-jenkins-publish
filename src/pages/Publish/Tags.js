@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import {Form, Table,Divider,Card, Tag, Select, Button,message,Row,Col,List} from 'antd';
+import {Form, Table,Divider,Card, Tag, Select,Modal,Button,message,Row,Col,List} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getGitMap, getGitToken,getRepository } from '../../utils/gitMap';
 const gitMap = getGitMap();
@@ -30,8 +30,20 @@ class Tags extends Component{
     createTags(){
         const {dispatch} = this.props;
         dispatch({
-            type: 'publish/createTags',
+            type: 'publish/createTagsAuto',
             payload: this.props.tags
+        });
+    }
+    createDefinedTags(){
+        const {dispatch} = this.props;
+        Modal.confirm({
+            title: 'Create tags for all repositories',
+            content: 'Are you sure?',
+            okText: 'Confirm',
+            cancelText: 'Cancel',
+            onOk: () => dispatch({
+                type: 'publish/createTagsManually',
+            }),
         });
     }
 
@@ -99,13 +111,18 @@ class Tags extends Component{
                 <Card bordered={false}>
                     <Form style={{marginTop: 8}}>
                         <FormItem  style={{ marginTop: 10 }}>
-                            <Button icon="search" type="primary" onClick={() => this.searchTags()}>Get tags of all repositories</Button>
+                            <Button icon="tag" type="primary" onClick={() => this.createDefinedTags()}>Create tag for all repositories with defined version</Button>
+                        </FormItem>
+                        <Divider dashed />
+
+                        <FormItem  style={{ marginTop: 10 }}>
+                            <Button icon="search" type="primary" onClick={() => this.searchTags()}>Search tags of all repositories</Button>
                         </FormItem>
                      </Form>
                      <hr></hr>
                      <Table rowKey="key"  columns={columns} dataSource={tags} />
                      <div>
-                         {tags && tags.length > 0 ? <Button icon="tags" type="primary" onClick={() => this.createTags()}>Create tags for these repositories</Button>:''}
+                         {tags && tags.length > 0 ? <Button icon="tags" type="primary" onClick={() => this.createTags()}>Create tags for search result</Button>:''}
                      </div>
                 </Card>
                 

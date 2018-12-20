@@ -4,7 +4,7 @@ import { validateResult } from '@/utils/utils';
 // fbixW_k1of1GqTxQta8M YUCHAO
 // K4Qoz7woxAYZ4v6NKyZ9 SUZHEN
 // ts5aSmzM7r2eUzobzFb6 PEIJIANG
-const token = "fbixW_k1of1GqTxQta8M";
+const token = "ts5aSmzM7r2eUzobzFb6";
 
 export async function sendMR(params) {
   // Call service
@@ -56,6 +56,7 @@ export async function searchTags(params) {
 export async function createTag(params) {
   let data = {
     tag_name: params.tag_name,
+    tag_message: params.message,
     ref: params.ref,
   }
   // Call service

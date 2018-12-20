@@ -15,6 +15,7 @@ export default {
         sendLoading: false,
         acceptLoading: false,
         tags:[],
+        exist_tags:[],
     },
     reducers:{
         setMrResult(state,payload){
@@ -49,11 +50,18 @@ export default {
                 ...state,
                 tags: tags,
             }           
+        },
+        update_exist_tags(state,{payload:{exist_tags}}){
+            return {
+                ...state,
+                exist_tags: exist_tags,
+            }
         }
     },
     effects:{
         // ------------------------------- Submit All Merge Request  -------------------------------
         *sendMR({payload : v},{call, put, select}){
+            console.info(v);
             // assemble params
             let params = {
             //   id: 'in for loop',
@@ -67,15 +75,18 @@ export default {
             // send_loading: true
             yield put({type: 'setSendLoading', payload:{loading: true}})
 
-            // get git repositories which should be submitted merge request.
-            const repositories = getRepository();
+            // get git repositories which from selection
+            const repositories = v.mr_repos
 
             // start call services.
             let res = [];
             for(var i = 0; i< repositories.length;i++){
-                params.id = repositories[i].id;
+                params.id = repositories[i]
                 const r = yield call(publish.sendMR,params);
-                res.push(r);
+                // 校验返回结果
+                if(r){
+                    res.push(r);
+                }
             }
 
             // set localstore incase refresh page.
@@ -141,36 +152,36 @@ export default {
 
         // ------------------------------- Search Tags -------------------------------
         *searchTags(_,{call,put}){
-            // const repositories = getRepository();
-            const tag_reps = [
-                { id: 106, desc: 'epro-mall' },
-                { id: 116, desc: 'epro-dmcc-svc' },
-                { id: 104, desc: 'epro-user-svc' },
-                { id: 103, desc: 'epro-certificate-svc' },
-                { id: 173, desc: 'epro-gateway' },
-                { id: 166, desc: 'epro-job' },
-                // { id: 207, desc: 'epro-flyway' }, // 
-                // { id: 113, desc: 'epro-message' }, //
-                // { id: 211, desc: 'utility-epro' }, //
-                { id: 107, desc: 'epro-mall-web' },
-            ];
+            // const repositories = ();
+            const tag_reps = getRepository();
 
             // start call services.
             let res = [];
             for(var i = 0; i < tag_reps.length; i++){
                 let params = {};
-                params.id = tag_reps[i].id;
+                params.id = tag_reps[i].value;
                 const r = yield call(publish.searchTags , params);
 
                 // 查询最新的.
                 let latest = getLatestRecord(r);
                 if(latest){
-                    latest.project_id = tag_reps[i].id;
-                    latest.key = tag_reps[i].id;
+                    latest.project_id = tag_reps[i].value;
+                    latest.key = tag_reps[i].value;
                     res.push(latest);
                 }
             }
             yield put({type: 'setTags', payload:{tags:res}})
+        },
+
+        *searchProjectTags({payload:project_id},{call,put}){
+            // 清空list
+            yield put({type: 'update_exist_tags', payload:{exist_tags:[]}})
+            let params = {
+                id: project_id,
+            }
+            const r = yield call(publish.searchTags , params);
+            //刷新list
+            yield put({type: 'update_exist_tags', payload:{exist_tags:r}})
         },
 
         // ----------- Create one tag
@@ -185,23 +196,45 @@ export default {
             message.info(JSON.stringify(params));
             // const r = yield call(publish.createTag,params);
         },
+        
+        *newSingleTag({payload},{call,put}){
+            let params = {
+                id: payload.tag_project,
+                tag_name: payload.target_tag,
+                ref: 'master',
+                message: payload.tag_message,
+            }
+            const r = yield call(publish.createTag,params);
+        },
 
         // ----------- Create tags for all available repositories.
-        *createTags({payload:tags},{call,put}){
-            console.info(tags);
+        *createTagsAuto({payload:tags},{call,put}){
             for(let i = 0; i < tags.length; i++){
                 let tag = tags[i];
-                
                 let latest_tag = generateLatestTag(tag.name);
-
                 let params = {
                     id: tag.project_id,
                     tag_name: latest_tag,
                     ref: 'master',
+                    message: '',
                 }
-                console.info(params);
                 message.info(JSON.stringify(params));
-                // const r = yield call(publish.createTag,params);
+                const r = yield call(publish.createTag,params);
+            }
+        },
+
+        // ----------- Create tags for all available repositories.
+        *createTagsManually(_,{call,put}){
+            const repositories = getRepository();
+            for(let i = 0; i<repositories.length; i++){
+                let params = {
+                    id: repositories[i].id,
+                    tag_name: '2.0.0',
+                    ref: 'master',
+                    message: '[2018-12-20] 2.0.0版本发布',
+                }
+                message.info(JSON.stringify(params));
+                const r = yield call(publish.createTag , params);
             }
         },
         

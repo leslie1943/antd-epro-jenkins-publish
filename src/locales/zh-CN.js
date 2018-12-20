@@ -45,6 +45,7 @@ export default {
   'menu.publish.send-mr': '发送 merge request',
   'menu.publish.accept-mr': '接收 merge request',
   'menu.publish.tags': '创建 repository tag',
+  'menu.publish.new-tag': '创建 repository tag',
   // -------------- the code of Leslie demo.
   // 'menu.demo': 'Demo',
   // 'menu.demo.products': 'Demo-物品',

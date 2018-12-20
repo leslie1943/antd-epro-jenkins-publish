@@ -43,6 +43,7 @@ export default {
   'menu.publish.accept-mr': 'Accept merge request',
   'menu.publish.search-mr': 'Search merge request',
   'menu.publish.tags': 'Create repository tag',
+  'menu.publish.new-tag': 'New tag',
   'app.home.introduce': 'introduce',
   'app.analysis.test': 'Gongzhuan No.{no} shop',
   'app.analysis.introduce': 'Introduce',

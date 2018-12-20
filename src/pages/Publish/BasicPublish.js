@@ -247,7 +247,7 @@ class BasicPublish extends Component{
                                 getFieldDecorator('tag_repository',{
                                     rules:  [{required: true, message: '请选择Tag项目'}]
                                 })(<Select placeholder="请选择Tag项目" >
-                                {repository.map(item => <Option key={item.id} value={item.id}>{item.desc}</Option>)}
+                                {repository.map(item => <Option key={item.value} value={item.value}>{item.label}</Option>)}
                                 </Select>)
                             }                               
                             </FormItem>

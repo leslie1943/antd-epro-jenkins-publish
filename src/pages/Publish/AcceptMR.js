@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import {Form, Card, Input, Spin,List, Select, Button,message,Row,Col} from 'antd';
+import moment from 'moment';
+import {Form, Card, Input, Spin,List, Select,Table, Button,message,Row,Col} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getGitMap, getGitToken } from '../../utils/gitMap';
-const gitMap = getGitMap();
+const repositories = getGitMap();
 const tokens = getGitToken();
 
 const { Option } = Select;
@@ -44,6 +45,60 @@ class AcceptMR extends Component{
         // from mapStateToProps
         const mrResult = this.props.mrResult;
 
+         // 列数据...
+         const columns = [
+            {
+              title: 'id',
+              dataIndex: 'id',
+              key: 'id',
+            },
+            {
+                title: 'iid',
+                dataIndex: 'iid',
+                key: 'iid',
+            },
+            {
+                title: 'Project id',
+                render: (text,record) => {
+                    return (
+                        <span style={{color:'green',fontWeight:'bold'}}>
+                            {repositories[record.project_id]}
+                        </span>
+                    )
+                },
+                key: 'project_id',
+            },
+            {
+                title: 'Create time',
+                render:(text,record) => {
+                    return moment(record.created_at).format("YYYY-MM-DD HH:mm:ss");
+                },
+                key: 'created_at',
+            },
+            {
+                title: 'Author',
+                render: (text, record) => {
+                    return record.author.name
+                }
+            },
+            {
+                title: 'Title',
+                dataIndex: 'title',
+                key: 'title'
+            },
+            {
+                title: 'Action',
+                key: 'action',
+                render: (text,record) => {
+                    return (
+                        <span>
+                            <a href="javascript:;" onClick={()=>this.acceptOne(record.project_id,record.iid)}>Accept</a>
+                        </span>
+                    )
+                }
+            },
+        ];
+
         // Item 布局
         const formItemLayout = {
             labelCol: {
@@ -80,22 +135,25 @@ class AcceptMR extends Component{
                             }
                         </FormItem> */}
                         {/* 待接收的Merge requests */}
-                        <List
+                        {/* <List
                             grid={{gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3,}}
                             dataSource={mrResult?mrResult:[]}
                             renderItem={item => (
                             <List.Item>
                                 <Card title={item.iid}extra={<a onClick={()=>this.acceptOne(item.project_id,item.iid)} href="#">Accept</a>}>
-                                    <strong><span style={{color:'green'}}>{gitMap[item.project_id]}</span></strong>
+                                    <strong><span style={{color:'green'}}>{repositories[item.project_id]}</span></strong>
                                 </Card>
                             </List.Item>
                             )}
-                        />
+                        /> */}
+                        <Table rowKey="id" size='small' columns={columns} dataSource={mrResult ? mrResult : []} />
                         {/* 接收全部Merge request */}
                         <FormItem {...submitFormLayout} style={{ marginTop: 10 }}>
                             <Button type="primary" onClick={() => this.acceptAll()}>接收全部Merge request</Button>
                         </FormItem>
                     </Form>
+
+                    
                 </Card>
             </PageHeaderWrapper>
         )
