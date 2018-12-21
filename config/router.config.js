@@ -125,6 +125,12 @@ export default [
             icon: 'user',
             component: './Jenkins/Auth',
           },
+          {
+            path: '/jenkins/job',
+            name: 'job',
+            icon: 'user',
+            component: './Jenkins/Job',
+          },
         ],
       },
       // forms

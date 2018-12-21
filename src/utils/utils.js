@@ -219,7 +219,8 @@ export function generateLatestTag(tagName) {
 // base64转换.
 export function toBase64(){
   // eXVjaGFvOiFRQVoxcWF6: yuchao
-  const orign_user_pwd = new Buffer('suzhen:ZY-6Wlknm_ea');
+  // const orign_user_pwd = new Buffer('suzhen:ZY-6Wlknm_ea');
+  const orign_user_pwd = new Buffer('yuchao:!QAZ1qaz');
   return orign_user_pwd.toString('base64');
 }
 

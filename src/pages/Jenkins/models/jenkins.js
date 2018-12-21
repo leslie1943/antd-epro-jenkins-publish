@@ -9,13 +9,24 @@ export default {
     reducers:{
     },
     effects:{
-        *mall_web_config(_,{call,put}){
-            const r = yield call(jenkins.epro_mall_web_config)
+
+        // get mall api json.
+        *mall_api_json(_,{call,put}){
+            const r = yield call(jenkins.mall_api_json);
         },
+        // get crumb from jenkins.
         *auth(_,{call,put}){
             const res = yield call(jenkins.auth);
             console.info(res);
             setStore('epro_jenkins_auth', res);
+        },
+        *build_mall_params(_,{call,put}){
+            const r = yield call(jenkins.build_mall_params);
+            console.info(r);
+        },
+        *fetch_mall_config(_,{call,put}){
+            const r = yield call(jenkins.fetch_mall_config);
+            console.info(r);
         }
     },
 }

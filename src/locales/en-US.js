@@ -48,6 +48,7 @@ export default {
   // Jenkins
   'menu.jenkins': 'Jenkins - action',
   'menu.jenkins.auth': 'Jenkins- auth',
+  'menu.jenkins.job': 'Jenkins- job',
   //
   'app.home.introduce': 'introduce',
   'app.analysis.test': 'Gongzhuan No.{no} shop',

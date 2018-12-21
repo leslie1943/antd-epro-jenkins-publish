@@ -48,6 +48,7 @@ export default {
   'menu.publish.new-tag': '创建 repository tag',
   'menu.jenkins': 'Jenkins- 操作',
   'menu.jenkins.auth': 'Jenkins- 授权',
+  'menu.jenkins.job': 'Jenkins- 任务',
   // -------------- the code of Leslie demo.
   // 'menu.demo': 'Demo',
   // 'menu.demo.products': 'Demo-物品',
