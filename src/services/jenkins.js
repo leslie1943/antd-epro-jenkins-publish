@@ -29,6 +29,7 @@ export async function mall_api_json() {
       // 'Content-Type':'application/json;charset=UTF-8',
     }
   })
+  return validateResult(res);
 }
 
 // --------------------------- 构建 Mall项目 with 参数 ---------------------------

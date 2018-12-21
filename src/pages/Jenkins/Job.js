@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import {Form, Card, Modal, Button, message, Divider} from 'antd';
+import {Form, Card, Modal, Button, message, Divider,Tooltip} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 const FormItem = Form.Item;
-
-
 @Form.create()
 class Job extends Component{
     constructor(props){
@@ -22,8 +20,15 @@ class Job extends Component{
     }
     buildMallWithParam(){
         const {dispatch} = this.props;
-        dispatch({
-            type: 'jenkins/build_mall_params'
+        Modal.confirm({
+            title: '构建 Mall 项目',
+            content: '请确认你的操作?',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => dispatch({
+                type: 'jenkins/build_mall_params',
+                payload: values,
+            })
         })
     }
 
@@ -33,19 +38,24 @@ class Job extends Component{
             type: 'jenkins/fetch_mall_config'
         })
     }
-
+    
     render(){
         const { form: { getFieldDecorator , getFieldValue}} = this.props;
+        const mall_json = this.props.mall_json;
 
         return(
             <PageHeaderWrapper title="Jenkins jobs" content="">
                 <Card bordered={false}>
                     <Form style={{marginTop: 8, textAlign: 'center'}}>
-                        <Button type="primary" icon="ordered-list" onClick={()=>this.getMallApiJson()}>Get Epro Mall Api Json</Button>
+                        {mall_json.name}
                         <Divider></Divider>
-                        <Button type="primary" icon="ordered-list" onClick={()=>this.buildMallWithParam()}>Build Mall with Parameters</Button>
+                        <Button type="primary" icon="eye" onClick={()=>this.getMallApiJson()}>Get Epro Mall Api Json</Button>
                         <Divider></Divider>
-                        <Button type="primary" icon="ordered-list" onClick={()=>this.fetchMallConfig()}>Fetch Mall Config</Button>
+                        <Button type="primary" icon="build" onClick={()=>this.buildMallWithParam()}>Build Epro Mall with Parameters</Button>
+                        <Divider></Divider>
+                        <Tooltip placement="right" arrowPointAtCenter title="API: /job/project_name/config.xml => Access Denied - 没有任务/ExtendedRead权限">
+                            <Button disabled type="primary" icon="ordered-list" onClick={()=>this.fetchMallConfig()}>Fetch Mall Config</Button>
+                        </Tooltip>
                      </Form>
                 </Card>
             </PageHeaderWrapper>
@@ -55,7 +65,7 @@ class Job extends Component{
 
 function mapStateToProps(state){
     return {
-        // tags: state.jenkins.tags
+        mall_json: state.jenkins.mall_json
     }
 }
 

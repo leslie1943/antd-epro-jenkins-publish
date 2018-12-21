@@ -122,7 +122,7 @@ export default [
           {
             path: '/jenkins/auth',
             name: 'auth',
-            icon: 'user',
+            icon: 'key',
             component: './Jenkins/Auth',
           },
           {
