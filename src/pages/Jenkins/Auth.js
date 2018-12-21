@@ -8,25 +8,26 @@ const FormItem = Form.Item;
 
 
 @Form.create()
-class JenkinsLogin extends Component{
+class Auth extends Component{
     constructor(props){
         super(props)
     }
 
-    getMallWebConfig(){
+    getCrumb(){
         const {dispatch} = this.props;
         dispatch({
-            type: 'jenkins/mall_web_config'
+            // type: 'jenkins/mall_web_config'
+            type: 'jenkins/auth',
         })
     }
     render(){
         const { form: { getFieldDecorator , getFieldValue}} = this.props;
 
         return(
-            <PageHeaderWrapper title="Jenkins login" content="">
+            <PageHeaderWrapper title="Jenkins authorization" content="">
                 <Card bordered={false}>
-                    <Form style={{marginTop: 8}}>
-                        <Button onClick={()=>this.getMallWebConfig()}>Get Mall Web Config</Button>
+                    <Form style={{marginTop: 8, textAlign: 'center'}}>
+                        <Button type="primary" icon="user" onClick={()=>this.getCrumb()}>Get crumb</Button>
                      </Form>
                 </Card>
             </PageHeaderWrapper>
@@ -41,6 +42,6 @@ function mapStateToProps(state){
 }
 
 // connect里的所有属性在UI层可以使用 this.props.xxx来使用.
-const _jenkinsLogin = connect(mapStateToProps)(JenkinsLogin)
+const _auth = connect(mapStateToProps)(Auth)
 
-export default _jenkinsLogin
+export default _auth

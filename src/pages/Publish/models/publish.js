@@ -1,5 +1,5 @@
 import * as publish from '@/services/publish';
-import { setStore,getStore } from '@/utils/localStore';
+import { setStore, getStore } from '@/utils/localStore';
 import { getLatestRecord, generateLatestTag } from '@/utils/utils';
 
 import { message } from 'antd';

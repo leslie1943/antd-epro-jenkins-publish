@@ -58,7 +58,14 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/job' : '/job' },
       secure: false,
-    }
+    },
+    '/crumbIssuer': {
+      target: 'https://ci.devops.viewchain.net',
+      changeOrigin: true,
+      pathRewrite: { '^/crumbIssuer' : '/crumbIssuer' },
+      secure: false,
+    },
+    
   },
 
   /**

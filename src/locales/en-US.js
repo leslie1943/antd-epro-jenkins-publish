@@ -46,8 +46,8 @@ export default {
   'menu.publish.tags': 'Create repository tag',
   'menu.publish.new-tag': 'New tag',
   // Jenkins
-  'menu.jenkins': 'Jenkins - 操作',
-  'menu.jenkins.login': 'Jenkins- Login',
+  'menu.jenkins': 'Jenkins - action',
+  'menu.jenkins.auth': 'Jenkins- auth',
   //
   'app.home.introduce': 'introduce',
   'app.analysis.test': 'Gongzhuan No.{no} shop',

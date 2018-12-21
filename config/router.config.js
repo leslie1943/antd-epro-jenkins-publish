@@ -120,10 +120,10 @@ export default [
         icon: 'deployment-unit',
         routes:[
           {
-            path: '/jenkins/login',
-            name: 'login',
-            icon: 'login',
-            component: './Jenkins/Login',
+            path: '/jenkins/auth',
+            name: 'auth',
+            icon: 'user',
+            component: './Jenkins/Auth',
           },
         ],
       },

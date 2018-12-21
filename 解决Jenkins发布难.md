@@ -25,6 +25,8 @@ https://gitlab.devops.viewchain.net/
 + epro-support: 112   无华西分支
 + utility-epro: 211
 + epro-mall-web: 107
++ epro-hx-svc: 213
++ epro-hx-mall: 214
 
 
 
@@ -52,7 +54,7 @@ https://gitlab.devops.viewchain.net/
     "description": "这是epro-mall的MR Desc",
     "target_branch": "master",
     "source_branch": "develop"
-  }​
+  }
   ```
 
 + 返回样例:(关注返回值 iid字段，作为接收Merge Request的URL参数)
@@ -100,7 +102,7 @@ https://gitlab.devops.viewchain.net/
 
 
 
-### 关闭Merge Request
+### 关闭Merge Request(只有 owner 和 admin 才有操作权限 )
 当提交的MR没有diff，需要将生成的MR关掉
 
 + DELETE /projects/:id/merge_requests/:merge_request_iid
@@ -134,6 +136,45 @@ https://gitlab.devops.viewchain.net/
 
 
 ------
+
+
+
+### Jenkins
+
+### 登陆认证授权
+
++ 请求方式：GET
++ URL：https://ci.devops.viewchain.net/crumbIssuer/api/json
++ Authorization: Basic Auth（输入用户名与密码）
++ 返回值数据样例 crumb
+
+```json
+{
+    "_class": "hudson.security.csrf.DefaultCrumbIssuer",
+    "crumb": "3993254df7e98f9c9f12c1d686c2eef8",
+    "crumbRequestField": "Jenkins-Crumb"
+}
+```
+
++ 将crumb放到其他http请求header中，做授权其他行为
++ header K-V：Jenkins-Crumb：3993254df7e98f9c9f12c1d686c2eef8
+
+
+
+### 带参数构建
+
++ 请求方式： POST
++ URL：https://ci.devops.viewchain.net/job/vhepro2.0/job/epro-mall/buildWithParameters
+
+
+
+
+
+
+
+
+
+
 
 Version 0.0.2
 

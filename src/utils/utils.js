@@ -216,6 +216,13 @@ export function generateLatestTag(tagName) {
   }
 }
 
+// base64转换.
+export function toBase64(){
+  // eXVjaGFvOiFRQVoxcWF6: yuchao
+  const orign_user_pwd = new Buffer('suzhen:ZY-6Wlknm_ea');
+  return orign_user_pwd.toString('base64');
+}
+
 // validate result.
 export function validateResult(res){
   // console.info('validate result from api');
