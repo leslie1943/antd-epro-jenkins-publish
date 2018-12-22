@@ -196,7 +196,17 @@ export default {
                 ref: 'master',
                 message: payload.tag_message,
             }
-            const r = yield call(publish.createTag,params);
+            const res_tag = yield call(publish.createTag,params);
+
+            // 本地化 Tag.
+            let local_tags = [];
+            if(getStore('epro_publish_tool_tags')){
+                local_tags = getStore('epro_publish_tool_tags');
+            }
+            // 为结果增加属性
+            res_tag['project_id'] = payload.tag_project;
+            local_tags.push(res_tag);
+            setStore("epro_publish_tool_tags", local_tags);
         },
 
         // ------------------------------- 从列表选区后创建Tag -------------------------------
