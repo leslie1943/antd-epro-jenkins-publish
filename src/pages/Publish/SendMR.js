@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import {Form, Card, Input, Spin,List,Collapse, Select, Checkbox, Modal, Button,message,Row,Col} from 'antd';
-const CheckboxGroup = Checkbox.Group;
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import RepositoryOptions from '@/components/RepositoryOptions';
 import { getGitToken ,getRepository} from '../../utils/gitMap';
 import layout from "@/utils/layout";
 
@@ -22,48 +22,6 @@ const fieldLabels = {
     mr_title: '标题',
     mr_description: '描述',
   };
-
-//  ----------------- function 模式
-//   function RepositoryColumns(props){
-//     const R_Columns = props.options.map((col) => 
-//         <Col span={8} key={col.value}>
-//             <Checkbox  value={col.value}>{col.label}</Checkbox>
-//         </Col>
-//     );
-//     return(
-//         <Row>{R_Columns}</Row>
-//     );
-//   }
-
-// ----------------- class 模式
-  class RepositoryColumns extends Component{
-    /**
-     * 详细解释参加文档 Skill-Learn-Point.md
-        constructor(props){
-            super(props);
-        }
-    */
-    render(){
-        console.info(this.props);
-        // 🍭🍭🍭🍭 变量模式定义 🍭🍭🍭🍭
-        // const R_Columns = this.props.options.map((col) => 
-        //     <Col span={8} key={col.value}>
-        //         <Checkbox  value={col.value}>{col.label}</Checkbox>
-        //     </Col>
-        // );
-          return(
-            // 🍭🍭🍭🍭 变量模式输出 🍭🍭🍭🍭
-            // <Row>{R_Columns}</Row>
-            <Row>{
-                this.props.options.map((col) =>
-                <Col span={8} key={col.value}>
-                <Checkbox value={col.value}>{col.label}</Checkbox>
-                </Col>)
-            }</Row>
-          )
-      }
-  }
-
 
 @Form.create()
 class SendMR extends Component{
@@ -121,9 +79,7 @@ class SendMR extends Component{
                                 <Form.Item {...layout.formItemLayout} label="Gitlab项目">{
                                     getFieldDecorator('mr_repos',{
                                         rules:[{required:true,message: '请选择仓库'}]
-                                    })(<Checkbox.Group style={{ width: '100%' }}>
-                                        <RepositoryColumns options={repository}></RepositoryColumns>
-                                    </Checkbox.Group>)
+                                    })(<RepositoryOptions/>)
                                 }
                                 </Form.Item>
 
