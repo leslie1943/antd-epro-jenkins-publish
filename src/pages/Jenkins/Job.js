@@ -47,9 +47,10 @@ class Job extends Component{
             <PageHeaderWrapper title="Jenkins jobs" content="">
                 <Card bordered={false}>
                     <Form style={{marginTop: 8, textAlign: 'center'}}>
-                        {mall_json.name}
-                        <Divider></Divider>
+                        
                         <Button type="primary" icon="eye" onClick={()=>this.getMallApiJson()}>Get Epro Mall Api Json</Button>
+                        <Divider></Divider>
+                        {JSON.stringify(mall_json)}
                         <Divider></Divider>
                         <Button type="primary" icon="build" onClick={()=>this.buildMallWithParam()}>Build Epro Mall with Parameters</Button>
                         <Divider></Divider>

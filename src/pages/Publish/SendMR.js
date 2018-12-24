@@ -23,17 +23,47 @@ const fieldLabels = {
     mr_description: '描述',
   };
 
-  function RepositoryColumns(props){
-    const R_Columns = props.options.map((col) => 
-        <Col span={8} key={col.value}>
-            <Checkbox  value={col.value}>{col.label}</Checkbox>
-        </Col>
-    );
-    return(
-        <Row>{R_Columns}</Row>
-    );
+//  ----------------- function 模式
+//   function RepositoryColumns(props){
+//     const R_Columns = props.options.map((col) => 
+//         <Col span={8} key={col.value}>
+//             <Checkbox  value={col.value}>{col.label}</Checkbox>
+//         </Col>
+//     );
+//     return(
+//         <Row>{R_Columns}</Row>
+//     );
+//   }
+
+// ----------------- class 模式
+  class RepositoryColumns extends Component{
+    /**
+     * 详细解释参加文档 Skill-Learn-Point.md
+        constructor(props){
+            super(props);
+        }
+    */
+    render(){
+        console.info(this.props);
+        // 🍭🍭🍭🍭 变量模式定义 🍭🍭🍭🍭
+        // const R_Columns = this.props.options.map((col) => 
+        //     <Col span={8} key={col.value}>
+        //         <Checkbox  value={col.value}>{col.label}</Checkbox>
+        //     </Col>
+        // );
+          return(
+            // 🍭🍭🍭🍭 变量模式输出 🍭🍭🍭🍭
+            // <Row>{R_Columns}</Row>
+            <Row>{
+                this.props.options.map((col) =>
+                <Col span={8} key={col.value}>
+                <Checkbox value={col.value}>{col.label}</Checkbox>
+                </Col>)
+            }</Row>
+          )
+      }
   }
-  
+
 
 @Form.create()
 class SendMR extends Component{
