@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Form } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import layout from "@/utils/layout";
 
 @Form.create()
 class CloseRequest extends Component{

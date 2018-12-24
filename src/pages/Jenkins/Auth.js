@@ -3,9 +3,7 @@ import { connect } from 'dva';
 import moment from 'moment';
 import {Form, Card, Modal, Button, message} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-
 const FormItem = Form.Item;
-
 
 @Form.create()
 class Auth extends Component{

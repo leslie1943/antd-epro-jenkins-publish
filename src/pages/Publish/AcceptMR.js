@@ -4,6 +4,8 @@ import moment from 'moment';
 import {Form, Card, Input, Spin,List, Select,Table, Button,message} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getGitMap, getGitToken } from '../../utils/gitMap';
+import layout from "@/utils/layout";
+console.info(layout);
 const repositories = getGitMap();
 const tokens = getGitToken();
 
@@ -45,7 +47,7 @@ class AcceptMR extends Component{
         // from mapStateToProps
         const mrResult = this.props.mrResult;
 
-         // 列数据...
+         // 列数据...layout.
          const columns = [
             {
               title: 'id',
@@ -99,33 +101,13 @@ class AcceptMR extends Component{
             },
         ];
 
-        // Item 布局
-        const formItemLayout = {
-            labelCol: {
-              xs: { span: 24 },
-              sm: { span: 7 },
-            },
-            wrapperCol: {
-              xs: { span: 24 },
-              sm: { span: 12 },
-              md: { span: 10 },
-            },
-          };
-
-          // 提交布局
-          const submitFormLayout = {
-            wrapperCol: {
-              xs: { span: 24, offset: 0 },
-              sm: { span: 10, offset: 7 },
-            },
-          };
         return(
             <PageHeaderWrapper title="Accept merge request" content="">
             {/* ####################### Panel_Step 2 ###################################### */}
                 <Card bordered={false}>
                     <Form style={{marginTop: 8}}>
                         {/* ---------------- 接收Merge request私钥  ---------------- */}
-                        {/* <FormItem {...formItemLayout} label={acceptLabels.accept_privateKey}>{
+                        {/* <FormItem {...layout.formItemLayout} label={acceptLabels.accept_privateKey}>{
                             getFieldDecorator('accept_privateKey',{
                                 initialValue: '',
                                 rules: [{required: true, message: '清选择Token'}]
@@ -148,7 +130,7 @@ class AcceptMR extends Component{
                         /> */}
                         <Table rowKey="id" size='small' columns={columns} dataSource={mrResult ? mrResult : []} />
                         {/* 接收全部Merge request */}
-                        <FormItem {...submitFormLayout} style={{ marginTop: 10 }}>
+                        <FormItem {...layout.submitFormLayout} style={{ marginTop: 10 }}>
                             <Button type="primary" onClick={() => this.acceptAll()}>接收全部Merge request</Button>
                         </FormItem>
                     </Form>

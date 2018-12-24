@@ -166,15 +166,4 @@ https://gitlab.devops.viewchain.net/
 + 请求方式： POST
 + URL：https://ci.devops.viewchain.net/job/vhepro2.0/job/epro-mall/buildWithParameters
 
-
-
-
-
-
-
-
-
-
-
 Version 0.0.2
-

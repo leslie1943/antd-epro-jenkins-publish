@@ -5,6 +5,7 @@ import {Form, Table, Divider, Card, Tag, Select, Modal, Button, message} from 'a
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getGitMap } from '../../utils/gitMap';
 const gitMap = getGitMap();
+import layout from "@/utils/layout";
 
 const { Option } = Select;
 const FormItem = Form.Item;
@@ -63,13 +64,6 @@ class Tags extends Component{
         const { form: { getFieldDecorator , getFieldValue}} = this.props;
         // from mapStateToProps
         const tags = this.props.tags;
-
-        const submitFormLayout = {
-            wrapperCol: {
-              xs: { span: 24, offset: 0 },
-              sm: { span: 10, offset: 7 },
-            },
-          };
         
         // 列数据...
         const columns = [

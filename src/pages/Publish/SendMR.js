@@ -4,6 +4,7 @@ import {Form, Card, Input, Spin,List,Collapse, Select, Checkbox, Modal, Button,m
 const CheckboxGroup = Checkbox.Group;
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getGitToken ,getRepository} from '../../utils/gitMap';
+import layout from "@/utils/layout";
 
 const repository = getRepository();
 const tokens = getGitToken();
@@ -71,27 +72,6 @@ class SendMR extends Component{
         const { form: { getFieldDecorator , getFieldValue}} = this.props;
         // from mapStateToProps
         const sendLoading = this.props.sendLoading;
-
-        // Item 布局
-        const formItemLayout = {
-            labelCol: {
-              xs: { span: 24 },
-              sm: { span: 7 },
-            },
-            wrapperCol: {
-              xs: { span: 24 },
-              sm: { span: 12 },
-              md: { span: 10 },
-            },
-          };
-
-          // 提交布局
-          const submitFormLayout = {
-            wrapperCol: {
-              xs: { span: 24, offset: 0 },
-              sm: { span: 10, offset: 7 },
-            },
-          };
         return(
             <PageHeaderWrapper title="Send merge request" content="">
                 {/* ####################### Panel_Step 1 ###################################### */}
@@ -99,7 +79,7 @@ class SendMR extends Component{
                         <Spin spinning={sendLoading} tip="Merge requests are submitting...">
                             <Form style={{marginTop: 8}}  >
                                 {/* ---------------- 私钥  ---------------- */}
-                                {/* <FormItem {...formItemLayout} label={fieldLabels.mr_privateKey}>{
+                                {/* <FormItem {...layout.formItemLayout} label={fieldLabels.mr_privateKey}>{
                                     getFieldDecorator('mr_privateKey',{
                                         initialValue: 'K4Qoz7woxAYZ4v6NKyZ9',
                                         rules: [{required: true, message: '清选择Token'}]
@@ -108,7 +88,7 @@ class SendMR extends Component{
                                         </Select>)
                                 }</FormItem> */}
                                 
-                                <Form.Item {...formItemLayout} label="Gitlab项目">{
+                                <Form.Item {...layout.formItemLayout} label="Gitlab项目">{
                                     getFieldDecorator('mr_repos',{
                                         rules:[{required:true,message: '请选择仓库'}]
                                     })(<Checkbox.Group style={{ width: '100%' }}>
@@ -118,7 +98,7 @@ class SendMR extends Component{
                                 </Form.Item>
 
                                 {/* ---------------- Gitlab项目  ---------------- */}
-                                {/* <FormItem {...formItemLayout} label='Gitlab项目'>
+                                {/* <FormItem {...layout.formItemLayout} label='Gitlab项目'>
                                     <Collapse >
                                         <Panel header="点击查将要提交Merge request的Git项目列表" key="10">
                                             <List size="small"
@@ -130,7 +110,7 @@ class SendMR extends Component{
                                 </FormItem> */}
 
                                 {/* ---------------- 原分支  ---------------- */}
-                                <FormItem {...formItemLayout} label={fieldLabels.mr_originBranch}>{
+                                <FormItem {...layout.formItemLayout} label={fieldLabels.mr_originBranch}>{
                                     getFieldDecorator('mr_originBranch',{
                                         initialValue: 'develop',
                                         rules: [{required: true, message: '清选择原分支'}]
@@ -140,7 +120,7 @@ class SendMR extends Component{
                                 </Select>)
                                 }</FormItem>
                                 {/* ---------------- 目标分支 ---------------- */}
-                                <FormItem {...formItemLayout} label={fieldLabels.mr_targetBranch}>{
+                                <FormItem {...layout.formItemLayout} label={fieldLabels.mr_targetBranch}>{
                                     getFieldDecorator('mr_targetBranch',{
                                         initialValue: 'master',
                                         rules: [{required: true, message: '清选择目标分支'}]
@@ -151,7 +131,7 @@ class SendMR extends Component{
                                 }</FormItem>
 
                                 {/* ---------------- 标题 ---------------- */}
-                                <FormItem {...formItemLayout} label={fieldLabels.mr_title}>{
+                                <FormItem {...layout.formItemLayout} label={fieldLabels.mr_title}>{
                                     getFieldDecorator('mr_title',{
                                         initialValue: '',
                                         rules: [{required: true, message: '请输入标题'}]
@@ -159,7 +139,7 @@ class SendMR extends Component{
                                 }</FormItem>
 
                                 {/* ---------------- 描述 ---------------- */}
-                                <FormItem {...formItemLayout} label={fieldLabels.mr_description}>{
+                                <FormItem {...layout.formItemLayout} label={fieldLabels.mr_description}>{
                                     getFieldDecorator('mr_description',{
                                         initialValue: '',
                                         rules: [{required: true, message: '请输入描述'}]
@@ -167,7 +147,7 @@ class SendMR extends Component{
                                 }</FormItem>
 
                                 {/*  */}
-                                <FormItem {...submitFormLayout} style={{ marginTop: 10 }}>
+                                <FormItem {...layout.submitFormLayout} style={{ marginTop: 10 }}>
                                     <Button type="primary" onClick={()=>this.validate()}>提交Merge request</Button>      
                                 </FormItem>
                             </Form>

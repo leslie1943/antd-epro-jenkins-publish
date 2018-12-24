@@ -4,6 +4,7 @@ import moment from 'moment';
 import { connect } from 'dva';
 import {Form, Card, Select, Table, Button, message,Modal } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import layout from "@/utils/layout";
 
 import { getRepository} from '../../utils/gitMap';
 const repository = getRepository();
@@ -118,33 +119,12 @@ class SearchMR extends Component{
             },
 
         ];
-
-        // Item 布局
-        const formItemLayout = {
-            labelCol: {
-              xs: { span: 24 },
-              sm: { span: 7 },
-            },
-            wrapperCol: {
-              xs: { span: 24 },
-              sm: { span: 12 },
-              md: { span: 10 },
-            },
-          };
-
-          // 提交布局
-          const submitFormLayout = {
-            wrapperCol: {
-              xs: { span: 24, offset: 0 },
-              sm: { span: 10, offset: 7 },
-            },
-          };
         return(
             <PageHeaderWrapper title="Query merge request" content="">
                 <Card bordered={false}>
                     <Form style={{marginTop: 8}}>
                         {/* ---------------- 选择类型  ---------------- */}
-                        <FormItem {...formItemLayout} label={fieldLabels.repository}>{
+                        <FormItem {...layout.formItemLayout} label={fieldLabels.repository}>{
                             getFieldDecorator('repository',{
                                 rules:[{required:true,message:'请选择Repository'}]
                             })(<Select placeholder="全部项目" >
@@ -153,7 +133,7 @@ class SearchMR extends Component{
                         }</FormItem>
 
                         {/*  */}
-                        <FormItem {...submitFormLayout} style={{ marginTop: 10 }}>
+                        <FormItem {...layout.submitFormLayout} style={{ marginTop: 10 }}>
                             <Button type="primary" onClick={()=>this.search()}>查询 merge request</Button>      
                          </FormItem>
                      </Form>

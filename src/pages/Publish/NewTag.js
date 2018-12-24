@@ -5,7 +5,7 @@ import {Form, Table,Divider, Card, Select,Input,Modal,Button,Spin,message} from 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getRepository } from '../../utils/gitMap';
 const repositories = getRepository();
-
+import layout from "@/utils/layout";
 
 const { Option } = Select;
 const FormItem = Form.Item;
@@ -16,8 +16,6 @@ const fieldLabels = {
     target_tag: 'New tag name:',
     tag_message: 'Tag message',
 };
-
-
 @Form.create()
 class NewTag extends Component{
     constructor(props){
@@ -64,36 +62,13 @@ class NewTag extends Component{
         // from mapStateToProps
         const exist_tags = this.props.exist_tags;
         const tagLoading = this.props.tagLoading;
-
-        // Item 布局
-        const formItemLayout = {
-            labelCol: {
-              xs: { span: 24 },
-              sm: { span: 7 },
-            },
-            wrapperCol: {
-              xs: { span: 24 },
-              sm: { span: 12 },
-              md: { span: 10 },
-            },
-          };
-
-          // 提交布局
-          const submitFormLayout = {
-            wrapperCol: {
-              xs: { span: 24, offset: 0 },
-              sm: { span: 10, offset: 7 },
-            },
-          };
-        
-
         return(
             <PageHeaderWrapper title="New tag" content="">
                 <Card bordered={false}>
                 <Spin spinning={tagLoading} tip="Searching tags...">
                     <Form style={{marginTop: 8}}>
                         {/* ------------ Tag project ------------ */}
-                        <FormItem {...formItemLayout} label={fieldLabels.tag_project}>{
+                        <FormItem {...layout.formItemLayout} label={fieldLabels.tag_project}>{
                             getFieldDecorator('tag_project',{
                                 initialValue: '',
                                 rules: [{required: true, message: '请选择项目'}]
@@ -103,7 +78,7 @@ class NewTag extends Component{
                         }</FormItem>
 
                         {/* ------------ Tag list ------------ */}
-                        <FormItem {...formItemLayout} label={fieldLabels.exist_tag}>{
+                        <FormItem {...layout.formItemLayout} label={fieldLabels.exist_tag}>{
                             getFieldDecorator('exist_tag',{
                                 initialValue: '',
                                 rules: [{required: true, message: '请选择已存在的tag'}]
@@ -113,7 +88,7 @@ class NewTag extends Component{
                         }</FormItem>
 
                         {/* ------------ new Tag name ------------ */}
-                        <FormItem {...formItemLayout} label={fieldLabels.target_tag}>{
+                        <FormItem {...layout.formItemLayout} label={fieldLabels.target_tag}>{
                             getFieldDecorator('target_tag',{
                                 initialValue: '',
                                 rules: [{required: true, message: '请输入新tag名字'}]
@@ -121,7 +96,7 @@ class NewTag extends Component{
                         }</FormItem>
 
                         {/* ------------ Tag message ------------ */}
-                        <FormItem {...formItemLayout} label={fieldLabels.tag_message}>{
+                        <FormItem {...layout.formItemLayout} label={fieldLabels.tag_message}>{
                             getFieldDecorator('tag_message',{
                                 initialValue: '',
                                 rules: [{required: true, message: '请输入Tag信息'}]
