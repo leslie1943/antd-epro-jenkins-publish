@@ -86,3 +86,30 @@
   }
   --------------------------------- **/
   ```
+
++ 父子组件调用-模式一
+  ```javascript
+    // STEP 1 : 父组件 引入子组件
+    import RepositoryOptions from '@/components/RepositoryOptions';
+    // STEP 2 : 父组件 定义子组件在父组件执行的方法, 命名可以不是event标准事件, 可以在此将子组件数据map到父组件.
+    onChangeParent(value){
+        this.props.form.setFieldsValue({
+            mr_repos: value,
+        });
+    }
+    // STEP 3: 父组件 使用子组件
+     <Form.Item {...layout.formItemLayout} label="Gitlab项目">{
+      getFieldDecorator('mr_repos',{
+          rules:[{required:true,message: '请选择仓库'}]
+      })(<RepositoryOptions onChangeParent={this.onChangeParent.bind(this)}/>)
+    }
+    
+    // STEP 4 : 子组件 定义标准事件, 在此触发父组件事件.
+     onChangeChild = (value) => {
+        this.props.onChangeParent(value);
+    }
+
+    // STEP 5 : 子组件 使用.
+    <Checkbox.Group style={{ width: '100%' }} onChange={(value)=>this.onChangeChild(value)} />
+
+  ```

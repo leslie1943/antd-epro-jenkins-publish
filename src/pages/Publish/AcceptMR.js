@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import {Form, Card, Input, Spin,List, Select,Table, Button,message} from 'antd';
+import {Form, Card, Input, Spin,List, Select,Table, Button,message,Modal} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getGitMap, getGitToken } from '../../utils/gitMap';
 import layout from "@/utils/layout";
-console.info(layout);
 const repositories = getGitMap();
 const tokens = getGitToken();
 
@@ -26,19 +25,31 @@ class AcceptMR extends Component{
     // 接收一个merge request
     // id: project_id
     acceptOne(id,iid){
-        message.success(id + "-" + iid);
         const {dispatch} = this.props;
-        dispatch({
-            type: 'publish/acceptOne',
-            payload: {id:id,iid:iid},
-        });
+        Modal.confirm({
+            title: '提交merge request',
+            content: '请确认你的操作?',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => dispatch({
+                type: 'publish/acceptOne',
+                payload: {id:id,iid:iid},
+            })
+        })
     }
     // 接收全部merge request
     acceptAll(){
         const {dispatch} = this.props;
-        dispatch({
-            type: 'publish/acceptAll',
-        });
+        Modal.confirm({
+            title: '提交全部merge request',
+            content: '请确认你的操作?',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => dispatch({
+                type: 'publish/acceptAll',
+            })
+        })
+
     }
     // componentDidMount(){}
     

@@ -28,10 +28,18 @@ class SendMR extends Component{
     constructor(props){
         super(props)
     }
+
+    // 父子组件方法执行顺序: 子start=>父start=>父finish=>子finish
+    onChangeParent(value){
+        this.props.form.setFieldsValue({
+            mr_repos: value,
+        });
+    }
+
     // 提交merge request的校验
     validate = () => {
         const {form: { validateFieldsAndScroll,validateFields },dispatch,} = this.props;
-        // validateFields(['mr_privateKey','mr_originBranch','mr_targetBranch','mr_title','mr_description'],(error, values) => {
+        console.info(this.props);
         validateFields(['mr_repos','mr_originBranch','mr_targetBranch','mr_title','mr_description'],(error, values) => {
             console.info(values);
             // validateFieldsAndScroll: 校验所有当前页面所有的字段
@@ -67,34 +75,14 @@ class SendMR extends Component{
                         <Spin spinning={sendLoading} tip="Merge requests are submitting...">
                             <Form style={{marginTop: 8}}  >
                                 {/* ---------------- 私钥  ---------------- */}
-                                {/* <FormItem {...layout.formItemLayout} label={fieldLabels.mr_privateKey}>{
-                                    getFieldDecorator('mr_privateKey',{
-                                        initialValue: 'K4Qoz7woxAYZ4v6NKyZ9',
-                                        rules: [{required: true, message: '清选择Token'}]
-                                    })(<Select placeholder="清选择Token" >
-                                        {tokens.map(item => <Option key={item.index} value={item.val}>{item.text + '-' + item.val}</Option>)}
-                                        </Select>)
-                                }</FormItem> */}
                                 
+                                {/* ---------------- Gitlab项目  ---------------- */}
                                 <Form.Item {...layout.formItemLayout} label="Gitlab项目">{
                                     getFieldDecorator('mr_repos',{
                                         rules:[{required:true,message: '请选择仓库'}]
-                                    })(<RepositoryOptions/>)
+                                    })(<RepositoryOptions onChangeParent={this.onChangeParent.bind(this)}/>)
                                 }
                                 </Form.Item>
-
-                                {/* ---------------- Gitlab项目  ---------------- */}
-                                {/* <FormItem {...layout.formItemLayout} label='Gitlab项目'>
-                                    <Collapse >
-                                        <Panel header="点击查将要提交Merge request的Git项目列表" key="10">
-                                            <List size="small"
-                                            // bordered
-                                            dataSource={repository}
-                                            renderItem={item => (<List.Item>{item.label}</List.Item>)}/>
-                                        </Panel>
-                                    </Collapse>
-                                </FormItem> */}
-
                                 {/* ---------------- 原分支  ---------------- */}
                                 <FormItem {...layout.formItemLayout} label={fieldLabels.mr_originBranch}>{
                                     getFieldDecorator('mr_originBranch',{
