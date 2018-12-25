@@ -113,3 +113,20 @@
     <Checkbox.Group style={{ width: '100%' }} onChange={(value)=>this.onChangeChild(value)} />
 
   ```
++ 方法调用
+  ```javascript
+    // Solution 1 : 
+    onChangeParent(value){}
+    (<RepositoryOptions onChangeParent={this.onChangeParent.bind(this)} />)
+
+
+    // Solution 2 :
+    onChangeParent(value){}
+    (<RepositoryOptions onChangeParent={(e) =>this.onChangeParent(e)} />)
+    
+
+    // Solution 3 :
+    onChangeParent = (value) =>{}
+    <RepositoryOptions onChangeParent={this.onChangeParent} />
+
+  ```

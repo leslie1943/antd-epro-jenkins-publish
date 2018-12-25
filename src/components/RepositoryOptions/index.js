@@ -14,7 +14,7 @@ export default class RepositoryOptions extends Component{
 
     render(){
         return(
-            <Checkbox.Group style={{ width: '100%' }} onChange={(value)=>this.onChangeChild(value)}>
+            <Checkbox.Group style={{ width: '100%' }} onChange={this.onChangeChild}>
                 <Row>{
                     repository.map((col) =>
                     <Col span={8} key={col.value}>

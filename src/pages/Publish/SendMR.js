@@ -30,7 +30,12 @@ class SendMR extends Component{
     }
 
     // 父子组件方法执行顺序: 子start=>父start=>父finish=>子finish
-    onChangeParent(value){
+    // onChangeParent(value){
+    //     this.props.form.setFieldsValue({
+    //         mr_repos: value,
+    //     });
+    // }
+    onChangeParent = (value) =>{
         this.props.form.setFieldsValue({
             mr_repos: value,
         });
@@ -39,9 +44,8 @@ class SendMR extends Component{
     // 提交merge request的校验
     validate = () => {
         const {form: { validateFieldsAndScroll,validateFields },dispatch,} = this.props;
-        console.info(this.props);
         validateFields(['mr_repos','mr_originBranch','mr_targetBranch','mr_title','mr_description'],(error, values) => {
-            console.info(values);
+            // console.info(values);
             // validateFieldsAndScroll: 校验所有当前页面所有的字段
             // validateFields: 校验指定的Fields
             // validateFieldsAndScroll((error, values) => {
@@ -80,7 +84,9 @@ class SendMR extends Component{
                                 <Form.Item {...layout.formItemLayout} label="Gitlab项目">{
                                     getFieldDecorator('mr_repos',{
                                         rules:[{required:true,message: '请选择仓库'}]
-                                    })(<RepositoryOptions onChangeParent={this.onChangeParent.bind(this)}/>)
+                                    // })(<RepositoryOptions onChangeParent={this.onChangeParent.bind(this)}/>)
+                                    // })(<RepositoryOptions onChangeParent={(e) =>this.onChangeParent(e)}/>)
+                                })(<RepositoryOptions onChangeParent={this.onChangeParent}/>)
                                 }
                                 </Form.Item>
                                 {/* ---------------- 原分支  ---------------- */}
