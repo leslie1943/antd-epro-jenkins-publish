@@ -24,8 +24,11 @@ class AcceptMR extends Component{
     
     // 接收一个merge request
     // id: project_id
-    acceptOne(id,iid){
+    acceptOne = (id, iid, e) => {
         const {dispatch} = this.props;
+        // console.info(id);
+        // console.info(iid);
+        // console.info(e);
         Modal.confirm({
             title: '提交merge request',
             content: '请确认你的操作?',
@@ -37,6 +40,7 @@ class AcceptMR extends Component{
             })
         })
     }
+
     // 接收全部merge request
     acceptAll(){
         const {dispatch} = this.props;
@@ -105,7 +109,9 @@ class AcceptMR extends Component{
                 render: (text,record) => {
                     return (
                         <span>
-                            <a href="javascript:;" onClick={()=>this.acceptOne(record.project_id,record.iid)}>Accept</a>
+                            {/* <a href="javascript:;" onClick={()=>this.acceptOne(record.project_id,record.iid)}>Accept</a> */}
+                            {/* e 为 dom 参数 */}
+                            <a href="javascript:;" onClick={(e) => this.acceptOne(record.project_id,record.iid, e)}>Accept</a>
                         </span>
                     )
                 }
