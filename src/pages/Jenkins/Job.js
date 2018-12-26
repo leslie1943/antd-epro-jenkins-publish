@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 
-import {Form, Card, Modal, Button, message, Divider,Tooltip,Select,Input} from 'antd';
+import {Form, Card, Modal, Button, message, Divider,Tooltip,Select,Input,Spin } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import layout from "@/utils/layout";
 const FormItem = Form.Item;
@@ -21,130 +21,150 @@ const repository = [
 ];
 // Class epro-user-svc
 function UserItem(props){
-    const { form: { getFieldDecorator}} = props.props;
+    const { form: { getFieldDecorator}} = props.param; // props: 约定参数写法,可以去获取父组件里传过来的属性(名字随意)
     return (
         <FormItem {...layout.formItemLayout} label="epro-user-svc tag">{
             getFieldDecorator('user_svc_tag',{
                 initialValue: '',
                 rules: [{required: true, message: '清选择 epro-user-svc tag'}],
-            })(<Input placeholder="清选择 epro-user-svc tag" ></Input>)}
+            })(<Select placeholder="清选择 epro-user-svc tag" >
+            {props.param.user_svc_tags.map(item => <Option key={item.commit.id} value={item.name}>{item.name}</Option>)}
+            </Select>)}
         </FormItem>
     )
 }
 
 // Class epro-certificate-svc
 function CertificateItem(props){
-    const { form: { getFieldDecorator}} = props.props;
+    const { form: { getFieldDecorator}} = props.param;
     return (
         <FormItem {...layout.formItemLayout} label="epro-certificate-svc tag">{
             getFieldDecorator('certificate_svc_tag',{
                 initialValue: '',
                 rules: [{required: true, message: '清选择 epro-certificate-svc tag'}],
-            })(<Input placeholder="清选择 epro-certificate-svc tag" ></Input>)}
+            })(<Select placeholder="清选择 epro-certificate-svc tag" >
+            {props.param.certificate_svc_tags.map(item => <Option key={item.commit.id} value={item.name}>{item.name}</Option>)}
+            </Select>)}
         </FormItem>
     )
 }
 
 // Class epro-dmcc-svc
 function DmccItem(props){
-    const { form: { getFieldDecorator}} = props.props;
+    const { form: { getFieldDecorator}} = props.param;
     return (
         <FormItem {...layout.formItemLayout} label="epro-dmcc-svc tag">{
             getFieldDecorator('dmcc_svc_tag',{
                 initialValue: '',
                 rules: [{required: true, message: '清选择 epro-dmcc-svc tag'}],
-            })(<Input placeholder="清选择 epro-dmcc-svc tag" ></Input>)}
+            })(<Select placeholder="清选择 epro-dmcc-svc tag" >
+            {props.param.dmcc_svc_tags.map(item => <Option key={item.commit.id} value={item.name}>{item.name}</Option>)}
+            </Select>)}
         </FormItem>
     )
 }
 
 // Class epro-mall
 function MallItem(props){
-    const { form: { getFieldDecorator}} = props.props;
+    const { form: { getFieldDecorator}} = props.param;
     return (
         <FormItem {...layout.formItemLayout} label="epro-mall tag">{
             getFieldDecorator('mall_tag',{
                 initialValue: '',
                 rules: [{required: true, message: '清选择 epro-mall tag'}],
-            })(<Input placeholder="清选择 epro-mall tag" ></Input>)}
+            })(<Select placeholder="清选择 epro-mall tag" >
+            {props.param.mall_tags.map(item => <Option key={item.commit.id} value={item.name}>{item.name}</Option>)}
+            </Select>)}
         </FormItem>
     )
 }
 
 // Class epro-gateway
 function GatewayItem(props){
-    const { form: { getFieldDecorator}} = props.props;
+    const { form: { getFieldDecorator}} = props.param;
     return (
         <FormItem {...layout.formItemLayout} label="epro-gateway tag">{
             getFieldDecorator('gateway_tag',{
                 initialValue: '',
                 rules: [{required: true, message: '清选择 epro-gateway tag'}],
-            })(<Input placeholder="清选择 epro-gateway tag" ></Input>)}
+            })(<Select placeholder="清选择 epro-gateway tag" >
+            {props.param.gateway_tags.map(item => <Option key={item.commit.id} value={item.name}>{item.name}</Option>)}
+            </Select>)}
         </FormItem>
     )
 }
 
 // Class epro-job
 function JobItem(props){
-    const { form: { getFieldDecorator}} = props.props;
+    const { form: { getFieldDecorator}} = props.param;
     return (
         <FormItem {...layout.formItemLayout} label="epro-job tag">{
             getFieldDecorator('job_tag',{
                 initialValue: '',
                 rules: [{required: true, message: '清选择 epro-job tag'}],
-            })(<Input placeholder="清选择 epro-job tag" ></Input>)}
+            })(<Select placeholder="清选择 epro-job tag" >
+            {props.param.job_tags.map(item => <Option key={item.commit.id} value={item.name}>{item.name}</Option>)}
+            </Select>)}
         </FormItem>
     )
 }
 
 // Class epro-message
 function MessageItem(props){
-    const { form: { getFieldDecorator}} = props.props;
+    const { form: { getFieldDecorator}} = props.param;
     return (
         <FormItem {...layout.formItemLayout} label="epro-message tag">{
             getFieldDecorator('message_tag',{
                 initialValue: '',
                 rules: [{required: true, message: '清选择 epro-message tag'}],
-            })(<Input placeholder="清选择 epro-message tag" ></Input>)}
+            })(<Select placeholder="清选择 epro-message tag" >
+            {props.param.message_tags.map(item => <Option key={item.commit.id} value={item.name}>{item.name}</Option>)}
+            </Select>)}
         </FormItem>
     )
 }
 
 // Class epro-op
 function OpItem(props){
-    const { form: { getFieldDecorator}} = props.props;
+    const { form: { getFieldDecorator}} = props.param;
     return (
         <FormItem {...layout.formItemLayout} label="epro-op tag">{
             getFieldDecorator('op_tag',{
                 initialValue: '',
                 rules: [{required: true, message: '清选择 epro-op tag'}],
-            })(<Input placeholder="清选择 epro-op tag" ></Input>)}
+            })(<Select placeholder="清选择 epro-op tag" >
+            {props.param.op_tags.map(item => <Option key={item.commit.id} value={item.name}>{item.name}</Option>)}
+            </Select>)}
         </FormItem>
     )
 }
 
 // Class epro-support
 function SupportItem(props){
-    const { form: { getFieldDecorator}} = props.props;
+    const { form: { getFieldDecorator}} = props.param;
     return (
         <FormItem {...layout.formItemLayout} label="epro-support tag">{
             getFieldDecorator('support_tag',{
                 initialValue: '',
                 rules: [{required: true, message: '清选择 epro-support tag'}],
-            })(<Input placeholder="清选择 epro-support tag" ></Input>)}
+            })(<Select placeholder="清选择 epro-support tag" >
+            {props.param.support_tags.map(item => <Option key={item.commit.id} value={item.name}>{item.name}</Option>)}
+            </Select>)}
         </FormItem>
     )
 }
 
 // Class epro-utility
 function UtilityItem(props){
-    const { form: { getFieldDecorator}} = props.props;
+    const { form: { getFieldDecorator}} = props.param;
     return (
         <FormItem {...layout.formItemLayout} label="epro-utility tag">{
             getFieldDecorator('utility_tag',{
                 initialValue: '',
                 rules: [{required: true, message: '清选择 epro-utility tag'}],
-            })(<Input placeholder="清选择 epro-utility tag" ></Input>)}
+            })(<Select placeholder="清选择 epro-utility tag" >
+            {props.param.utility_tags.map(item => <Option key={item.commit.id} value={item.name}>{item.name}</Option>)}
+            </Select>)}
         </FormItem>
     )
 }
@@ -154,6 +174,12 @@ class Job extends Component{
     constructor(props){
         super(props)
         this.state = {id : ''}
+    }
+    componentDidMount(){
+        const {dispatch} = this.props;
+        dispatch({
+            type: 'jenkins/init_dependency'
+        })
     }
 
     // get epro mall api json.
@@ -167,7 +193,7 @@ class Job extends Component{
         const { form: { getFieldDecorator ,validateFields, getFieldValue},dispatch} = this.props;
         // TODO: need a validate mapping:
         validateFields(['support_tag','message_tag','build_project'],(error, values) => {
-            console.info(values);
+            // console.info(values);
             if(!error){
                 Modal.confirm({
                     title: '构建 Mall 项目',
@@ -196,7 +222,10 @@ class Job extends Component{
     
     render(){
         const { form: { getFieldDecorator , getFieldValue}} = this.props;
+        // console.info('this.props');
+        // console.info(this.props);
         const mall_json = this.props.mall_json;
+        const initLoading = this.props.initLoading;
         const id = this.state.id + '';
 
         /**
@@ -211,68 +240,68 @@ class Job extends Component{
             // epro-user-svc
             case "104":
                 dynamicItems = (<div>
-                    <SupportItem props={this.props}></SupportItem>
-                    <MessageItem props={this.props}></MessageItem>
+                    <SupportItem param={this.props}></SupportItem>
+                    <MessageItem param={this.props}></MessageItem>
                 </div>)
                 break;
             // epro-certificate-svc
             case "103":
                 dynamicItems = (<div>
-                    <MessageItem props={this.props}></MessageItem>
-                    <SupportItem props={this.props}></SupportItem>
+                    <MessageItem param={this.props}></MessageItem>
+                    <SupportItem param={this.props}></SupportItem>
                 </div>)
                 break;
             // epro-dmcc-svc
             case "116":
                 dynamicItems = (<div>
-                    <SupportItem props={this.props}></SupportItem>
-                    <MessageItem props={this.props}></MessageItem>
+                    <SupportItem param={this.props}></SupportItem>
+                    <MessageItem param={this.props}></MessageItem>
                 </div>)
                 break;
             // epro-mall
             case "106":
                 dynamicItems = (<div>
-                    <UserItem props={this.props}></UserItem>
-                    <CertificateItem props={this.props}></CertificateItem>
-                    <DmccItem props={this.props}></DmccItem>
-                    <UtilityItem props={this.props}></UtilityItem>
-                    <MessageItem props={this.props}></MessageItem>
-                    <SupportItem props={this.props}></SupportItem>
+                    <UserItem param={this.props}></UserItem>
+                    <CertificateItem param={this.props}></CertificateItem>
+                    <DmccItem param={this.props}></DmccItem>
+                    <UtilityItem param={this.props}></UtilityItem>
+                    <MessageItem param={this.props}></MessageItem>
+                    <SupportItem param={this.props}></SupportItem>
                 </div>)
                 break;
             // epro-gateway
             case "173":
                 dynamicItems = (<div>
-                    <DmccItem props={this.props}></DmccItem>
-                    <SupportItem props={this.props}></SupportItem>
-                    <UserItem props={this.props}></UserItem>
-                    <CertificateItem props={this.props}></CertificateItem>
-                    <MessageItem props={this.props}></MessageItem>
-                    <UtilityItem props={this.props}></UtilityItem>
+                    <DmccItem param={this.props}></DmccItem>
+                    <SupportItem param={this.props}></SupportItem>
+                    <UserItem param={this.props}></UserItem>
+                    <CertificateItem param={this.props}></CertificateItem>
+                    <MessageItem param={this.props}></MessageItem>
+                    <UtilityItem param={this.props}></UtilityItem>
                 </div>)
                 break;
             // epro-job
             case "166":
                 dynamicItems = (<div>
-                    <UtilityItem props={this.props}></UtilityItem>
-                    <UserItem props={this.props}></UserItem>
-                    <CertificateItem props={this.props}></CertificateItem>
-                    <DmccItem props={this.props}></DmccItem>
-                    <SupportItem props={this.props}></SupportItem>
-                    <MessageItem props={this.props}></MessageItem>
+                    <UtilityItem param={this.props}></UtilityItem>
+                    <UserItem param={this.props}></UserItem>
+                    <CertificateItem param={this.props}></CertificateItem>
+                    <DmccItem param={this.props}></DmccItem>
+                    <SupportItem param={this.props}></SupportItem>
+                    <MessageItem param={this.props}></MessageItem>
                 </div>)
                 break;
             // epro-message
             case "113":
-                dynamicItems = <SupportItem props={this.props}></SupportItem>
+                dynamicItems = <SupportItem param={this.props}></SupportItem>
                 break;
             // epro-op
             case "117":
                 dynamicItems = (<div>
-                    <UserItem props={this.props}></UserItem>
-                    <CertificateItem props={this.props}></CertificateItem>
-                    <DmccItem props={this.props}></DmccItem>
-                    <SupportItem props={this.props}></SupportItem>
+                    <UserItem param={this.props}></UserItem>
+                    <CertificateItem param={this.props}></CertificateItem>
+                    <DmccItem param={this.props}></DmccItem>
+                    <SupportItem param={this.props}></SupportItem>
                 </div>)
                 break;
             // epro-support
@@ -281,12 +310,13 @@ class Job extends Component{
                 break;
             // epro-utility
             case "211":
-                dynamicItems = <SupportItem props={this.props}></SupportItem>
+                dynamicItems = <SupportItem param={this.props}></SupportItem>
                 break;
         }
         return(
             <PageHeaderWrapper title="Jenkins jobs" content="">
                 <Card bordered={false}>
+                <Spin spinning={initLoading} tip="Initialize...">
                     <Form style={{marginTop: 8}}>
                         {/*  DO NOT DELETE BELOW CODES 👇👇👇👇👇👇 */}
                         {/* <Button type="primary" icon="eye" onClick={()=>this.getMallApiJson()}>Get Epro Mall Api Json</Button>
@@ -317,6 +347,7 @@ class Job extends Component{
                             <Button disabled type="primary" icon="ordered-list" onClick={()=>this.fetchMallConfig()}>Fetch Mall Config</Button>
                         </Tooltip> */}
                      </Form>
+                     </Spin>
                 </Card>
             </PageHeaderWrapper>
         )
@@ -325,7 +356,20 @@ class Job extends Component{
 
 function mapStateToProps(state){
     return {
-        mall_json: state.jenkins.mall_json
+        // project json.
+        mall_json: state.jenkins.mall_json,
+        // all tags
+        initLoading: state.jenkins.initLoading,
+        user_svc_tags: state.jenkins.user_svc_tags,
+        certificate_svc_tags: state.jenkins.certificate_svc_tags,
+        dmcc_svc_tags: state.jenkins.dmcc_svc_tags,
+        mall_tags: state.jenkins.mall_tags,
+        gateway_tags: state.jenkins.gateway_tags,
+        job_tags: state.jenkins.job_tags,
+        message_tags: state.jenkins.message_tags,
+        op_tags: state.jenkins.op_tags,
+        support_tags: state.jenkins.support_tags,
+        utility_tags: state.jenkins.utility_tags,
     }
 }
 
