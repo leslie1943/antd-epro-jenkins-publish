@@ -19,6 +19,15 @@ const repository = [
     { value: 207, label: 'epro-support' },
     { value: 211, label: 'utility-epro' },
 ];
+
+/**
+ * 🚦所有的React组件必须像纯函数那样使用它们的props🚦
+ * // 纯函数
+ *  function(a,b){
+ *     return a + b;
+ * }
+*/
+
 // Class epro-user-svc
 function UserItem(props){
     const { form: { getFieldDecorator}} = props.param; // props: 约定参数写法,可以去获取父组件里传过来的属性(名字随意)
@@ -216,6 +225,7 @@ class Job extends Component{
         })
     }
 
+    // 在 constructor 定义的 state,可以在class内的方法操作, 操作后的结果可以在render内进行使用.
     projectChange = (value) =>{
          this.setState({id: value});
     }
@@ -244,10 +254,10 @@ class Job extends Component{
                     <MessageItem param={this.props}></MessageItem>
                 </div>)
                 break;
-            // epro-certificate-svc
+            // epro-certificate-svc, 🔵🔵{param: this.props} 作为 props 传递给子组件🔵🔵
             case "103":
                 dynamicItems = (<div>
-                    <MessageItem param={this.props}></MessageItem>
+                    <MessageItem param={this.props}></MessageItem> 
                     <SupportItem param={this.props}></SupportItem>
                 </div>)
                 break;
@@ -347,7 +357,7 @@ class Job extends Component{
                             <Button disabled type="primary" icon="ordered-list" onClick={()=>this.fetchMallConfig()}>Fetch Mall Config</Button>
                         </Tooltip> */}
                      </Form>
-                     </Spin>
+                    </Spin>
                 </Card>
             </PageHeaderWrapper>
         )

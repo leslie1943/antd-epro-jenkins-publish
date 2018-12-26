@@ -139,7 +139,7 @@ class AcceptMR extends Component{
                             </List.Item>
                             )}
                         /> */}
-                        <Table rowKey="id" size='small' columns={columns} dataSource={mrResult ? mrResult : []} />
+                        <Table rowKey="id" size='small' pagination={{ pageSize: 50}} columns={columns} dataSource={mrResult ? mrResult : []} />
                         {/* 接收全部Merge request */}
                         <FormItem {...layout.submitFormLayout} style={{ marginTop: 10 }}>
                             <Button type="primary" onClick={() => this.acceptAll()}>接收全部Merge request</Button>

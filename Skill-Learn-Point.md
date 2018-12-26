@@ -15,7 +15,7 @@
      👓 如果用到了constructor ==> 必须写super(), 用来初始化this,可以绑定事件到this上.
      👓如果在constructor中要使用this.props, 必须给super加参数 => super(props) 
         ⚡⚡⚡=> (只有一个理由需要传递props作为super()的参数那就是你需要在构造函数内使用this.props)
-     👍(无论有没有constructor在render方法中 this.props都是可以使用的这是React自带的特性)
+     👍(无论有没有constructor, 在render方法中 this.props都是可以使用的这是React自带的特性)
      👓如果没用到constructor可以不写, React会默认添加一个空的 constructor
 
 */
@@ -127,6 +127,44 @@
 
     // Solution 3 :
     onChangeParent = (value) =>{}
-    <RepositoryOptions onChangeParent={this.onChangeParent} />
+    <RepositoryOptions onChangeParent={()=>this.onChangeParent(value)} />
 
+  ```
+
+  + class定义
+  ```javascript
+    // 可以将2个class写在一个文件内,然后引用.
+    class Clock extends Component{}
+
+    class Main extends Component{
+      render(){
+        return(
+          <div>
+            <Clock></Clock>
+          </div>
+        )
+      }
+    }
+  ```
+
++ super 详解
+  ```javascript
+  // super关键字,它指代父类的实例(也就是父类的 ⛳⛳this对象⛳⛳⛳), 子类必须在constructor方法中调用super方法,否则新建实例会报错。
+  // 这是因为子类没有自己的 ⛳⛳this对象⛳⛳⛳, 而是继承父类的 ⛳⛳this对象⛳⛳⛳, 然后对其进行加工。
+  // 如果不调用 super 方法, 子类就得不到 ⛳⛳this对象⛳⛳⛳.
+  ```
+
+  + 箭头函数和普通函数的示例
+  ```javascript
+    // 箭头函数: 自带 return
+    this.setState((prevState,props) => {
+      counter: prevState.counter + props.increment,
+    })
+
+    // 普通函数
+    this.setState(function(prevState,props){
+      return{
+        counter: prevState.counter + props.increment,
+      }
+    })
   ```

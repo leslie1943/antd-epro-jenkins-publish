@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import moment from 'moment';
 import {Form, Card, Modal, Button, message} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import Clock from '@/components/Clock';
 const FormItem = Form.Item;
 
 @Form.create()
@@ -23,6 +24,7 @@ class Auth extends Component{
 
         return(
             <PageHeaderWrapper title="Jenkins authorization" content="">
+                <Clock></Clock>
                 <Card bordered={false}>
                     <Form style={{marginTop: 8, textAlign: 'left'}}>
                         <Button type="primary" icon="key" onClick={()=>this.getCrumb()}>Get crumb</Button>
