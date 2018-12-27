@@ -10,7 +10,7 @@ import { Input} from 'antd';
  */
 
  /** 
-  * 可以在其他文件使用一下代码查看示例.
+  * 可以在其他文件使用一下代码查看示例
   * import LiftStateUp from '@/components/LiftStateUp/index';
   * <LiftStateUp/>
   */

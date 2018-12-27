@@ -4,7 +4,8 @@ import moment from 'moment';
 export default class Clock extends Component{
     constructor(props){
         // super(props);
-        super()
+        super(props)
+        console.info(this.props);
 
         // 🌈构造函数是唯一能初始化 state 的地方.
         this.state = {date: new Date()}
