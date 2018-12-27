@@ -52,7 +52,8 @@
 
   + 组件定义方式
   ```javascript
-  /**  ------------------ function 模式 
+  /**  ------------------ function 模式    --------------------------------- **/
+  // 在function模式内, 传递的参数无法引用this,直接用参数名取值即可
   function RepositoryOptions(props){
     const R_Columns = props.options.map((col) => 
         <Col span={8} key={col.value}>
@@ -63,9 +64,10 @@
         <Row>{R_Columns}</Row>
     );
   }
-  --------------------------------- **/
 
-  /**  ------------------ class 模式 
+
+  /**  ------------------ class 模式   --------------------------------- **/
+  // 在class模式内, 传递的参数引用时要用this,因为构造函数初始化了父类的对象.
   class RepositoryOptions extends Component{
     
     // 详细解释参加文档 Skill-Learn-Point.md
@@ -84,7 +86,7 @@
           )
       }
   }
-  --------------------------------- **/
+
   ```
 
 + 父子组件调用-模式一
@@ -167,4 +169,35 @@
         counter: prevState.counter + props.increment,
       }
     })
+  ```
++ props 
+  ```javascript
+  <SupportItem param={anyTypeValue} childDemoField="childDemoField" id="1943"></SupportItem>
+
+  function SupportItem(props) {
+    console.info(props); // {param:anyTypeValue, childDemoField: 'childDemoField', id:"1943"}
+    console.info(props.param);
+    console.info(props.param.childAttr);
+    console.info(props.childDemoField);
+    console.info(props.id);
+  }
+
+  class SupportItem extends Component{
+    console.info(this.props.param);
+    console.info(this.props.param.childAttr);
+    console.info(this.props.childDemoField);
+    console.info(this.props.id);
+  }
+  ```
++ key
+  ```javascript
+  // key会作为给React的提示,但是不会传递给你的组件,如果组件需要使用和key相同的值.将其作为属性传递
+  const content = posts.map(post=>{
+    <Post
+      key={post.id}
+      id={post.id}
+      title={post.title}
+    </Post>
+  })
+  // Post组件可以读取props.id,但是无法读取 props.key
   ```

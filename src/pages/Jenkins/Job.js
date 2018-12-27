@@ -179,9 +179,11 @@ function UtilityItem(props) {
 }
 
 class DependencyItem extends Component {
-    constructor(props) {
-        super(props)
-    }
+    // 构造函数可以不写,具体可参照 Skill-Learn-Point.md => constructor
+    // constructor() {
+        // super(props)
+    // }
+    
     render() {
         /**
          * 在这个class之前定义了全部的单体依赖class(以function形式)
@@ -190,73 +192,74 @@ class DependencyItem extends Component {
          * 😎😎😎 具有复杂逻辑的组件,可以在return之前先处理, 然后把处理结果以变量的形式嵌入在结果中.
          * {complexLogicComponent}
          */
+        // console.info(this.props);
         let dynamicItems = null;
         switch (this.props.id) {
             // epro-user-svc
             case "104":
                 dynamicItems = (<div>
-                    <SupportItem param={this.props.props}></SupportItem>
-                    <MessageItem param={this.props.props}></MessageItem>
+                    <SupportItem param={this.props.param}></SupportItem>
+                    <MessageItem param={this.props.param}></MessageItem>
                 </div>)
                 break;
-            // epro-certificate-svc, 🔵🔵{param: this.props.props} 作为 props 传递给子组件🔵🔵
+            // epro-certificate-svc, 🔵🔵{param: this.props.param} 作为 props 传递给子组件🔵🔵
             case "103":
                 dynamicItems = (<div>
-                    <MessageItem param={this.props.props}></MessageItem>
-                    <SupportItem param={this.props.props}></SupportItem>
+                    <MessageItem param={this.props.param}></MessageItem>
+                    <SupportItem param={this.props.param}></SupportItem>
                 </div>)
                 break;
             // epro-dmcc-svc
             case "116":
                 dynamicItems = (<div>
-                    <SupportItem param={this.props.props}></SupportItem>
-                    <MessageItem param={this.props.props}></MessageItem>
+                    <SupportItem param={this.props.param}></SupportItem>
+                    <MessageItem param={this.props.param}></MessageItem>
                 </div>)
                 break;
             // epro-mall
             case "106":
                 dynamicItems = (<div>
-                    <UserItem param={this.props.props}></UserItem>
-                    <CertificateItem param={this.props.props}></CertificateItem>
-                    <DmccItem param={this.props.props}></DmccItem>
-                    <UtilityItem param={this.props.props}></UtilityItem>
-                    <MessageItem param={this.props.props}></MessageItem>
-                    <SupportItem param={this.props.props}></SupportItem>
+                    <UserItem param={this.props.param}></UserItem>
+                    <CertificateItem param={this.props.param}></CertificateItem>
+                    <DmccItem param={this.props.param}></DmccItem>
+                    <UtilityItem param={this.props.param}></UtilityItem>
+                    <MessageItem param={this.props.param}></MessageItem>
+                    <SupportItem param={this.props.param}></SupportItem>
                 </div>)
                 break;
             // epro-gateway
             case "173":
                 dynamicItems = (<div>
-                    <DmccItem param={this.props.props}></DmccItem>
-                    <SupportItem param={this.props.props}></SupportItem>
-                    <UserItem param={this.props.props}></UserItem>
-                    <CertificateItem param={this.props.props}></CertificateItem>
-                    <MessageItem param={this.props.props}></MessageItem>
-                    <UtilityItem param={this.props.props}></UtilityItem>
+                    <DmccItem param={this.props.param}></DmccItem>
+                    <SupportItem param={this.props.param}></SupportItem>
+                    <UserItem param={this.props.param}></UserItem>
+                    <CertificateItem param={this.props.param}></CertificateItem>
+                    <MessageItem param={this.props.param}></MessageItem>
+                    <UtilityItem param={this.props.param}></UtilityItem>
                 </div>)
                 break;
             // epro-job
             case "166":
                 dynamicItems = (<div>
-                    <UtilityItem param={this.props.props}></UtilityItem>
-                    <UserItem param={this.props.props}></UserItem>
-                    <CertificateItem param={this.props.props}></CertificateItem>
-                    <DmccItem param={this.props.props}></DmccItem>
-                    <SupportItem param={this.props.props}></SupportItem>
-                    <MessageItem param={this.props.props}></MessageItem>
+                    <UtilityItem param={this.props.param}></UtilityItem>
+                    <UserItem param={this.props.param}></UserItem>
+                    <CertificateItem param={this.props.param}></CertificateItem>
+                    <DmccItem param={this.props.param}></DmccItem>
+                    <SupportItem param={this.props.param}></SupportItem>
+                    <MessageItem param={this.props.param}></MessageItem>
                 </div>)
                 break;
             // epro-message
             case "113":
-                dynamicItems = <SupportItem param={this.props.props}></SupportItem>
+                dynamicItems = <SupportItem param={this.props.param}></SupportItem>
                 break;
             // epro-op
             case "117":
                 dynamicItems = (<div>
-                    <UserItem param={this.props.props}></UserItem>
-                    <CertificateItem param={this.props.props}></CertificateItem>
-                    <DmccItem param={this.props.props}></DmccItem>
-                    <SupportItem param={this.props.props}></SupportItem>
+                    <UserItem param={this.props.param}></UserItem>
+                    <CertificateItem param={this.props.param}></CertificateItem>
+                    <DmccItem param={this.props.param}></DmccItem>
+                    <SupportItem param={this.props.param}></SupportItem>
                 </div>)
                 break;
             // epro-support
@@ -265,7 +268,7 @@ class DependencyItem extends Component {
                 break;
             // epro-utility
             case "211":
-                dynamicItems = <SupportItem param={this.props.props}></SupportItem>
+                dynamicItems = <SupportItem param={this.props.param}></SupportItem>
                 break;
         }
         return (
@@ -357,7 +360,7 @@ class Job extends Component {
                                 </Select>)
                             }</FormItem>
 
-                            <DependencyItem props={this.props} id={id}></DependencyItem>
+                            <DependencyItem param={this.props} id={id} ></DependencyItem>
 
                             {/* <DynamicItems id={this.state.id}></DynamicItems> */}
                             <FormItem style={{ textAlign: 'center' }}>
