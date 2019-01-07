@@ -12,6 +12,9 @@ export function getGitMap() {
         107: 'epro-mall-web',
         213: 'epro-hx-svc',
         214: 'epro-hx-mall',
+        117: 'epro-op',
+        118: 'epro-op-web',
+
     }
 }
 
@@ -29,6 +32,8 @@ export function getRepository() {
         { value: 211, label: 'utility-epro' },
         { value: 213, label: 'epro-hx-svc' },
         { value: 214, label: 'epro-hx-mall' },
+        { value: 117, label: 'epro-op' },
+        { value: 118, label: 'epro-op-web' },
       ];
 }
 

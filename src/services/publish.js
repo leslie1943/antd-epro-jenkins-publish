@@ -56,9 +56,12 @@ export async function searchTags(params) {
 export async function createTag(params) {
   let data = {
     tag_name: params.tag_name,
-    tag_message: params.message,
+    message: params.message,
     ref: params.ref,
+    // write area.
+    // release_description: 'this is the release description for write area.',
   }
+  console.info(data);
   // Call service
   const res = await request('/api/v4/projects/'+ params.id + '/repository/tags', {
     method: 'POST',

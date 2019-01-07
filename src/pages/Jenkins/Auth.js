@@ -24,7 +24,7 @@ class Auth extends Component{
 
         return(
             <PageHeaderWrapper title="Jenkins authorization" content="">
-                <Clock></Clock>
+                <Clock clockColor={"orange"}></Clock>
                 <Card bordered={false}>
                     <Form style={{marginTop: 8, textAlign: 'left'}}>
                         <Button type="primary" icon="key" onClick={()=>this.getCrumb()}>Get crumb</Button>

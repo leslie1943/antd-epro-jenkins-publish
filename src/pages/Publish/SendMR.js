@@ -36,6 +36,7 @@ class SendMR extends Component{
     //     });
     // }
     onChangeParent = (value) =>{
+        console.info(value);
         this.props.form.setFieldsValue({
             mr_repos: value,
         });

@@ -129,7 +129,8 @@
 
     // Solution 3 :
     onChangeParent = (value) =>{}
-    <RepositoryOptions onChangeParent={()=>this.onChangeParent(value)} />
+    <RepositoryOptions onChangeParent={this.onChangeParent} />
+    
 
   ```
 
@@ -239,4 +240,57 @@
             <SomeComponent story={props.story} />
   */
 
+  ```
+
++ 使用 PropTypes进行类型检查
+  ```javascript
+  /****
+   * 
+     Step_1: 在 头部引用 import PropTypes from 'prop-types';
+     Step_2: Class.propTypes = {
+       propName: PropTypes.string | array | bool | func | number | object | symbol
+     }
+     请参照: https://react.docschina.org/docs/typechecking-with-proptypes.html
+  ***.
+  ```
+
++ 不使用JSX
+  ```javascript
+
+    // JSX 方式
+    class Hello extends React.Component{
+      render(){
+        return <div>Hello {this.props.toWhat}</div>
+      }
+    }
+    ReactDom.render(
+      <Hello toWhat="World"></Hello>,
+      document.getElementById('root')
+    )
+
+    // 非 JSX 方式
+    class Hello extends React.Component{
+      render(){
+        return React.createElement('div', null, `Hello ${this.props.towhat}`);
+      }
+    }
+    ReactDom.render(
+      React.createElement(Hello,{toWhat:'World'}, null);
+      document.getElementById('root')
+    )
+  ```
+
++ Virtual Dom
+  ```javascript
+  /***
+   Step_1: 用JavaScript对象结构表示DOM树的结构,然后用这个树构建一个真正的DOM树,插到文档中.
+   Step_2: 当状态变更的时候，重新构造一棵新的对象树,然后用新的树和旧的树进行比较,记录两棵树的差异.
+   Step_3: 把 Step_2 所记录的差异应用到 Step_1所构建的真正的DOM树上，视图就更新了.
+
+   这种做法在React中叫做 Virtual DOM(虚拟DOM), 由虚拟DOM来确保只对界面上真正变化的部分进行实际的DOM操作. 虚拟DOM本质上就是在JS和DOM之间做了一个缓存。
+   可以类比:
+    CPU 和 硬盘， 既然硬盘这么慢，我们就在它们之间加个缓存：
+    DOM 和 DOM,   既然DOM这么慢，我们就在JS和DOM加个缓存，这个缓存就是 Virtual DOM.JS只操作Virtual DOM,最后的时候写入DOM
+  
+   ***/
   ```
