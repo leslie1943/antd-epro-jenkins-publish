@@ -272,4 +272,16 @@ export default {
         },
         
     },
+    subscriptions:{
+        resize({dispatch,history}){
+            window.onresize = () => {
+                console.info('Window size is changing...');
+            }
+        },
+        urlChange({dispatch,history}){
+            history.listen(location => {
+                console.info(location);
+            })
+        }
+    },
 }
