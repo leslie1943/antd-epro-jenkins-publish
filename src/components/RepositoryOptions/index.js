@@ -26,12 +26,12 @@ export default class RepositoryOptions extends Component{
     onCheckAllChange = (e) => {
         let checked = e.target.checked;
         if(checked){
-            let all = [];
+            let all_items = [];
             repository.map((r) =>{
-                all.push(r.value);
+                all_items.push(r.value);
             })
-            this.setState({checkedList:all})
-            this.props.onChangeParent(all);
+            this.setState({checkedList:all_items})
+            this.props.onChangeParent(all_items);
         }else{
             this.setState({checkedList:[]})
             this.props.onChangeParent([]);

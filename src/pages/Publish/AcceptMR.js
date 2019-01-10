@@ -26,9 +26,6 @@ class AcceptMR extends Component{
     // id: project_id
     acceptOne = (id, iid, e) => {
         const {dispatch} = this.props;
-        // console.info(id);
-        // console.info(iid);
-        // console.info(e);
         Modal.confirm({
             title: '提交merge request',
             content: '请确认你的操作?',
@@ -53,7 +50,6 @@ class AcceptMR extends Component{
                 type: 'publish/acceptAll',
             })
         })
-
     }
     // componentDidMount(){}
     
@@ -62,7 +58,7 @@ class AcceptMR extends Component{
         // from mapStateToProps
         const mrResult = this.props.mrResult;
 
-         // 列数据...layout.
+         // 列数据
          const columns = [
             {
               title: 'id',
