@@ -49,6 +49,10 @@ export default {
   'menu.jenkins': 'Jenkins - action',
   'menu.jenkins.auth': 'Jenkins- auth',
   'menu.jenkins.job': 'Jenkins- job',
+  
+  // Antd
+  'menu.antd': 'Antd demos',
+  'menu.antd.mention': 'Antd mention',
   //
   'app.home.introduce': 'introduce',
   'app.analysis.test': 'Gongzhuan No.{no} shop',

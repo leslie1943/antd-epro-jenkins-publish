@@ -38,6 +38,7 @@ export default {
   'menu.account.settings': '个人设置',
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
+  // gitlab
   'menu.publish': 'GitLab - 操作',
   'menu.publish.basic': '步骤',
   'menu.publish.close': '关闭MR',
@@ -46,9 +47,13 @@ export default {
   'menu.publish.accept-mr': '接收 merge request',
   'menu.publish.tags': '创建 repository tag',
   'menu.publish.new-tag': '创建 repository tag',
+  //jenkins
   'menu.jenkins': 'Jenkins- 操作',
   'menu.jenkins.auth': 'Jenkins- 授权',
   'menu.jenkins.job': 'Jenkins- 任务',
+  // Antd
+  'menu.antd': 'Antd demos',
+  'menu.antd.mention': 'Antd mention',
   // -------------- the code of Leslie demo.
   // 'menu.demo': 'Demo',
   // 'menu.demo.products': 'Demo-物品',

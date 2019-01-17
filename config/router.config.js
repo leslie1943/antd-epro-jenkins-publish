@@ -133,6 +133,21 @@ export default [
           },
         ],
       },
+      //antd pro
+      // jenkins
+      {
+        path: '/antd',
+        name: 'antd',
+        icon: 'ant-design',
+        routes:[
+          {
+            path: '/antd/mention',
+            name: 'mention',
+            icon: 'paper-clip',
+            component: './Antd/MentionDemo',
+          },
+        ],
+      },
       // forms
       // {
       //   path: '/form',
