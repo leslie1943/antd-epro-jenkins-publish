@@ -16,6 +16,12 @@ export default class RepositoryOptions extends Component{
     //     console.info(val);
     //     this.props.onChangeParent(val);
     // }
+    /**
+     * 父组件在调用子组件的时候,会将方法传递过去,方法名自定义 anyFunctionName
+     * 子组件可在自己的方法中使用
+     * React: this.props.anyFunctionName();
+     * Vue:   this.$emit('anyFunctionName');
+     */
 
     // 方法,可调用父组件方法(emit) - 箭头函数_方法_works 🎃🎃🎃
     onChangeChild = (value) => {
