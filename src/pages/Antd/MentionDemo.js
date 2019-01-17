@@ -16,14 +16,16 @@ class MentionDemo extends Component{
         this.state = {suggestionList:['afc163', 'benjycui', 'yiminghe', 'jljsj33', 'dqaria', 'RaoHai']}
     }
     // change event
-    changeHandle(contentState){
+    // changeHandle(contentState){ ✨✨✨✨ 传统定义的方法 ✨✨✨✨
+    changeHandle = (contentState) => {
         console.info('.........changeHandle.........');
         // console.info(contentState)
         console.info(toString(contentState));
     }
 
     // select event
-    selectHandle(suggestion){
+    // selectHandle(suggestion){ ✨✨✨✨ 传统定义的方法 ✨✨✨✨
+    selectHandle = (suggestion) => {
         console.info('.........selectHandle.........');
         console.info('onSelect',suggestion);
     }
@@ -32,11 +34,15 @@ class MentionDemo extends Component{
         return(
             <PageHeaderWrapper title="Antd demo - Mention" content="mention">
                 <Mention style={{width:'100%'}}
-                onChange={(v) => this.changeHandle(v)}
+                
                 defaultValue={toContentState('@afc163')}
-                // defaultSuggestions={this.state.suggestionList}
+                
                 suggestions={this.state.suggestionList}
-                onSelect={(suggestion)=>this.selectHandle(suggestion)}
+                // defaultSuggestions={this.state.suggestionList}
+                // onSelect={(suggestion)=>this.selectHandle(suggestion)} =====> ✨✨✨✨ 传统定义的方法 ✨✨✨✨
+                // onChange={(v) => this.changeHandle(v)}  =====> ✨✨✨✨ 传统定义的方法 ✨✨✨✨
+                onChange={this.changeHandle}
+                onSelect={this.selectHandle}
                 placement="top"
                 >
                 </Mention>
