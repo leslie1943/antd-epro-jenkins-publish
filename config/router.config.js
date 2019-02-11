@@ -118,7 +118,7 @@ export default [
         path: '/jenkins',
         name: 'jenkins',
         icon: 'deployment-unit',
-        routes:[
+        routes: [
           {
             path: '/jenkins/auth',
             name: 'auth',
@@ -133,21 +133,20 @@ export default [
           },
         ],
       },
-      //antd pro
-      // jenkins
-      {
-        path: '/antd',
-        name: 'antd',
-        icon: 'ant-design',
-        routes:[
-          {
-            path: '/antd/mention',
-            name: 'mention',
-            icon: 'paper-clip',
-            component: './Antd/MentionDemo',
-          },
-        ],
-      },
+      // antd pro
+      // {
+      //   path: '/antd',
+      //   name: 'antd',
+      //   icon: 'ant-design',
+      //   routes:[
+      //     {
+      //       path: '/antd/mention',
+      //       name: 'mention',
+      //       icon: 'paper-clip',
+      //       component: './Antd/MentionDemo',
+      //     },
+      //   ],
+      // },
       // forms
       // {
       //   path: '/form',
