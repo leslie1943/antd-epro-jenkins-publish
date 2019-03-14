@@ -175,6 +175,7 @@ export default {
 
         // ------------------------------- 根据项目查询tags -------------------------------
         *searchProjectTags({ payload: project_id }, { call, put }) {
+            // console.info('project_id', project_id)
             yield put({ type: 'setTagLoading', payload: { loading: true } })
             // 清空list
             yield put({ type: 'update_exist_tags', payload: { exist_tags: [] } })
@@ -273,6 +274,23 @@ export default {
             const r = yield call(publish.searchMR, params);
             yield put({ type: 'freshMrList', payload: { r } })
         },
+        *deleteTag({ payload: record, rep_id: rep_id, callback }, { call, put, select }) {
+            // 重构api参数
+            let params = {
+                id: rep_id,
+                name: record.name
+            }
+            // 执行删除api
+            const response = yield call(publish.deleteTag, params)
+            // 返回结果to前台页面
+            callback(response)
+
+            // call 查询方法 刷新当前rep下的tags
+            yield put({
+                type: 'searchProjectTags',
+                payload: rep_id
+            })
+        }
 
     },
     subscriptions: {

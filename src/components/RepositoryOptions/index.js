@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { Row, Col, Checkbox ,Form} from 'antd';
-import { getGitToken ,getRepository} from '../../utils/gitMap';
+import { Row, Col, Checkbox, Form } from 'antd';
+import { getRepository } from '../../utils/gitMap';
 const repository = getRepository();
-export default class RepositoryOptions extends Component{
-    constructor(props){
+export default class RepositoryOptions extends Component {
+    constructor(props) {
         super(props)
         // console.info(this.props);
         this.state = {
             checkedList: [],
         }
     }
-    
+
     // 方法,可调用父组件方法(emit) - 声明式_方法_works 🌼🌼🌼
     // onChangeChild(val){
     //     console.info(val);
@@ -25,40 +25,40 @@ export default class RepositoryOptions extends Component{
 
     // 方法,可调用父组件方法(emit) - 箭头函数_方法_works 🎃🎃🎃
     onChangeChild = (value) => {
-        this.setState({checkedList:value})
+        this.setState({ checkedList: value })
         this.props.onChangeParent(value);
     }
-    
+
     onCheckAllChange = (e) => {
         let checked = e.target.checked;
-        if(checked){
+        if (checked) {
             let all_items = [];
-            repository.map((r) =>{
+            repository.map((r) => {
                 all_items.push(r.value);
             })
-            this.setState({checkedList:all_items})
+            this.setState({ checkedList: all_items })
             this.props.onChangeParent(all_items);
-        }else{
-            this.setState({checkedList:[]})
+        } else {
+            this.setState({ checkedList: [] })
             this.props.onChangeParent([]);
         }
     }
 
-    render(){
-        return(
+    render() {
+        return (
             // <Checkbox.Group style={{ width: '100%' }} onChange={(value)=>this.onChangeChild(value)}> 声明式_方法_works 🌼🌼🌼
             // 箭头函数_方法_works 🎃🎃🎃
             <div>
                 <Checkbox onChange={this.onCheckAllChange}>Check all</Checkbox>
-                <Checkbox.Group style={{ width: '100%' }} onChange={this.onChangeChild} value={this.state.checkedList}> 
+                <Checkbox.Group style={{ width: '100%' }} onChange={this.onChangeChild} value={this.state.checkedList}>
                     <Row>{
                         repository.map((col) =>
-                        <Col span={8} key={col.value}>
-                            <Checkbox value={col.value}>{col.label}</Checkbox>
-                        </Col>)
+                            <Col span={8} key={col.value}>
+                                <Checkbox value={col.value}>{col.label}</Checkbox>
+                            </Col>)
                     }</Row>
                 </Checkbox.Group>
             </div>
-          )
-      }
-  }
+        )
+    }
+}

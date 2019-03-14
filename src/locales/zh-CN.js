@@ -47,6 +47,8 @@ export default {
   'menu.publish.accept-mr': '接收 merge request',
   'menu.publish.tags': '创建 repository tag',
   'menu.publish.new-tag': '创建 repository tag',
+  'menu.publish.action-tag': '操作 repository tag',
+
   //jenkins
   'menu.jenkins': 'Jenkins- 操作',
   'menu.jenkins.auth': 'Jenkins- 授权',

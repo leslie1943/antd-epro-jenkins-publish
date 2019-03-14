@@ -1,15 +1,15 @@
 export default [
   // user
-  // {
-  //   path: '/user',
-  //   component: '../layouts/UserLayout',
-  //   routes: [
-  //     { path: '/user', redirect: '/user/login' },
-  //     { path: '/user/login', component: './User/Login' },
-  //     { path: '/user/register', component: './User/Register' },
-  //     { path: '/user/register-result', component: './User/RegisterResult' },
-  //   ],
-  // },
+  {
+    path: '/user',
+    component: '../layouts/UserLayout',
+    routes: [
+      { path: '/user', redirect: '/user/login' },
+      { path: '/user/login', component: './User/Login' },
+      { path: '/user/register', component: './User/Register' },
+      { path: '/user/register-result', component: './User/RegisterResult' },
+    ],
+  },
   // app
   {
     path: '/',
@@ -103,6 +103,12 @@ export default [
             name: 'new-tag',
             icon: 'tag',
             component: './Publish/NewTag',
+          },
+          {
+            path: '/publish/action-tag',
+            name: 'action-tag',
+            icon: 'tool',
+            component: './Publish/ActionTag',
           },
 
           {

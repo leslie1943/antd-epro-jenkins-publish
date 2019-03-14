@@ -41,8 +41,8 @@ export function getRepository() {
 
 export function getGitToken() {
     return [
-        { index: 1, val: 'K4Qoz7woxAYZ4v6NKyZ9', text: '苏震' },
-        { index: 2, val: 'fbixW_k1of1GqTxQta8M', text: '于超' },
-        { index: 3, val: 'ts5aSmzM7r2eUzobzFb6', text: '刘培江' },
+        { index: 1, val: '苏震', text: '苏震' },
+        { index: 2, val: '于超', text: '于超' },
+        { index: 3, val: '刘培江', text: '刘培江' },
     ];
 }

@@ -1,10 +1,8 @@
 import request from '@/utils/request';
 import { validateResult } from '@/utils/utils';
+import tokens from '../../private/tokens'
 
-// fbixW_k1of1GqTxQta8M YUCHAO
-// K4Qoz7woxAYZ4v6NKyZ9 SUZHEN
-// ts5aSmzM7r2eUzobzFb6 PEIJIANG
-const token = "ts5aSmzM7r2eUzobzFb6";
+const token = tokens['liupeijiang'];
 
 export async function sendMR(params) {
   // Call service
@@ -12,7 +10,7 @@ export async function sendMR(params) {
     method: 'POST',
     body: params,
     headers: {
-      'Content-Type':'application/json;charset=UTF-8',
+      'Content-Type': 'application/json;charset=UTF-8',
       "PRIVATE-TOKEN": token,
     },
   });
@@ -28,10 +26,10 @@ export async function sendMR(params) {
 export async function acceptMR(params) {
   console.info(params);
   // Call service
-  const res = await request('/api/v4/projects/'+ params.id + '/merge_requests/'+ params.iid + '/merge', {
+  const res = await request('/api/v4/projects/' + params.id + '/merge_requests/' + params.iid + '/merge', {
     method: 'PUT',
     headers: {
-      'Content-Type':'application/json;charset=UTF-8',
+      'Content-Type': 'application/json;charset=UTF-8',
       "PRIVATE-TOKEN": token,
     },
   });
@@ -41,10 +39,10 @@ export async function acceptMR(params) {
 
 export async function searchTags(params) {
   // Call service
-  const res = await request('/api/v4/projects/'+ params.id + '/repository/tags?per_page=200', {
+  const res = await request('/api/v4/projects/' + params.id + '/repository/tags?per_page=200', {
     method: 'GET',
     headers: {
-      'Content-Type':'application/json;charset=UTF-8',
+      'Content-Type': 'application/json;charset=UTF-8',
       "PRIVATE-TOKEN": token,
     },
   });
@@ -63,11 +61,11 @@ export async function createTag(params) {
   }
   console.info(data);
   // Call service
-  const res = await request('/api/v4/projects/'+ params.id + '/repository/tags', {
+  const res = await request('/api/v4/projects/' + params.id + '/repository/tags', {
     method: 'POST',
     body: data,
     headers: {
-      'Content-Type':'application/json;charset=UTF-8',
+      'Content-Type': 'application/json;charset=UTF-8',
       "PRIVATE-TOKEN": token,
     },
   });
@@ -80,7 +78,7 @@ export async function searchMR(params) {
   const res = await request('/api/v4/projects/' + params.id + '/merge_requests?per_page=200', {
     method: 'GET',
     headers: {
-      'Content-Type':'application/json;charset=UTF-8',
+      'Content-Type': 'application/json;charset=UTF-8',
       "PRIVATE-TOKEN": token,
     },
   });
@@ -92,8 +90,19 @@ export async function close(params) {
   return request('/api/v4/projects/' + params.id + '/merge_requests/' + params.iid, {
     method: 'DELETE',
     headers: {
-      'Content-Type':'application/json;charset=UTF-8',
-      "PRIVATE-TOKEN": 'DhpUBsnfVjswWpAZehV4', //RenZhiSen's Token
+      'Content-Type': 'application/json;charset=UTF-8',
+      "PRIVATE-TOKEN": tokens['renzhisen'], //RenZhiSen's Token
     },
   });
+}
+
+// DELETE /projects/:id/repository/tags/:tag_name
+export async function deleteTag(params) {
+  return request('/api/v4/projects/' + params.id + '/' + 'repository/tags/' + params.name, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      "PRIVATE-TOKEN": tokens['renzhisen'], //RenZhiSen's Token
+    },
+  })
 }

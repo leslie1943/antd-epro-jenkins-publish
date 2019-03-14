@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import {Form, Card, Input, Spin,List, Select,Table, Button,message,Modal} from 'antd';
+import { Form, Card, Input, Spin, List, Select, Table, Button, message, Modal } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import { getGitMap, getGitToken } from '../../utils/gitMap';
+// import { getGitMap, getGitToken } from '../../utils/gitMap';
+import { getGitMap } from '../../utils/gitMap';
 import layout from "@/utils/layout";
 const repositories = getGitMap();
-const tokens = getGitToken();
+// const tokens = getGitToken();
 
 const { Option } = Select;
 const FormItem = Form.Item;
@@ -17,15 +18,15 @@ const acceptLabels = {
 }
 
 @Form.create()
-class AcceptMR extends Component{
-    constructor(props){
+class AcceptMR extends Component {
+    constructor(props) {
         super(props)
     }
-    
+
     // 接收一个merge request
     // id: project_id
     acceptOne = (id, iid, e) => {
-        const {dispatch} = this.props;
+        const { dispatch } = this.props;
         Modal.confirm({
             title: '提交merge request',
             content: '请确认你的操作?',
@@ -33,14 +34,14 @@ class AcceptMR extends Component{
             cancelText: '取消',
             onOk: () => dispatch({
                 type: 'publish/acceptOne',
-                payload: {id:id,iid:iid},
+                payload: { id: id, iid: iid },
             })
         })
     }
 
     // 接收全部merge request
-    acceptAll(){
-        const {dispatch} = this.props;
+    acceptAll() {
+        const { dispatch } = this.props;
         Modal.confirm({
             title: '提交全部merge request',
             content: '请确认你的操作?',
@@ -52,18 +53,18 @@ class AcceptMR extends Component{
         })
     }
     // componentDidMount(){}
-    
-    render(){
-        const { form: { getFieldDecorator , getFieldValue}} = this.props;
+
+    render() {
+        const { form: { getFieldDecorator, getFieldValue } } = this.props;
         // from mapStateToProps
         const mrResult = this.props.mrResult;
 
-         // 列数据
-         const columns = [
+        // 列数据
+        const columns = [
             {
-              title: 'id',
-              dataIndex: 'id',
-              key: 'id',
+                title: 'id',
+                dataIndex: 'id',
+                key: 'id',
             },
             {
                 title: 'iid',
@@ -72,9 +73,9 @@ class AcceptMR extends Component{
             },
             {
                 title: 'Project id',
-                render: (text,record) => {
+                render: (text, record) => {
                     return (
-                        <span style={{color:'green',fontWeight:'bold'}}>
+                        <span style={{ color: 'green', fontWeight: 'bold' }}>
                             {repositories[record.project_id]}
                         </span>
                     )
@@ -83,7 +84,7 @@ class AcceptMR extends Component{
             },
             {
                 title: 'Create time',
-                render:(text,record) => {
+                render: (text, record) => {
                     return moment(record.created_at).format("YYYY-MM-DD HH:mm:ss");
                 },
                 key: 'created_at',
@@ -102,23 +103,23 @@ class AcceptMR extends Component{
             {
                 title: 'Action',
                 key: 'action',
-                render: (text,record) => {
+                render: (text, record) => {
                     return (
                         <span>
                             {/* <a href="javascript:;" onClick={()=>this.acceptOne(record.project_id,record.iid)}>Accept</a> */}
                             {/* e 为 dom 参数 */}
-                            <a href="javascript:;" onClick={(e) => this.acceptOne(record.project_id,record.iid, e)}>Accept</a>
+                            <a href="javascript:;" onClick={(e) => this.acceptOne(record.project_id, record.iid, e)}>Accept</a>
                         </span>
                     )
                 }
             },
         ];
 
-        return(
+        return (
             <PageHeaderWrapper title="Accept merge request" content="">
-            {/* ####################### Panel_Step 2 ###################################### */}
+                {/* ####################### Panel_Step 2 ###################################### */}
                 <Card bordered={false}>
-                    <Form style={{marginTop: 8}}>
+                    <Form style={{ marginTop: 8 }}>
                         {/* ---------------- 接收Merge request私钥  ---------------- */}
                         {/* <FormItem {...layout.formItemLayout} label={acceptLabels.accept_privateKey}>{
                             getFieldDecorator('accept_privateKey',{
@@ -141,21 +142,21 @@ class AcceptMR extends Component{
                             </List.Item>
                             )}
                         /> */}
-                        <Table rowKey="id" size='small' pagination={{ pageSize: 50}} columns={columns} dataSource={mrResult ? mrResult : []} />
+                        <Table rowKey="id" size='small' pagination={{ pageSize: 50 }} columns={columns} dataSource={mrResult ? mrResult : []} />
                         {/* 接收全部Merge request */}
                         <FormItem {...layout.submitFormLayout} style={{ marginTop: 10 }}>
                             <Button type="primary" onClick={() => this.acceptAll()}>接收全部Merge request</Button>
                         </FormItem>
                     </Form>
 
-                    
+
                 </Card>
             </PageHeaderWrapper>
         )
     }
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
     // console.info(state.publish.result);
     return {
         mrResult: state.publish.mrResult,

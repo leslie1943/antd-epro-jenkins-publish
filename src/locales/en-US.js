@@ -45,11 +45,13 @@ export default {
   'menu.publish.search-mr': 'Search merge request',
   'menu.publish.tags': 'Create repository tag',
   'menu.publish.new-tag': 'New tag',
+  'menu.publish.action-tag': 'Action tag',
+
   // Jenkins
   'menu.jenkins': 'Jenkins - action',
   'menu.jenkins.auth': 'Jenkins- auth',
   'menu.jenkins.job': 'Jenkins- job',
-  
+
   // Antd
   'menu.antd': 'Antd demos',
   'menu.antd.mention': 'Antd mention',
