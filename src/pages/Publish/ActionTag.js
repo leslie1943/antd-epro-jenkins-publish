@@ -19,7 +19,8 @@ class ActionTag extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            repository_id: ''
+            repository_id: '',
+            selectedRowKeys: []
         }
     }
 
@@ -39,6 +40,32 @@ class ActionTag extends Component {
             })
         })
     }
+    deleteTags = () => {
+        const tags = this.state.selectedRowKeys
+        const rep_id = this.state.repository_id
+        if (tags.length === 0) {
+            message.error('至少选择一个要删除的tag')
+        } else {
+            Modal.confirm({
+                title: `删除当前tag`,
+                content: '请确认你的操作?',
+                okText: '确定',
+                cancelText: '取消',
+                onOk: () => this.props.dispatch({
+                    type: 'publish/deleteTags',
+                    payload: tags,
+                    rep_id: rep_id,
+                    callback: (response) => {
+                        message.success('删除成功!')
+                        this.setState({
+                            selectedRowKeys: [],
+                            repository_id: rep_id
+                        })
+                    }
+                })
+            })
+        }
+    }
 
     // 查询选中仓库的tags
     onProjectChange = (value) => {
@@ -55,43 +82,16 @@ class ActionTag extends Component {
         // table columns
         const columns = [
             {
-                title: 'Commit id',
-                dataIndex: 'id',
-                key: 'id',
-                render: (text, record) => {
-                    return record.commit.id
-                },
-                width: '10%',
-            },
-            {
-                title: 'Name',
+                title: 'Tag name',
                 dataIndex: 'name',
                 key: 'name',
-                width: '10%',
+                width: '20%',
             },
             {
                 title: 'Message',
                 dataIndex: 'message',
                 key: 'message',
-                width: '10%',
-            },
-            {
-                title: 'Committed message',
-                dataIndex: 'commit.message',
-                key: 'commit.message',
                 width: '20%',
-                render: (text, record) => {
-                    return record.commit.message
-                },
-            },
-            {
-                title: 'Authored date',
-                dataIndex: 'authored_date',
-                key: 'authored_date',
-                render: (text, record) => {
-                    return moment(record.commit.authored_date).format("YYYY-MM-DD HH:mm:ss");
-                },
-                width: '10%',
             },
             {
                 title: 'Committed date',
@@ -100,7 +100,16 @@ class ActionTag extends Component {
                 render: (text, record) => {
                     return moment(record.commit.committed_date).format("YYYY-MM-DD HH:mm:ss");
                 },
-                width: '10%',
+                width: '20%',
+            },
+            {
+                title: 'Committed message',
+                dataIndex: 'commit.message',
+                key: 'commit.message',
+                width: '30%',
+                render: (text, record) => {
+                    return record.commit.message
+                },
             },
             {
                 title: 'Action',
@@ -113,6 +122,14 @@ class ActionTag extends Component {
 
             }
         ]
+        const rowSelection = {
+            columnWidth: '10px',
+            onChange: (selectedRowKeys, selectedRows) => {
+                this.setState({
+                    selectedRowKeys
+                })
+            },
+        };
         const { form: { getFieldDecorator, getFieldValue } } = this.props;
         // from mapStateToProps
         const exist_tags = this.props.exist_tags;
@@ -133,7 +150,8 @@ class ActionTag extends Component {
                             }</FormItem>
                         </Form>
                         {/* 结果列表 */}
-                        <Table pagination={{ pageSize: 50 }} rowKey="name" scroll={{ y: 500 }} columns={columns} dataSource={exist_tags ? exist_tags : []} />
+                        <Table rowSelection={rowSelection} pagination={{ pageSize: 50 }} rowKey="name" scroll={{ y: 500 }} columns={columns} dataSource={exist_tags ? exist_tags : []} />
+                        <div style={{ textAlign: 'center' }}><Button type="primary" onClick={this.deleteTags}>删除选中tags</Button></div>
                     </Spin>
                 </Card>
 

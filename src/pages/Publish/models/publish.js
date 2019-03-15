@@ -290,8 +290,22 @@ export default {
                 type: 'searchProjectTags',
                 payload: rep_id
             })
+        },
+        *deleteTags({ payload: tags, rep_id: rep_id, callback }, { call, put, select }) {
+            // 重构api参数
+            for (let i = 0; i < tags.length; i++) {
+                let params = { id: rep_id, name: tags[i] }
+                // 执行删除api
+                const response = yield call(publish.deleteTag, params)
+                // 返回结果to前台页面
+                callback(response)
+            }
+            // call 查询方法 刷新当前rep下的tags
+            yield put({
+                type: 'searchProjectTags',
+                payload: rep_id
+            })
         }
-
     },
     subscriptions: {
         resize({ dispatch, history }) {
