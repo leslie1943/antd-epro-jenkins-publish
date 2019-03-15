@@ -41,6 +41,7 @@ class ActionTag extends Component {
         })
     }
     deleteTags = () => {
+        console.info('deleteTags')
         const tags = this.state.selectedRowKeys
         const rep_id = this.state.repository_id
         if (tags.length === 0) {
@@ -129,6 +130,9 @@ class ActionTag extends Component {
                     selectedRowKeys
                 })
             },
+            // 执行完删除,重置 rowSelectRowKeys
+            // 如果没有下面代码,删除之后不会清空上次选择的数据
+            selectedRowKeys: this.state.selectedRowKeys
         };
         const { form: { getFieldDecorator, getFieldValue } } = this.props;
         // from mapStateToProps
