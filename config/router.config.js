@@ -117,6 +117,12 @@ export default [
             icon: 'search',
             component: './Publish/SearchMR',
           },
+          {
+            path: '/publish/branches',
+            name: 'branches',
+            icon: 'branches',
+            component: './Publish/Branches',
+          },
         ],
       },
       // jenkins

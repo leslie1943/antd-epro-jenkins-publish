@@ -48,6 +48,7 @@ export default {
   'menu.publish.tags': '创建 repository tag',
   'menu.publish.new-tag': '创建 repository tag',
   'menu.publish.action-tag': '操作 repository tag',
+  'menu.publish.branches': '操作 repository branch',
 
   //jenkins
   'menu.jenkins': 'Jenkins- 操作',

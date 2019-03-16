@@ -46,6 +46,7 @@ export default {
   'menu.publish.tags': 'Create repository tag',
   'menu.publish.new-tag': 'New tag',
   'menu.publish.action-tag': 'Action tag',
+  'menu.publish.branches': 'Repository branches',
 
   // Jenkins
   'menu.jenkins': 'Jenkins - action',

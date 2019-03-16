@@ -305,7 +305,23 @@ export default {
                 type: 'searchProjectTags',
                 payload: rep_id
             })
-        }
+        },
+        // ------------------------------- 根据项目查询tags -------------------------------
+        *searchBranches({ payload: project_id, callback }, { call, put }) {
+            yield put({ type: 'setTagLoading', payload: { loading: true } })
+            // 清空list
+            // yield put({ type: 'update_exist_tags', payload: { exist_tags: [] } })
+
+            let params = {
+                id: project_id,
+            }
+            const r = yield call(publish.searchBranches, params);
+            callback(r)
+
+            //刷新list
+            // yield put({ type: 'update_exist_tags', payload: { exist_tags: r } })
+            yield put({ type: 'setTagLoading', payload: { loading: false } })
+        },
     },
     subscriptions: {
         resize({ dispatch, history }) {

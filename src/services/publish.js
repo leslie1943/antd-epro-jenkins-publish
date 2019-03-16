@@ -106,3 +106,15 @@ export async function deleteTag(params) {
     },
   })
 }
+
+export async function searchBranches(params) {
+  // Call service
+  const res = await request('/api/v4/projects/' + params.id + '/repository/branches?per_page=200', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      "PRIVATE-TOKEN": token,
+    },
+  });
+  return validateResult(res);
+}
