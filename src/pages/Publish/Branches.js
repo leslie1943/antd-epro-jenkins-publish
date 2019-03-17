@@ -25,19 +25,20 @@ class ActionTag extends Component {
         }
     }
     deleteBranch = (record) => {
+        console.info(record)
         Modal.confirm({
             title: `删除当前branch`,
             content: '请确认你的操作?',
             okText: '确定',
             cancelText: '取消',
-            // onOk: () => this.props.dispatch({
-            //     type: 'publish/deleteBranch',
-            //     payload: record,
-            //     rep_id: this.state.repository_id,
-            //     callback: (response) => {
-            //         message.success('删除成功!')
-            //     }
-            // })
+            onOk: () => this.props.dispatch({
+                type: 'publish/deleteBranch',
+                payload: record,
+                rep_id: this.state.repository_id,
+                callback: (response) => {
+                    message.success('删除成功!')
+                }
+            })
         })
     }
     // 查询选中仓库的tags
@@ -83,15 +84,24 @@ class ActionTag extends Component {
                 render: (text, record) => {
                     return moment(record.commit.committed_date).format("YYYY-MM-DD HH:mm:ss");
                 },
-                width: '20%',
+                width: '18%',
             },
             {
-                title: 'Committed message',
+                title: 'message',
                 dataIndex: 'commit.message',
                 key: 'commit.message',
-                width: '30%',
+                width: '20%',
                 render: (text, record) => {
                     return record.commit.message
+                },
+            },
+            {
+                title: 'author_name',
+                dataIndex: 'commit.author_name',
+                key: 'commit.author_name',
+                width: '12%',
+                render: (text, record) => {
+                    return record.commit.author_name
                 },
             },
             {
@@ -138,7 +148,7 @@ class ActionTag extends Component {
                         </Form>
                         {/* 结果列表 */}
                         <Table rowSelection={rowSelection} pagination={{ pageSize: 50 }} rowKey="name" scroll={{ y: 500 }} columns={columns} dataSource={branches ? branches : []} />
-                        <div style={{ textAlign: 'center' }}><Button type="primary" >删除选中branches</Button></div>
+                        {/* <div style={{ textAlign: 'center' }}><Button type="primary" >删除选中branches</Button></div> */}
                     </Spin>
                 </Card>
 

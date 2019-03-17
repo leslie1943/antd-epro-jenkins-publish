@@ -310,17 +310,33 @@ export default {
         *searchBranches({ payload: project_id, callback }, { call, put }) {
             yield put({ type: 'setTagLoading', payload: { loading: true } })
             // 清空list
-            // yield put({ type: 'update_exist_tags', payload: { exist_tags: [] } })
 
             let params = {
                 id: project_id,
             }
             const r = yield call(publish.searchBranches, params);
-            callback(r)
+            // callback(r)
+            if (callback) callback(r)
 
             //刷新list
-            // yield put({ type: 'update_exist_tags', payload: { exist_tags: r } })
             yield put({ type: 'setTagLoading', payload: { loading: false } })
+        },
+        *deleteBranch({ payload: record, rep_id: rep_id, callback }, { call, put, select }) {
+            // 重构api参数
+            let params = {
+                id: rep_id,
+                name: record.name
+            }
+            // 执行删除api
+            const response = yield call(publish.deleteBranch, params)
+            // 返回结果to前台页面
+            callback(response)
+
+            // call 查询方法 刷新当前rep下的tags
+            yield put({
+                type: 'searchBranches',
+                payload: rep_id
+            })
         },
     },
     subscriptions: {
