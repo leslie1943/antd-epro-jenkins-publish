@@ -49,6 +49,7 @@ class ActionTag extends Component {
             type: 'publish/searchBranches',
             payload: value,
             callback: (response) => {
+                console.info(response)
                 message.success('查询成功!')
                 this.setState({
                     repository_id: value,
@@ -66,7 +67,7 @@ class ActionTag extends Component {
                 title: 'Tag name',
                 dataIndex: 'name',
                 key: 'name',
-                width: '20%',
+                width: '10%',
             },
             {
                 title: 'Committer email',
@@ -90,7 +91,7 @@ class ActionTag extends Component {
                 title: 'message',
                 dataIndex: 'commit.message',
                 key: 'commit.message',
-                width: '20%',
+                width: '25%',
                 render: (text, record) => {
                     return record.commit.message
                 },
@@ -99,10 +100,22 @@ class ActionTag extends Component {
                 title: 'author_name',
                 dataIndex: 'commit.author_name',
                 key: 'commit.author_name',
-                width: '12%',
+                width: '17%',
                 render: (text, record) => {
                     return record.commit.author_name
                 },
+                filters: [
+                    { text: 'wjyu', value: 'wjyu' },
+                    { text: 'caoxi', value: 'caoxi' },
+                    { text: 'renzhisen', value: 'renzhisen' },
+                    { text: 'liupeijiang', value: 'liupeijiang' },
+                    { text: 'Liupeijiang', value: 'Liupeijiang' },
+                    { text: '苏震', value: '苏震' },
+                ],
+                onFilter: (value, record) => record.commit.author_name.indexOf(value) === 0,
+                sorter: (a, b) => a.commit.author_name.length - b.commit.author_name.length,
+                sortDirections: ['descend']
+
             },
             {
                 title: 'Action',

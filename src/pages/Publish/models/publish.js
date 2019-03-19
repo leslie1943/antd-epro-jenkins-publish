@@ -315,8 +315,13 @@ export default {
                 id: project_id,
             }
             const r = yield call(publish.searchBranches, params);
+            if (r) {
+                if (callback) callback(r)
+            } else {
+                message.error('Error')
+            }
             // callback(r)
-            if (callback) callback(r)
+            // if (callback) callback(r)
 
             //刷新list
             yield put({ type: 'setTagLoading', payload: { loading: false } })
