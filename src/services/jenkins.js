@@ -1,6 +1,6 @@
 import request from '@/utils/request';
 import { getStore } from '@/utils/localStore';
-import { validateResult,toBase64 } from '@/utils/utils';
+import { validateResult, toBase64 } from '@/utils/utils';
 // get crumb
 const crumb = getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth')['crumb'] : '';
 
@@ -33,11 +33,12 @@ export async function mall_api_json() {
 }
 
 // --------------------------- 构建 Mall项目 with 参数 ---------------------------
-export async function build_mall_params(){
+// https://ci.devops.viewchain.net/job/vhepro2.0
+export async function build_mall_params() {
   // call
-  const res = await request('/job/epro-mall/buildWithParameters',{
+  const res = await request('/job/epro-mall/buildWithParameters', {
     method: 'POST',
-    headers:{
+    headers: {
       'Authorization': 'Basic ' + toBase64(),
       'Jenkins-Crumb': crumb,
       'Access-Control-Allow-Origin': '*',
@@ -47,11 +48,11 @@ export async function build_mall_params(){
 }
 
 // --------------------------- Fetch epro-mall 项目 config.xml ---------------------------
-export async function fetch_mall_config(){
+export async function fetch_mall_config() {
   // call
-  const res = await request('/job/epro-mall/config.xml',{
+  const res = await request('/job/epro-mall/config.xml', {
     method: 'GET',
-    headers:{
+    headers: {
       'Authorization': 'Basic ' + toBase64(),
       'Jenkins-Crumb': crumb,
       'Access-Control-Allow-Origin': '*',

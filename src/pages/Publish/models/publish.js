@@ -135,17 +135,35 @@ export default {
                 params.id = current_mrs[0].project_id;
                 params.iid = current_mrs[0].iid;
                 const r = yield call(publish.acceptMR, params);
-                // 将accept结果存储
-                res_accept.push(r);
+                if (r.status === -1) {
+                    // 如果返回错误代码
 
-                //🎃🎃🎃 删除当前数据 并更新 LocalStorage 和 state. 🎃🎃🎃
-                current_mrs.splice(0, 1);
-                // update state: result.
-                yield put({ type: 'setMrResult', payload: { res: current_mrs } })
-                // update local storage.
-                setStore('epro_publish_tool_mergeRequest', current_mrs);
+                    // 执行删除操作
+                    const res_close = yield call(publish.close, params)
+                    console.info('res_close', res_close)
+                    if (res_close.status === 204) {
+                        message.success('无修改 merge request 删除成功!')
+                    }
+                    // 删除操作无数据返回. 请查看 utils/request.js文件
+
+                    //🎃🎃🎃 删除当前数据 并更新 LocalStorage 和 state. 🎃🎃🎃
+                    current_mrs.splice(0, 1);
+                    // update state: result.
+                    yield put({ type: 'setMrResult', payload: { res: current_mrs } })
+                    // update local storage.
+                    setStore('epro_publish_tool_mergeRequest', current_mrs);
+
+                } else {
+                    // 将accept结果存储
+                    res_accept.push(r);
+                    //🎃🎃🎃 删除当前数据 并更新 LocalStorage 和 state. 🎃🎃🎃
+                    current_mrs.splice(0, 1);
+                    // update state: result.
+                    yield put({ type: 'setMrResult', payload: { res: current_mrs } })
+                    // update local storage.
+                    setStore('epro_publish_tool_mergeRequest', current_mrs);
+                }
             }
-
             // set accept merge reqs into local 
             setStore('epro_publish_tool_acceptRequest', res_accept);
             // update state 

@@ -1,5 +1,5 @@
 import fetch from 'dva/fetch';
-import { notification } from 'antd';
+import { notification, message } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
@@ -25,17 +25,27 @@ const codeMessage = {
 
 const checkStatus = response => {
   if (response.status >= 200 && response.status < 300) {
-    return response;
+    return response
+  } else {
+    if (response.status === 405 && response.statusText === 'Method Not Allowed') {
+      message.error('错误操作: 无修改的 merge request')
+      message.warn('即将执行后续操作...')
+    } else {
+      message.error(codeMessage[response.status] || response.statusText)
+    }
+    return response
   }
-  const errortext = codeMessage[response.status] || response.statusText;
-  notification.error({
-    message: `请求错误 ${response.status}: ${response.url}`,
-    description: errortext,
-  });
-  const error = new Error(errortext);
-  error.name = response.status;
-  error.response = response;
-  throw error;
+
+  // 错误信息拦截
+  // const errortext = codeMessage[response.status] || response.statusText;
+  // notification.error({
+  //   message: `请求错误 ${response.status}: ${response.url}`,
+  //   description: errortext,
+  // });
+  // const error = new Error(errortext);
+  // error.name = response.status;
+  // error.response = response;
+  // throw error;
 };
 
 const cachedSave = (response, hashcode) => {
@@ -127,7 +137,9 @@ export default function request(
       // DELETE and 204 do not return data by default
       // using .json will report an error.
       if (newOptions.method === 'DELETE' || response.status === 204) {
-        return response.text();
+        // message.success('删除成功')
+        // return response.text();
+        return response
       }
       // return response.json();
       return response;

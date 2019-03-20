@@ -160,10 +160,25 @@ https://gitlab.devops.viewchain.net/
 + header K-V：Jenkins-Crumb：3993254df7e98f9c9f12c1d686c2eef8
 
 
-
+办公用品公用品公用品公用品公用品公用品公用品公用品用品公用品公用品公用品公用品公用品公用品 · 1台
 ### 带参数构建
 
 + 请求方式： POST
 + URL：https://ci.devops.viewchain.net/job/vhepro2.0/job/epro-mall/buildWithParameters
 
+### 带参数构建demo
+```
+-PvcUtilityVersion=2.4.0-SNAPSHOT  // done
+-PsvcCertificateVersion=2.0.0-dev3 // done
+-PeproMessageVersion=2.0.0-dev2 // done
+-PsvcUserVersion=2.0.0-dev4  // done
+-PsvcDmccVersion=2.0.0-dev3  // done
+-PeproSupportVersion=1.1.5  // done
+
+-PvhscTracingVersion=0.1.0-SNAPSHOT 
+-PvhscMetricsVersion=0.1.0-SNAPSHOT  
+-PvhscProtobufVersion=1.0.0 
+-PsvcTradingVersion=1.0.0-SNAPSHOT 
+-Papi3VoVersion=2.5.0-SNAPSHOT
+```
 Version 0.0.2

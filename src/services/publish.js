@@ -87,13 +87,15 @@ export async function searchMR(params) {
 
 export async function close(params) {
   // Call service
-  return request('/api/v4/projects/' + params.id + '/merge_requests/' + params.iid, {
+  const res = await request('/api/v4/projects/' + params.id + '/merge_requests/' + params.iid, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
       "PRIVATE-TOKEN": tokens['renzhisen'], //RenZhiSen's Token
     },
   });
+  // 删除操作 直接返回结果
+  return res;
 }
 
 // DELETE /projects/:id/repository/tags/:tag_name
