@@ -192,7 +192,7 @@ export default {
         },
 
         // ------------------------------- 根据项目查询tags -------------------------------
-        *searchProjectTags({ payload: project_id }, { call, put }) {
+        *searchProjectTags({ payload: project_id, callback }, { call, put }) {
             // console.info('project_id', project_id)
             yield put({ type: 'setTagLoading', payload: { loading: true } })
             // 清空list
@@ -202,6 +202,7 @@ export default {
                 id: project_id,
             }
             const r = yield call(publish.searchTags, params);
+            if (callback) callback(r)
             //刷新list
             yield put({ type: 'update_exist_tags', payload: { exist_tags: r } })
             yield put({ type: 'setTagLoading', payload: { loading: false } })

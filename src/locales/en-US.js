@@ -50,8 +50,9 @@ export default {
 
   // Jenkins
   'menu.jenkins': 'Jenkins - action',
-  'menu.jenkins.auth': 'Jenkins- auth',
-  'menu.jenkins.job': 'Jenkins- job',
+  'menu.jenkins.auth': 'Jenkins-auth',
+  'menu.jenkins.job': 'Jenkins-job',
+  'menu.jenkins.pipeline': 'Jenkins-pipeline',
 
   // Antd
   'menu.antd': 'Antd demos',

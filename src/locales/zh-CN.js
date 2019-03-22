@@ -52,8 +52,10 @@ export default {
 
   //jenkins
   'menu.jenkins': 'Jenkins- 操作',
-  'menu.jenkins.auth': 'Jenkins- 授权',
-  'menu.jenkins.job': 'Jenkins- 任务',
+  'menu.jenkins.auth': 'Jenkins-auth',
+  'menu.jenkins.job': 'Jenkins-job',
+  'menu.jenkins.pipeline': 'Jenkins-pipeline',
+
   // Antd
   'menu.antd': 'Antd demos',
   'menu.antd.mention': 'Antd mention',

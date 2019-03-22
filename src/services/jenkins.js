@@ -17,24 +17,9 @@ export async function auth() {
   return validateResult(res);
 }
 
-// --------------------------- 获取Mall项目的API JSON ---------------------------
-export async function mall_api_json() {
-  // call
-  const res = await request('/job/epro-mall/api/json', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Basic ' + toBase64(),
-      'Jenkins-Crumb': crumb,
-      'Access-Control-Allow-Origin': '*',
-      // 'Content-Type':'application/json;charset=UTF-8',
-    }
-  })
-  return validateResult(res);
-}
-
 // --------------------------- 构建 Mall项目 with 参数 ---------------------------
 // https://ci.devops.viewchain.net/job/vhepro2.0
-export async function build_mall_params() {
+export async function buildDeploy() {
   // call
   const res = await request('/job/epro-mall/buildWithParameters', {
     method: 'POST',
@@ -47,11 +32,18 @@ export async function build_mall_params() {
   })
 }
 
-// --------------------------- Fetch epro-mall 项目 config.xml ---------------------------
-export async function fetch_mall_config() {
-  // call
-  const res = await request('/job/epro-mall/config.xml', {
-    method: 'GET',
+// --------------------------- Pipeline ---------------------------
+export async function buildPipeline(params) {
+  let data = {
+    gitTagName: params.gitTagName,
+    gitBranch: params.gitBranch,
+    gradleProperties: params.gradleProperties,
+  }
+  // /job/epro-dmcc-svc/build?delay=0sec
+  // const res = await request('/job/' + params.gitProject + '/build?delay=0sec', {
+  const res = await request(`/job/${params.gitProject}/build?delay=0sec`, {
+    method: 'POST',
+    body: data,
     headers: {
       'Authorization': 'Basic ' + toBase64(),
       'Jenkins-Crumb': crumb,

@@ -355,13 +355,6 @@ class Job extends Component {
         })
     }
 
-    // get epro mall api json.
-    getMallApiJson() {
-        const { dispatch } = this.props;
-        dispatch({
-            type: 'jenkins/mall_api_json'
-        })
-    }
     buildMallWithParam() {
         const { form: { getFieldDecorator, validateFields, getFieldValue }, dispatch } = this.props;
         // TODO: need a validate mapping:
@@ -374,18 +367,11 @@ class Job extends Component {
                     okText: '确定',
                     cancelText: '取消',
                     onOk: () => dispatch({
-                        type: 'jenkins/build_mall_params',
+                        type: 'jenkins/buildDeploy',
                         payload: values,
                     })
                 })
             }
-        })
-    }
-
-    fetchMallConfig() {
-        const { dispatch } = this.props;
-        dispatch({
-            type: 'jenkins/fetch_mall_config'
         })
     }
 
@@ -431,12 +417,6 @@ class Job extends Component {
                 <Card bordered={false}>
                     <Spin spinning={initLoading} tip="Initialize...">
                         <Form style={{ marginTop: 8 }}>
-                            {/*  DO NOT DELETE BELOW CODES 👇👇👇👇👇👇 */}
-                            {/* <Button type="primary" icon="eye" onClick={()=>this.getMallApiJson()}>Get Epro Mall Api Json</Button>
-                        <Divider></Divider>
-                        {JSON.stringify(mall_json)}
-                        <Divider></Divider> */}
-
                             <FormItem  {...layout.formItemLayout} label="Build项目">{
                                 getFieldDecorator('build_project', {
                                     initialValue: '',
@@ -459,11 +439,6 @@ class Job extends Component {
                             <FormItem style={{ textAlign: 'center' }}>
                                 <Button type="primary" icon="build" onClick={() => this.buildMallWithParam()}>Build with Parameters</Button>
                             </FormItem>
-
-                            {/* DO NOT DELETE BELOW CODES 👇👇👇👇👇👇 */}
-                            {/* <Tooltip placement="right" arrowPointAtCenter title="API: /job/project_name/config.xml => Access Denied - 没有任务/ExtendedRead权限">
-                            <Button disabled type="primary" icon="ordered-list" onClick={()=>this.fetchMallConfig()}>Fetch Mall Config</Button>
-                        </Tooltip> */}
                         </Form>
                     </Spin>
                 </Card>
