@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Form, Card, Modal, Button, message, Select, Radio, Input } from 'antd';
+import { Form, Card, Modal, Button, message, Select, Radio, Input, Checkbox, Row, Col } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import { getRepository } from '../../utils/gitMap';
@@ -43,6 +43,9 @@ class Pipeline extends Component {
     }
     changeBranch = (e) => {
         console.info(e.target.value)
+    }
+    changeDependency = (values) => {
+        console.info(values)
     }
     buildProject = () => {
         const { form: { validateFields }, dispatch } = this.props;
@@ -101,6 +104,20 @@ class Pipeline extends Component {
                                 <Radio value="develop-hx">develop-hx</Radio>
                             </RadioGroup>)
                         }</FormItem>
+                        {/* ------------ repository dependency ------------ */}
+                        <FormItem {...layout.formItemLayout} label="Dependencies" >{
+                            getFieldDecorator('dependency', {
+                                initialValue: [],
+                                // rules: [{ required: true, message: 'Branch is required' }]
+                            })(<Checkbox.Group onChange={this.changeDependency}>
+                                <Row>
+                                    {repositories.map(item => <Col key={item.value} span={12}>
+                                        <Checkbox key={item.value} value={item.value}>{item.label}</Checkbox>
+                                    </Col>)}
+                                </Row>
+                            </Checkbox.Group>)
+                        }</FormItem>
+
                         {/* ------------ gradleProperties ------------ */}
                         <FormItem {...layout.formItemLayout} label="Gradle properties" extra="可空,示例: -Pk1=v1 -Pk2=v2">{
                             getFieldDecorator('gradleProperties', {
@@ -112,7 +129,9 @@ class Pipeline extends Component {
                         <FormItem style={{ textAlign: 'center' }}>
                             <Button type="primary" icon="build" onClick={this.buildProject}>Build</Button>
                         </FormItem>
+
                     </Form>
+
                 </Card >
             </PageHeaderWrapper >
         )

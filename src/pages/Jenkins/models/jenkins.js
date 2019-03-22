@@ -9,7 +9,6 @@ const gitMap = getGitMap();
 export default {
     namespace: 'jenkins',
     state: {
-        mall_json: {},
         //loading
         initLoading: false,
         // all dependency tags.
@@ -86,7 +85,6 @@ export default {
                 gradleProperties: payload.gradleProperties,
                 gitProject: gitMap[payload.gitProject],
             }
-            console.info(params)
             const r = yield call(jenkins.buildPipeline, params);
         }
     },
