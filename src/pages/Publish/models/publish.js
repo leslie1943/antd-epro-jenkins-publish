@@ -31,12 +31,6 @@ export default {
                 acceptResult: payload.payload.res, // res should be same from different effect's methods.
             }
         },
-        freshMrList(state, payload) {
-            return {
-                ...state,
-                mrList: payload.payload.r,
-            }
-        },
         setSendLoading(state, { payload: { loading } }) {
             return {
                 ...state,
@@ -49,12 +43,12 @@ export default {
                 tagLoading: loading,
             }
         },
-        setTags(state, { payload: { tags } }) {
-            return {
-                ...state,
-                tags: tags,
-            }
-        },
+        // setTags(state, { payload: { tags } }) {
+        //     return {
+        //         ...state,
+        //         tags: tags,
+        //     }
+        // },
         update_exist_tags(state, { payload: { exist_tags } }) {
             return {
                 ...state,
@@ -171,25 +165,25 @@ export default {
         },
 
         // ------------------------------- 一次性查询所有项目的tags -------------------------------
-        *searchTags(_, { call, put }) {
-            const tag_reps = getRepository();
-            // start call services.
-            let res = [];
-            for (var i = 0; i < tag_reps.length; i++) {
-                let params = {};
-                params.id = tag_reps[i].value;
-                const r = yield call(publish.searchTags, params);
+        // *searchTags(_, { call, put }) {
+        //     const tag_reps = getRepository();
+        //     // start call services.
+        //     let res = [];
+        //     for (var i = 0; i < tag_reps.length; i++) {
+        //         let params = {};
+        //         params.id = tag_reps[i].value;
+        //         const r = yield call(publish.searchTags, params);
 
-                // 查询最新的.
-                let latest = getLatestRecord(r);
-                if (latest) {
-                    latest.project_id = tag_reps[i].value;
-                    latest.key = tag_reps[i].value;
-                    res.push(latest);
-                }
-            }
-            yield put({ type: 'setTags', payload: { tags: res } })
-        },
+        //         // 查询最新的.
+        //         let latest = getLatestRecord(r);
+        //         if (latest) {
+        //             latest.project_id = tag_reps[i].value;
+        //             latest.key = tag_reps[i].value;
+        //             res.push(latest);
+        //         }
+        //     }
+        //     yield put({ type: 'setTags', payload: { tags: res } })
+        // },
 
         // ------------------------------- 根据项目查询tags -------------------------------
         *searchProjectTags({ payload: project_id, callback }, { call, put }) {
@@ -233,57 +227,57 @@ export default {
         },
 
         // ------------------------------- 从列表选区后创建Tag -------------------------------
-        *newTag({ payload: record }, { call, put }) {
-            let tag = record
-            let latest_tag = generateLatestTag(tag.name);
-            let params = {
-                id: tag.project_id,
-                tag_name: latest_tag,
-                ref: 'master',
-            }
-            const r = yield call(publish.createTag, params);
-        },
+        // *newTag({ payload: record }, { call, put }) {
+        //     let tag = record
+        //     let latest_tag = generateLatestTag(tag.name);
+        //     let params = {
+        //         id: tag.project_id,
+        //         tag_name: latest_tag,
+        //         ref: 'master',
+        //     }
+        //     const r = yield call(publish.createTag, params);
+        // },
 
         // ------------------------------- 全局性的创建Tags. -------------------------------
-        *createTagsAuto({ payload: tags }, { call, put }) {
-            for (let i = 0; i < tags.length; i++) {
-                let tag = tags[i];
-                let latest_tag = generateLatestTag(tag.name);
-                let params = {
-                    id: tag.project_id,
-                    tag_name: latest_tag,
-                    ref: 'master',
-                    message: '',
-                }
-                const r = yield call(publish.createTag, params);
-            }
-        },
+        // *createTagsAuto({ payload: tags }, { call, put }) {
+        //     for (let i = 0; i < tags.length; i++) {
+        //         let tag = tags[i];
+        //         let latest_tag = generateLatestTag(tag.name);
+        //         let params = {
+        //             id: tag.project_id,
+        //             tag_name: latest_tag,
+        //             ref: 'master',
+        //             message: '',
+        //         }
+        //         const r = yield call(publish.createTag, params);
+        //     }
+        // },
 
         // ------------------------------- 指定版本为全局创建Tags -------------------------------
-        *createTagsManually(_, { call, put }) {
-            const repositories = getRepository();
-            for (let i = 0; i < repositories.length; i++) {
-                let params = {
-                    id: repositories[i].id,
-                    tag_name: '2.0.0',
-                    ref: 'master',
-                    message: '[2018-12-20] 2.0.0版本发布',
-                }
-                const r = yield call(publish.createTag, params);
-            }
-        },
+        // *createTagsManually(_, { call, put }) {
+        //     const repositories = getRepository();
+        //     for (let i = 0; i < repositories.length; i++) {
+        //         let params = {
+        //             id: repositories[i].id,
+        //             tag_name: '2.0.0',
+        //             ref: 'master',
+        //             message: '[2018-12-20] 2.0.0版本发布',
+        //         }
+        //         const r = yield call(publish.createTag, params);
+        //     }
+        // },
 
         // ------------------------------- 查询Merge request -------------------------------
-        *searchMR({ payload }, { call, put, select }) {
+        *searchMR({ payload, callback }, { call, put, select }) {
             let params = {
                 id: payload.repository
             }
             const r = yield call(publish.searchMR, params);
-            yield put({ type: 'freshMrList', payload: { r } })
+            if (callback) callback(r)
         },
 
         // ------------------------------- close -------------------------------
-        *close({ payload: record }, { call, put, select }) {
+        *close({ payload: record, callback }, { call, put, select }) {
             let params = {
                 id: record.project_id,
                 iid: record.iid,
@@ -291,7 +285,7 @@ export default {
             yield call(publish.close, params);
 
             const r = yield call(publish.searchMR, params);
-            yield put({ type: 'freshMrList', payload: { r } })
+            if (callback) callback(r)
         },
         *deleteTag({ payload: record, rep_id: rep_id, callback }, { call, put, select }) {
             // 重构api参数

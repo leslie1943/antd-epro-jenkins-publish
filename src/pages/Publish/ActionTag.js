@@ -155,7 +155,7 @@ class ActionTag extends Component {
                         </Form>
                         {/* 结果列表 */}
                         <Table rowSelection={rowSelection} pagination={{ pageSize: 50 }} rowKey="name" scroll={{ y: 500 }} columns={columns} dataSource={exist_tags ? exist_tags : []} />
-                        <div style={{ textAlign: 'center' }}><Button type="primary" onClick={this.deleteTags}>删除选中tags</Button></div>
+                        <div style={{ textAlign: 'center', marginTop: '10px' }}><Button type="primary" onClick={this.deleteTags}>删除选中tags</Button></div>
                     </Spin>
                 </Card>
 

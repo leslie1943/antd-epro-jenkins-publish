@@ -36,12 +36,6 @@ export default {
 
             return result;
         },
-        setLoading(state, { payload: { loading } }) {
-            return {
-                ...state,
-                initLoading: loading,
-            }
-        },
     },
     effects: {
         // get crumb from jenkins.
@@ -53,8 +47,7 @@ export default {
         *buildDeploy(_, { call, put }) {
             const r = yield call(jenkins.buildDeploy);
         },
-        *init_dependency(_, { call, put }) {
-            yield put({ type: 'setLoading', payload: { loading: true } })
+        *init_dependency({ _, callback }, { call, put }) {
             const repository = [
                 { value: 104, label: 'epro-user-svc', tags: 'user_svc_tags' },
                 { value: 103, label: 'epro-certificate-svc', tags: 'certificate_svc_tags' },
@@ -75,7 +68,7 @@ export default {
                 const res = yield call(searchTags, params);
                 yield put({ type: 'updateStateByParam', payload: { res: res, param: repository[i].tags } })
             }
-            yield put({ type: 'setLoading', payload: { loading: false } })
+            if (callback) callback()
         },
 
         *buildPipeline({ payload }, { call, put }) {

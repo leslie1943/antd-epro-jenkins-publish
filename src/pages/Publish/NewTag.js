@@ -20,6 +20,7 @@ const fieldLabels = {
 class NewTag extends Component {
     constructor(props) {
         super(props)
+        this.state = { loading: false }
     }
 
     newSingleTag = () => {
@@ -44,10 +45,18 @@ class NewTag extends Component {
             exist_tag: '',
         });
 
+        this.setState({
+            loading: true
+        })
         // 执行查询
         this.props.dispatch({
             type: 'publish/searchProjectTags',
             payload: value,
+            callback: () => {
+                this.setState({
+                    loading: false
+                })
+            }
         });
     }
     onExistTagChange = (value) => {
@@ -61,11 +70,12 @@ class NewTag extends Component {
         const { form: { getFieldDecorator, getFieldValue } } = this.props;
         // from mapStateToProps
         const exist_tags = this.props.exist_tags;
-        const tagLoading = this.props.tagLoading;
+        // const tagLoading = this.props.tagLoading;
+        const loading = this.state.loading
         return (
             <PageHeaderWrapper title="New tag" content="">
                 <Card bordered={false}>
-                    <Spin spinning={tagLoading} tip="Loading...">
+                    <Spin spinning={loading} tip="Loading...">
                         <Form style={{ marginTop: 8 }}>
                             {/* ------------ Tag project ------------ */}
                             <FormItem {...layout.formItemLayout} label={fieldLabels.tag_project}>{
@@ -118,7 +128,7 @@ class NewTag extends Component {
 function mapStateToProps(state) {
     return {
         exist_tags: state.publish.exist_tags,
-        tagLoading: state.publish.tagLoading
+        // // tagLoading: state.publish.tagLoading
     }
 }
 

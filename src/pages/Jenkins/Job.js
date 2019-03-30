@@ -348,12 +348,16 @@ class DependencyItem extends Component {
 class Job extends Component {
     constructor(props) {
         super(props)
-        this.state = { id: '', desc_params: [], tags: [] }
+        this.state = { id: '', desc_params: [], tags: [], loading: false }
     }
     componentDidMount() {
         const { dispatch } = this.props;
+        this.setState({ loading: true })
         dispatch({
-            type: 'jenkins/init_dependency'
+            type: 'jenkins/init_dependency',
+            callback: () => {
+                this.setState({ loading: false })
+            }
         })
     }
 
@@ -385,6 +389,7 @@ class Job extends Component {
         // 重置state
         this.setState({ tags: [] })
         // 执行查询
+        this.setState({ loading: true })
         this.props.dispatch({
             type: 'publish/searchProjectTags',
             payload: value,
@@ -392,7 +397,8 @@ class Job extends Component {
                 // 重置 tag name
                 this.props.form.setFieldsValue({ gitTagName: '' })
                 this.setState({
-                    tags: res
+                    tags: res,
+                    loading: false
                 })
             }
         });
@@ -428,14 +434,13 @@ class Job extends Component {
 
     render() {
         const { form: { getFieldDecorator, getFieldValue } } = this.props;
-        const initLoading = this.props.initLoading;
-        const tagLoading = this.props.tagLoading;
+        const loading = this.state.loading
         const id = this.state.id + '';
         const { tags } = this.state;
         return (
             <PageHeaderWrapper title="Jenkins jobs" content="">
                 <Card bordered={false}>
-                    <Spin spinning={initLoading || tagLoading} tip="Loading...">
+                    <Spin spinning={loading} tip="Loading...">
                         <Form style={{ marginTop: 8 }}>
                             {/* ------------ project name ------------ */}
                             <FormItem  {...layout.formItemLayout} label="Repository">{
@@ -494,7 +499,6 @@ class Job extends Component {
 function mapStateToProps(state) {
     return {
         // all tags
-        initLoading: state.jenkins.initLoading,
         user_svc_tags: state.jenkins.user_svc_tags,
         certificate_svc_tags: state.jenkins.certificate_svc_tags,
         dmcc_svc_tags: state.jenkins.dmcc_svc_tags,
@@ -506,7 +510,6 @@ function mapStateToProps(state) {
         support_tags: state.jenkins.support_tags,
         utility_tags: state.jenkins.utility_tags,
         // project => tags
-        tagLoading: state.publish.tagLoading
     }
 }
 
