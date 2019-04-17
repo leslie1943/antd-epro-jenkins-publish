@@ -208,7 +208,7 @@
   /* -------------------- 🎃🎃🎃 props 🎃🎃🎃 --------------------
     React的核心思想是组件化思想,页面会被切分成独立的，可服用的组件
     组件从概念上看就是一个函数，可以接受一个参数作为输入值, 这个参数就是props，
-                                                        👨‍👩‍👧‍👦 👨‍👩‍👧‍👦 当然这个props可以是很多数据项的集合.
+        👨‍👩‍👧‍👦 👨‍👩‍👧‍👦 当然这个props可以是很多数据项的集合.
     所以可以把props理解为从外部传入组件内部的数据. 由于React是单向数据流， 所以 props基本上就是父组件向子组件传递的数据.
   **/
 
@@ -293,4 +293,63 @@
     DOM 和 DOM,   既然DOM这么慢，我们就在JS和DOM加个缓存，这个缓存就是 Virtual DOM.JS只操作Virtual DOM,最后的时候写入DOM
   
    ***/
+  ```
+
+  + @connet vs mapStateToProps
+  ```javascript
+    /**
+    * 🚀🚀🚀 解释型书写 @mapStateToProps 是一个函数
+    * 用于建立组件跟 store 的 state 的映射关系
+    * 作为一个函数，它可以传入两个参数，结果一定要返回一个 object 
+    */
+    /**
+    * state里存放的是所有的models里定义的全部命名空间下的所有对象.
+    *      - login:{loginLoading:false,pwd:'',user:''}
+    *      - products: array
+    *      - routing: location
+    *      - todo: list:[]
+    */
+    // function mapStateToProps(state.moduleA,state.moduleB) {
+    function mapStateToProps(state) {
+        // 按需加载.
+        return {
+            list: state.todo.list,
+            // "xxx": state.xxx.xxxAttr, //允许多个对象的注入.
+        }
+    }
+
+    /** 🚀🚀🚀 @connect 直接写法 是清晰写法, 但会引入所有的state,在返回的时候做挑选.
+          @connect(({ blacklist, loading }) => ({
+              name: blacklist.checkList.name,
+              loading: loading.models.blacklist,
+          }))
+    */
+
+    // connect里的所有属性在UI层可以使用 this.props.xxx来使用.
+    const _className = connect(mapStateToProps)(ClassName)
+  ```
+
+  + @connect 装饰器
+  ```javascript
+  /****
+   *
+    🚀🚀 定义
+    import createLoading from 'dva-loading';
+    app.use(createLoading())
+
+   🚀🚀 组件写法中调用了 dva 所封装的 react-redux 的 @connect 装饰器，用来接收绑定的 list 这个 model 对应的 redux store。注意到这里的装饰器实际除了 
+        app.state.list 以外还实际接收 
+        app.state.loading 作为参数，
+      这个 loading 的来源是 src/index.js 中调用的 dva-loading这个插件
+      ⭐⭐⭐ 它返回的信息包含了 global、model 和 effect 的异步加载完成情况。
+
+  🚀🚀🚀🚀
+   @connect(({ list, loading }) => ({
+      list,//①
+      loading: loading.models.list,//②
+    }))
+    1、connect 有两个参数, mapStateToProps 以及 mapDispatchToProps,一个将状态绑定到组件的props一个将方法绑定到组件的props
+    2、代码①：将实体list中的state数据绑定到props，注意绑定的是实体list整体，使用时需要list.[state中的具体变量]
+    3、代码②：通过loading将上文“数据map一”中的models的list的key对应的value读取出来。赋值给loading，以方便使用，如表格是否有加载图标
+  ***.
   ```
