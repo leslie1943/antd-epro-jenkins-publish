@@ -3,7 +3,8 @@ import React from 'react';
 import nzh from 'nzh/cn';
 import { parse, stringify } from 'qs';
 import _ from 'lodash';
-
+import tokens from '../../private/tokens'
+// console.table(tokens)
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -220,7 +221,7 @@ export function generateLatestTag(tagName) {
 export function toBase64() {
   // eXVjaGFvOiFRQVoxcWF6: yuchao
   // const orign_user_pwd = new Buffer('suzhen:ZY-6Wlknm_ea');
-  const orign_user_pwd = new Buffer('yuchao:!QAZ1qaz');
+  const orign_user_pwd = new Buffer(tokens['yuchao-base64']);
   return orign_user_pwd.toString('base64');
 }
 

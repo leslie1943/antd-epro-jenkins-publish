@@ -52,3 +52,32 @@ export async function buildPipeline(params) {
     }
   })
 }
+
+export async function getProjectJson(params) {
+  // call
+  const res = await request(`/job/${params.project}/api/json?pretty=true`, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Basic ' + toBase64(),
+      'Jenkins-Crumb': crumb,
+      'Access-Control-Allow-Origin': '*',
+      // 'Content-Type':'application/json;charset=UTF-8',
+    }
+  })
+  return validateResult(res);
+}
+
+export async function getBuildDetail(params) {
+  // call
+  const res = await request(`/job/${params.project}/${params.buildId}/`, {
+    method: 'get',
+    headers: {
+      'Authorization': 'Basic ' + toBase64(),
+      'Jenkins-Crumb': crumb,
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json;charset=UTF-8',
+    }
+  })
+  return res.status >= 200 && res.status < 300 ? res.text() : { status: -1, message: 'error', result: null };
+
+}

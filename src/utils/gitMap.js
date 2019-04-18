@@ -15,7 +15,6 @@ export function getGitMap() {
         117: 'epro-op',
         118: 'epro-op-web',
         112: 'epro-support'
-
     }
 }
 

@@ -120,6 +120,12 @@ export default [
             icon: 'book',
             component: './Jenkins/Job',
           },
+          {
+            path: '/jenkins/project-info',
+            name: 'info',
+            icon: 'info-circle',
+            component: './Jenkins/ProjectInfo',
+          },
           // 误删,checkbox模式构建
           // {
           //   path: '/jenkins/pipeline',

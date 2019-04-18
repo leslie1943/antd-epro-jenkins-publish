@@ -79,6 +79,21 @@ export default {
                 gitProject: gitMap[payload.gitProject],
             }
             const r = yield call(jenkins.buildPipeline, params);
-        }
+        },
+
+        // Get project api json by params
+        *getProjectJson({ payload, callback }, { call, put }) {
+            const res = yield call(jenkins.getProjectJson, payload);
+            if (callback) callback(res)
+        },
+
+        *getBuildDetail({ payload, callback }, { call, put }) {
+            payload = {
+                project: 'epro-mall-web',
+                buildId: 762
+            }
+            const res = yield call(jenkins.getBuildDetail, payload);
+            if (callback) callback(res)
+        },
     },
 }

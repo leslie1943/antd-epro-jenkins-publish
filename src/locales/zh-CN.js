@@ -55,6 +55,7 @@ export default {
   'menu.jenkins.auth': 'Jenkins-auth',
   'menu.jenkins.job': 'Jenkins-job',
   'menu.jenkins.pipeline': 'Jenkins-pipeline',
+  'menu.jenkins.info': 'Project info',
 
   // Antd
   'menu.antd': 'Antd demos',
