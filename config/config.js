@@ -25,17 +25,17 @@ export default {
         polyfills: ['ie11'],
         ...(!process.env.TEST && os.platform() === 'darwin'
           ? {
-              dll: {
-                include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
-                exclude: ['@babel/runtime'],
-              },
-              hardSource: true,
-            }
+            dll: {
+              include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
+              exclude: ['@babel/runtime'],
+            },
+            hardSource: true,
+          }
           : {}),
       },
     ],
   ],
-  
+
   proxy: {
     // --------------------- ✨✨✨Gitlab 代理配置 ✨✨✨---------------------
     '/api': {
@@ -56,16 +56,16 @@ export default {
     '/job': {
       target: 'https://ci.devops.viewchain.net/job/vhepro2.0',
       changeOrigin: true,
-      pathRewrite: { '^/job' : '/job' },
+      pathRewrite: { '^/job': '/job' },
       secure: false,
     },
     '/crumbIssuer': {
       target: 'https://ci.devops.viewchain.net',
       changeOrigin: true,
-      pathRewrite: { '^/crumbIssuer' : '/crumbIssuer' },
+      pathRewrite: { '^/crumbIssuer': '/crumbIssuer' },
       secure: false,
     },
-    
+
   },
 
   /**

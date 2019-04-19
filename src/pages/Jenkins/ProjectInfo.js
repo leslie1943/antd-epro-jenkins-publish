@@ -4,6 +4,8 @@ import { Form, Card, Modal, Button, message, Divider, Select, Row, Col, Spin } f
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { getRepository } from '../../utils/gitMap'
 import layout from "@/utils/layout";
+import styles from "./ProjectInfo.less";
+
 const repositories = getRepository()
 // console.table(repositories)
 const FormItem = Form.Item;
@@ -46,16 +48,20 @@ class ProjectInfo extends Component {
             type: 'jenkins/getBuildDetail',
             payload: {},
             callback: (res) => {
-                // console.info(res)
-                res = res.replace(/<img src="/g, '<img src="https://ci.devops.viewchain.net')
-                this.setState({ loading: false, buildHtml: res })
+                console.info(res)
+                if (JSON.stringify(res) != '{}') {
+                    res = res.
+                        replace(/src="/g, 'src="https://ci.devops.viewchain.net').
+                        replace(/href="/g, 'href="https://ci.devops.viewchain.net')
+                    this.setState({ loading: false, buildHtml: res })
+                }
+                this.setState({ loading: false })
             }
         })
 
     }
 
     render() {
-        console.info(this.props)
         const { form: { getFieldDecorator, getFieldValue } } = this.props;
         const { loading, projectInfo, buildHtml } = this.state
         return (
@@ -75,14 +81,10 @@ class ProjectInfo extends Component {
                                     </FormItem>
                                 </Col>
                                 <Col span={4}>
-                                    <FormItem>
-                                        <Button type="primary" icon="key" onClick={this.getProjectInfo}>Get project status</Button>
-                                    </FormItem>
+                                    <FormItem><Button type="primary" icon="key" onClick={this.getProjectInfo}>Get project status</Button></FormItem>
                                 </Col>
                                 <Col span={4}>
-                                    <FormItem>
-                                        <Button type="primary" icon="key" onClick={this.getBuildDetail}>Get epro-mall-web/762 build info</Button>
-                                    </FormItem>
+                                    <FormItem><Button type="primary" icon="key" onClick={this.getBuildDetail}>Get epro-mall-web/762 build info</Button></FormItem>
                                 </Col>
                             </Row>
                         </Form>
@@ -94,10 +96,8 @@ class ProjectInfo extends Component {
                                 </Card>
                             </Col>
                             <Col style={{ padding: '10px' }} span="14">
-                                <Card bordered>
-                                    <div style={{ fontSize: '10px' }}>
-                                        {JSON.stringify(projectInfo) == '{}' ? '' : JSON.stringify(projectInfo)}
-                                    </div>
+                                <Card bordered >
+                                    <DetailItems projectInfo={projectInfo}></DetailItems>
                                 </Card>
                             </Col>
                         </Row>
@@ -109,3 +109,50 @@ class ProjectInfo extends Component {
 }
 
 export default ProjectInfo
+
+// Project Info
+class DetailItems extends Component {
+    render() {
+        let projectInfo = this.props.projectInfo
+        return (
+            <div>
+                {
+                    JSON.stringify(projectInfo) != '{}' &&
+                    <div>
+                        <div className={styles.outter}><span className={styles.label}>Display name:</span><span className={styles.value}> {projectInfo.displayName}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>Full display name :</span><span className={styles.value}> {projectInfo.fullDisplayName}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>In queue:</span><span className={styles.value}> {projectInfo.inQueue ? 'true' : 'false'}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>LastBuild:</span><span className={styles.value}> {projectInfo.lastBuild.number}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>LastCompletedBuild:</span><span className={styles.value}> {projectInfo.lastCompletedBuild.number}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>LastFailedBuild:</span><span className={styles.value}> {projectInfo.lastFailedBuild.number}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>LastStableBuild:</span><span className={styles.value}> {projectInfo.lastStableBuild.number}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>LastSuccessfulBuild:</span><span className={styles.value}> {projectInfo.lastSuccessfulBuild.number}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>LastUnsuccessfulBuild:</span><span className={styles.value}> {projectInfo.lastUnsuccessfulBuild.number}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>NextBuildNumber:</span><span className={styles.value}> {projectInfo.nextBuildNumber}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>HealthReport description:</span><span className={styles.value}> {projectInfo.healthReport[0].description}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>HealthReport score:</span><span className={styles.value}> {projectInfo.healthReport[0].score}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>ConcurrentBuild:</span><span className={styles.value}> {projectInfo.concurrentBuild}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>Color:</span><span className={styles.value}> {projectInfo.color}</span></div>
+
+                        <div className={styles.outter}><span className={styles.label}>ResumeBlocked:</span><span className={styles.value}> {projectInfo.resumeBlocked ? 'true' : 'false'}</span></div>
+
+                    </div>
+
+                }
+            </div>
+        )
+    }
+}

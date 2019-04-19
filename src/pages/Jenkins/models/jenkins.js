@@ -84,7 +84,12 @@ export default {
         // Get project api json by params
         *getProjectJson({ payload, callback }, { call, put }) {
             const res = yield call(jenkins.getProjectJson, payload);
-            if (callback) callback(res)
+            if (res.status != -1) {
+                if (callback) callback(res)
+            } else {
+                // message.error('Network error, please try it later.')
+                if (callback) callback({})
+            }
         },
 
         *getBuildDetail({ payload, callback }, { call, put }) {
@@ -93,7 +98,12 @@ export default {
                 buildId: 762
             }
             const res = yield call(jenkins.getBuildDetail, payload);
-            if (callback) callback(res)
+            if (res.status != -1) {
+                if (callback) callback(res)
+            } else {
+                // message.error('Network error, please try it later.')
+                if (callback) callback({})
+            }
         },
     },
 }
