@@ -47,8 +47,7 @@ export default {
   'menu.publish.new-tag': 'New tag',
   'menu.publish.action-tag': 'Action tag',
   'menu.publish.batch-tag': 'Batch tag',
-  'menu.publish.batch-tag-basic': 'Basic batch tag',
-
+  'menu.publish.batch-tag-basic': 'Batch tag',
   'menu.publish.branches': 'Repository branches',
   'menu.publish.projects': 'Epro repository list',
 

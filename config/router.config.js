@@ -87,12 +87,12 @@ export default [
             icon: 'tool',
             component: './Publish/ActionTag',
           },
-          {
-            path: '/publish/batch-tag',
-            name: 'batch-tag',
-            icon: 'code-sandbox',
-            component: './Publish/BatchTag',
-          },
+          // {
+          //   path: '/publish/batch-tag',
+          //   name: 'batch-tag',
+          //   icon: 'code-sandbox',
+          //   component: './Publish/BatchTag',
+          // },
           {
             path: '/publish/batch-tag-basic',
             name: 'batch-tag-basic',

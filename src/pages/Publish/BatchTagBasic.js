@@ -72,6 +72,7 @@ class BatchTag extends Component {
                 //     callback: (res) => {
                 //         console.info(res)
                 //         this.setState({ loading: false })
+                //         message.success('All tags have been created!')
                 //     }
                 // });
 
@@ -134,7 +135,7 @@ class BatchTag extends Component {
                 {
                     keys.length > 1 ? (
                         <FormItem>
-                            <Button type="danger" onClick={() => this.remove(k)}>Delete</Button>
+                            <Button type="danger" onClick={() => this.remove(k)}>Delete<Icon type="minus-circle" /></Button>
                         </FormItem>
                     ) : null
                 }
@@ -142,10 +143,13 @@ class BatchTag extends Component {
         ))
         return (
             <PageHeaderWrapper title="Action: make tags batching" content="">
-                <Card style={{ textAlign: 'center' }} bordered={false}>
-                    <Button onClick={this.add} type="primary" size="default" > <Icon type="plus" />Add new tag</Button>
-                </Card>
                 <Spin spinning={loading} tip="Please wait, creating tags...">
+                    <Card style={{ textAlign: 'center' }} bordered={false}>
+                        <Button onClick={this.add} type="primary" size="default">
+                            Create a new Tag<Icon type="plus-circle" />
+                        </Button>
+                    </Card>
+
                     <Card>
                         <Form layout="inline" onSubmit={this.handleSubmit}>
                             {cardItems}
