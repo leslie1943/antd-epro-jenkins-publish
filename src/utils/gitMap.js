@@ -1,3 +1,6 @@
+import { listEproProjects } from '../services/publish'
+import { setStore, getStore } from '@/utils/localStore';
+
 export function getGitMap() {
     return {
         106: 'epro-mall',
@@ -18,24 +21,46 @@ export function getGitMap() {
     }
 }
 
+
 export function getRepository() {
-    return [
-        { value: 103, label: 'epro-certificate-svc' },
-        { value: 104, label: 'epro-user-svc' },
-        { value: 106, label: 'epro-mall' },
-        { value: 107, label: 'epro-mall-web' },
-        { value: 113, label: 'epro-message' },
-        { value: 116, label: 'epro-dmcc-svc' },
-        { value: 166, label: 'epro-job' },
-        { value: 173, label: 'epro-gateway' },
-        { value: 207, label: 'epro-flyway' },
-        { value: 211, label: 'utility-epro' },
-        { value: 213, label: 'epro-hx-svc' },
-        { value: 214, label: 'epro-hx-mall' },
-        { value: 117, label: 'epro-op' },
-        { value: 118, label: 'epro-op-web' },
-        { value: 112, label: 'epro-support' },
-    ];
+    // 直接从localstorage里取值
+    if (getStore('epro_repository')) {
+        let res = getStore('epro_repository')
+        return res;
+    } else {
+        // 调用后台接口获取列表信息
+        listEproProjects().then(res => {
+            let local_repos = []
+            res.forEach(item => {
+                // no fliters
+                local_repos.push({
+                    id: item.id,
+                    value: item.id,
+                    name: item.name,
+                    label: item.name
+                })
+            })
+            setStore("epro_repository", local_repos);
+            return local_repos
+        })
+    }
+    // return [
+    //     { value: 103, label: 'epro-certificate-svc' },
+    //     { value: 104, label: 'epro-user-svc' },
+    //     { value: 106, label: 'epro-mall' },
+    //     { value: 107, label: 'epro-mall-web' },
+    //     { value: 113, label: 'epro-message' },
+    //     { value: 116, label: 'epro-dmcc-svc' },
+    //     { value: 166, label: 'epro-job' },
+    //     { value: 173, label: 'epro-gateway' },
+    //     { value: 207, label: 'epro-flyway' },
+    //     { value: 211, label: 'utility-epro' },
+    //     { value: 213, label: 'epro-hx-svc' },
+    //     { value: 214, label: 'epro-hx-mall' },
+    //     { value: 117, label: 'epro-op' },
+    //     { value: 118, label: 'epro-op-web' },
+    //     { value: 112, label: 'epro-support' },
+    // ];
 }
 
 export function getGitToken() {

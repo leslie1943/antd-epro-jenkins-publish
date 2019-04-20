@@ -226,6 +226,17 @@ export default {
             yield put({ type: 'setTagLoading', payload: { loading: false } })
         },
 
+        // ------------------------------- 根据输入内容创建Tag -------------------------------
+        *batchTag({ payload, callback }, { call, put }) {
+            // 循环所有的tag
+            let all_res = [];
+            for (let i = 0; i < payload.length; i++) {
+                const res_tag = yield call(publish.createTag, payload[i]);
+                all_res.push(res_tag)
+            }
+            if (callback) callback(all_res)
+        },
+
         // ------------------------------- 从列表选区后创建Tag -------------------------------
         // *newTag({ payload: record }, { call, put }) {
         //     let tag = record
@@ -355,6 +366,27 @@ export default {
                 type: 'searchBranches',
                 payload: rep_id
             })
+        },
+        *listEproProjects({ _, callback }, { call, put, select }) {
+            // 执行删除api
+            const response = yield call(publish.listEproProjects)
+            if (response) {
+                let local_repos = []
+                response.forEach(item => {
+                    if (item.id != 137 && item.id != 132)
+                        local_repos.push({
+                            id: item.id,
+                            value: item.id,
+                            name: item.name,
+                            label: item.name
+                        })
+                })
+                setStore("epro_repository", local_repos);
+                callback(response)
+            } else {
+                callback([])
+            }
+            // 返回结果to前台页面
         },
     },
     subscriptions: {

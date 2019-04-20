@@ -11,6 +11,8 @@ _roadhog-api-doc
 /dist
 /.vscode
 /private
+/runtime_data
+/data-demo
 
 # misc
 .DS_Store

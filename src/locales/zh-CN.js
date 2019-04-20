@@ -48,7 +48,10 @@ export default {
   'menu.publish.tags': '创建 repository tag',
   'menu.publish.new-tag': '创建 repository tag',
   'menu.publish.action-tag': '操作 repository tag',
+  'menu.publish.batch-tag': '批量 repository tag',
+  'menu.publish.batch-tag-basic': '简易 batch tag',
   'menu.publish.branches': '操作 repository branch',
+  'menu.publish.projects': '易普 repository list',
 
   //jenkins
   'menu.jenkins': 'Jenkins- 操作',

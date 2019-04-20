@@ -46,7 +46,12 @@ export default {
   'menu.publish.tags': 'Create repository tag',
   'menu.publish.new-tag': 'New tag',
   'menu.publish.action-tag': 'Action tag',
+  'menu.publish.batch-tag': 'Batch tag',
+  'menu.publish.batch-tag-basic': 'Basic batch tag',
+
   'menu.publish.branches': 'Repository branches',
+  'menu.publish.projects': 'Epro repository list',
+
 
   // Jenkins
   'menu.jenkins': 'Jenkins - action',

@@ -49,12 +49,12 @@ export default class RepositoryOptions extends Component {
             // <Checkbox.Group style={{ width: '100%' }} onChange={(value)=>this.onChangeChild(value)}> 声明式_方法_works 🌼🌼🌼
             // 箭头函数_方法_works 🎃🎃🎃
             <div>
-                <Checkbox onChange={this.onCheckAllChange}>Check all</Checkbox>
+                <Checkbox style={{ fontSize: '16px' }} onChange={this.onCheckAllChange}>Check all</Checkbox>
                 <Checkbox.Group style={{ width: '100%' }} onChange={this.onChangeChild} value={this.state.checkedList}>
                     <Row>{
                         repository.map((col) =>
-                            <Col span={8} key={col.value}>
-                                <Checkbox value={col.value}>{col.label}</Checkbox>
+                            <Col span={12} key={col.value}>
+                                <Checkbox style={{ fontSize: '16px' }} value={col.value}>{col.label}</Checkbox>
                             </Col>)
                     }</Row>
                 </Checkbox.Group>

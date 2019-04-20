@@ -139,7 +139,7 @@ class ActionTag extends Component {
         const exist_tags = this.props.exist_tags;
         const tagLoading = this.props.tagLoading;
         return (
-            <PageHeaderWrapper title="New tag" content="">
+            <PageHeaderWrapper title="Action: query/delete tag" content="">
                 <Card bordered={false}>
                     <Spin spinning={tagLoading} tip="Loading...">
                         <Form style={{ marginTop: 8 }}>

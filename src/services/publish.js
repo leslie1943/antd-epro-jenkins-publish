@@ -132,3 +132,17 @@ export async function searchBranches(params) {
   });
   return validateResult(res);
 }
+
+export async function listEproProjects() {
+  // Call service
+  // const res = await request('/api/v4/projects', {
+  // const res = await request('/api/v4/groups', { 所有分组: ["eprosharp","vhepro","vhsc","vhscframework"]
+  const res = await request('/api/v4/groups/98/projects?per_page=200', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      "PRIVATE-TOKEN": token,
+    },
+  });
+  return validateResult(res);
+}

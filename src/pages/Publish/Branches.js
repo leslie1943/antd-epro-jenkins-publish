@@ -64,7 +64,7 @@ class ActionTag extends Component {
         // table columns
         const columns = [
             {
-                title: 'Tag name',
+                title: 'Branch name',
                 dataIndex: 'name',
                 key: 'name',
                 width: '10%',
@@ -145,7 +145,7 @@ class ActionTag extends Component {
         const tagLoading = this.props.tagLoading;
         const branches = this.state.branches
         return (
-            <PageHeaderWrapper title="New tag" content="">
+            <PageHeaderWrapper title="Action: query/delete branch" content="">
                 <Card bordered={false}>
                     <Spin spinning={tagLoading} tip="Loading...">
                         <Form style={{ marginTop: 8 }}>
