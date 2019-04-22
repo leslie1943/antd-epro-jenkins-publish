@@ -146,3 +146,15 @@ export async function listEproProjects() {
   });
   return validateResult(res);
 }
+
+export async function listContributors(params) {
+  // Call service
+  const res = await request(`/api/v4/projects/${params.id}/repository/contributors`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      "PRIVATE-TOKEN": token,
+    },
+  });
+  return validateResult(res);
+}

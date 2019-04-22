@@ -50,6 +50,7 @@ export default {
   'menu.publish.batch-tag-basic': 'Batch tag',
   'menu.publish.branches': 'Repository branches',
   'menu.publish.projects': 'Epro repository list',
+  'menu.publish.contributors': 'Repository contributors',
 
 
   // Jenkins

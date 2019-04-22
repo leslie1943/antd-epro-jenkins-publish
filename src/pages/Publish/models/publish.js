@@ -388,6 +388,15 @@ export default {
             }
             // 返回结果to前台页面
         },
+        *listContributors({ payload, callback }, { call, put, select }) {
+            // 执行删除api
+            const response = yield call(publish.listContributors, payload)
+            if (response) {
+                callback(response)
+            } else {
+                callback([])
+            }
+        },
     },
     subscriptions: {
         resize({ dispatch, history }) {

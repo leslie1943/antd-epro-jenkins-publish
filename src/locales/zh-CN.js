@@ -52,6 +52,7 @@ export default {
   'menu.publish.batch-tag-basic': '批量 repository tag',
   'menu.publish.branches': '操作 repository branch',
   'menu.publish.projects': '易普 repository list',
+  'menu.publish.contributors': 'Repository contributors',
 
   //jenkins
   'menu.jenkins': 'Jenkins- 操作',

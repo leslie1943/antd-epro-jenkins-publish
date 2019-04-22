@@ -66,15 +66,15 @@ class BatchTag extends Component {
                     })
                 }
                 console.table(payload)
-                // this.props.dispatch({
-                //     type: 'publish/batchTag',
-                //     payload: payload,
-                //     callback: (res) => {
-                //         console.info(res)
-                //         this.setState({ loading: false })
-                //         message.success('All tags have been created!')
-                //     }
-                // });
+                this.props.dispatch({
+                    type: 'publish/batchTag',
+                    payload: payload,
+                    callback: (res) => {
+                        console.info(res)
+                        this.setState({ loading: false })
+                        message.success('All tags have been created!')
+                    }
+                });
 
             }
         });
@@ -112,7 +112,9 @@ class BatchTag extends Component {
                             rules: [{ required: true, message: 'Branch is required.' }]
                         })(<Select style={{ width: '180px' }} placeholder="Branch name">
                             <Option value="master">master</Option>
+                            <Option value="master-hx">master-hx</Option>
                             <Option value="develop">develop</Option>
+                            <Option value="develop-hx">develop-hx</Option>
                         </Select>)}
                     </FormItem>
                 </Col>
@@ -146,7 +148,7 @@ class BatchTag extends Component {
                 <Spin spinning={loading} tip="Please wait, creating tags...">
                     <Card style={{ textAlign: 'center' }} bordered={false}>
                         <Button onClick={this.add} type="primary" size="default">
-                            Create a new Tag<Icon type="plus-circle" />
+                            Add a new Tag<Icon type="plus-circle" />
                         </Button>
                     </Card>
 

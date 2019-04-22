@@ -118,6 +118,12 @@ export default [
             icon: 'project',
             component: './Publish/Projects',
           },
+          {
+            path: '/publish/contributors',
+            name: 'contributors',
+            icon: 'team',
+            component: './Publish/Contributors',
+          },
         ],
       },
       // jenkins
