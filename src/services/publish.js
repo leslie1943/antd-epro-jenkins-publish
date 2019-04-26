@@ -84,6 +84,18 @@ export async function searchMR(params) {
   });
   return validateResult(res);
 }
+// Get Merge request
+export async function searchOpenMR(params) {
+  // Call service
+  const res = await request('/api/v4/projects/' + params.id + '/merge_requests?state=opened', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      "PRIVATE-TOKEN": token,
+    },
+  });
+  return validateResult(res);
+}
 
 export async function close(params) {
   // Call service

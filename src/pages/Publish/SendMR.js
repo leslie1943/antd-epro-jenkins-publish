@@ -96,7 +96,9 @@ class SendMR extends Component {
                                     rules: [{ required: true, message: '清选择原分支' }]
                                 })(<Select placeholder="清选择原分支" >
                                     <Option value="develop">develop</Option>
+                                    <Option value="develop-hx">develop-hx</Option>
                                     <Option value="master">master</Option>
+                                    <Option value="master-hx">master-hx</Option>
                                 </Select>)
                             }</FormItem>
                             {/* ---------------- 目标分支 ---------------- */}
@@ -106,7 +108,9 @@ class SendMR extends Component {
                                     rules: [{ required: true, message: '清选择目标分支' }]
                                 })(<Select placeholder="清选择目标分支" >
                                     <Option value="develop">develop</Option>
+                                    <Option value="develop-hx">develop-hx</Option>
                                     <Option value="master">master</Option>
+                                    <Option value="master-hx">master-hx</Option>
                                 </Select>)
                             }</FormItem>
 

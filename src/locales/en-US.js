@@ -42,6 +42,7 @@ export default {
   'menu.publish.close': 'Close',
   'menu.publish.send-mr': 'Send merge request',
   'menu.publish.accept-mr': 'Accept merge request',
+  'menu.publish.mr-accept': 'Accept merge request',
   'menu.publish.search-mr': 'Search merge request',
   'menu.publish.tags': 'Create repository tag',
   'menu.publish.new-tag': 'New tag',

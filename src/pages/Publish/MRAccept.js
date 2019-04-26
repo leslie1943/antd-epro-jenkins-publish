@@ -1,0 +1,155 @@
+import React, { Component } from 'react';
+import { connect } from 'dva';
+import moment from 'moment';
+import { Form, Card, Input, Spin, List, Select, Table, Button, message, Modal } from 'antd';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import { getGitMap } from '../../utils/gitMap';
+import layout from "@/utils/layout";
+const repositories = getGitMap();
+
+const { Option } = Select;
+const FormItem = Form.Item;
+const { TextArea } = Input;
+
+const acceptLabels = {
+    accept_privateKey: '接收Merge request私钥',
+}
+
+@Form.create()
+class MRAccept extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+    // 接收一个merge request
+    // id: project_id
+    acceptOne = (id, iid, e) => {
+        const { dispatch } = this.props;
+        Modal.confirm({
+            title: '提交merge request',
+            content: '请确认你的操作?',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => dispatch({
+                type: 'publish/acceptOne',
+                payload: { id: id, iid: iid },
+            })
+        })
+    }
+
+    // 接收全部merge request
+    acceptAll() {
+        const { dispatch } = this.props;
+        Modal.confirm({
+            title: '提交全部merge request',
+            content: '请确认你的操作?',
+            okText: '确定',
+            cancelText: '取消',
+            onOk: () => dispatch({
+                type: 'publish/acceptAll',
+            })
+        })
+    }
+    // componentDidMount(){}
+
+    render() {
+        const { form: { getFieldDecorator, getFieldValue } } = this.props;
+        // from mapStateToProps
+        const mrResult = this.props.mrResult;
+
+        // 列数据
+        const columns = [
+            {
+                title: 'id',
+                dataIndex: 'id',
+                key: 'id',
+            },
+            {
+                title: 'iid',
+                dataIndex: 'iid',
+                key: 'iid',
+            },
+            {
+                title: 'Project id',
+                render: (text, record) => {
+                    return (
+                        <span style={{ color: 'green', fontWeight: 'bold' }}>
+                            {repositories[record.project_id]}
+                        </span>
+                    )
+                },
+                key: 'project_id',
+            },
+            {
+                title: 'Create time',
+                render: (text, record) => {
+                    return moment(record.created_at).format("YYYY-MM-DD HH:mm:ss");
+                },
+                key: 'created_at',
+            },
+            {
+                title: 'Author',
+                render: (text, record) => {
+                    return record.author.name
+                }
+            },
+            {
+                title: 'Title',
+                dataIndex: 'title',
+                key: 'title'
+            },
+            {
+                title: 'Action',
+                key: 'action',
+                render: (text, record) => {
+                    return (
+                        <span>
+                            {/* <a href="javascript:;" onClick={()=>this.acceptOne(record.project_id,record.iid)}>Accept</a> */}
+                            {/* e 为 dom 参数 */}
+                            <a href="javascript:;" onClick={(e) => this.acceptOne(record.project_id, record.iid, e)}>Accept</a>
+                        </span>
+                    )
+                }
+            },
+        ];
+
+        return (
+            <PageHeaderWrapper title="Accept merge request" content="">
+                {/* ####################### Panel_Step 2 ###################################### */}
+                <Card bordered={false}>
+                    <Form style={{ marginTop: 8 }}>
+                        {/* ---------------- 接收Merge request私钥  ---------------- */}
+                        {/* <FormItem {...layout.formItemLayout} label={acceptLabels.accept_privateKey}>{
+                            getFieldDecorator('accept_privateKey',{
+                                initialValue: '',
+                                rules: [{required: true, message: '清选择Token'}]
+                            })(<Select placeholder="清选择Token" >
+                                {tokens.map(item => <Option key={item.index} value={item.val}>{item.text + '-' + item.val}</Option>)}
+                                </Select>)
+                            }
+                        </FormItem> */}
+                        {/* 待接收的Merge requests */}
+                        {/* <List
+                            grid={{gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3,}}
+                            dataSource={mrResult?mrResult:[]}
+                            renderItem={item => (
+                            <List.Item>
+                                <Card title={item.iid}extra={<a onClick={()=>this.acceptOne(item.project_id,item.iid)} href="#">Accept</a>}>
+                                    <strong><span style={{color:'green'}}>{repositories[item.project_id]}</span></strong>
+                                </Card>
+                            </List.Item>
+                            )}
+                        /> */}
+                        <Table rowKey="id" size='small' pagination={{ pageSize: 50 }} columns={columns} dataSource={mrResult ? mrResult : []} />
+                        {/* 接收全部Merge request */}
+                        <FormItem {...layout.submitFormLayout} style={{ marginTop: 10 }}>
+                            <Button type="primary" onClick={() => this.acceptAll()}>接收全部Merge request</Button>
+                        </FormItem>
+                    </Form>
+                </Card>
+            </PageHeaderWrapper>
+        )
+    }
+}
+const _mrAccept = connect()(MRAccept)
+export default _mrAccept

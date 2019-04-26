@@ -63,6 +63,13 @@ export default [
             icon: 'check',
             component: './Publish/AcceptMR',
           },
+
+          {
+            path: '/publish/mr-accept',
+            name: 'mr-accept',
+            icon: 'check',
+            component: './Publish/MRAccept',
+          },
           // {
           //   path: '/publish/close',
           //   name: 'close',

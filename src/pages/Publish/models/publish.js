@@ -4,6 +4,7 @@ import { getLatestRecord, generateLatestTag } from '@/utils/utils';
 
 import { message } from 'antd';
 import { getRepository } from '@/utils/gitMap';
+const repos = getRepository();
 
 
 export default {
@@ -285,6 +286,22 @@ export default {
             }
             const r = yield call(publish.searchMR, params);
             if (callback) callback(r)
+        },
+
+        // ------------------------------- 查询所有项目的 opened的Merge request -------------------------------
+        *searchOpenMR({ payload, callback }, { call, put, select }) {
+            let res = [];
+            for (let i = 0; i < repos.length; i++) {
+                let params = {
+                    id: repos[i].id
+                }
+                const r = yield call(publish.searchOpenMR, params);
+                console.info(r)
+                if (r) {
+                    res = res.concat(r)
+                }
+            }
+            if (callback) callback(res)
         },
 
         // ------------------------------- close -------------------------------

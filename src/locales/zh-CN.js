@@ -45,6 +45,7 @@ export default {
   'menu.publish.search-mr': '查询 merge request',
   'menu.publish.send-mr': '发送 merge request',
   'menu.publish.accept-mr': '接收 merge request',
+  'menu.publish.mr-accept': '接收 merge request',
   'menu.publish.tags': '创建 repository tag',
   'menu.publish.new-tag': '创建 repository tag',
   'menu.publish.action-tag': '操作 repository tag',

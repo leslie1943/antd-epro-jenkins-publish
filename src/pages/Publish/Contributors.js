@@ -99,8 +99,8 @@ class Projects extends Component {
             <PageHeaderWrapper title="projects" content="projects">
                 <Card bordered={false}>
                     <Form onSubmit={this.listContributors}>
-                        <Row>
-                            <Col span={4}>
+                        <Row >
+                            <Col offset={8} span={4}>
                                 <FormItem >
                                     {getFieldDecorator(`project`, {
                                         rules: [{
@@ -115,7 +115,7 @@ class Projects extends Component {
                             </Col>
                             <Col span={4}>
                                 <FormItem >
-                                    <Button icon="bars" type="primary" size="default" onClick={this.listContributors}>Get</Button>
+                                    <Button icon="check" type="primary" size="default" onClick={this.listContributors}>Get</Button>
                                 </FormItem>
                             </Col>
                         </Row>
