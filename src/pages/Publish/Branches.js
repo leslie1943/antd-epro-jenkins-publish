@@ -22,6 +22,7 @@ class ActionTag extends Component {
             repository_id: '',
             selectedRowKeys: [],
             branches: [],
+            loading: false
         }
     }
     deleteBranch = (record) => {
@@ -140,14 +141,12 @@ class ActionTag extends Component {
             selectedRowKeys: this.state.selectedRowKeys
         };
         const { form: { getFieldDecorator, getFieldValue } } = this.props;
-        // from mapStateToProps
-        // const exist_tags = this.props.exist_tags;
-        const tagLoading = this.props.tagLoading;
+        const loading = this.state.loading;
         const branches = this.state.branches
         return (
             <PageHeaderWrapper title="Action: query/delete branch" content="">
                 <Card bordered={false}>
-                    <Spin spinning={tagLoading} tip="Loading...">
+                    <Spin spinning={loading} tip="Loading...">
                         <Form style={{ marginTop: 8 }}>
                             {/* ------------ Tag project ------------ */}
                             <FormItem {...layout.formItemLayout} label={fieldLabels.branch_repository}>{
@@ -172,8 +171,6 @@ class ActionTag extends Component {
 
 function mapStateToProps(state) {
     return {
-        // exist_tags: state.publish.exist_tags,
-        tagLoading: state.publish.tagLoading
     }
 }
 

@@ -10,56 +10,12 @@ const repos = getRepository();
 export default {
     namespace: 'publish',
     state: {
-        mrResult: getStore("epro_publish_tool_mergeRequest"),
-        acceptResult: getStore("epro_publish_tool_acceptRequest"),
-        mrList: [],
-        sendLoading: false,
-        tagLoading: false,
-        acceptLoading: false,
-        tags: [],
-        exist_tags: [],
     },
     reducers: {
-        setMrResult(state, payload) {
-            return {
-                ...state,
-                mrResult: payload.payload.res, // res should be same from different effect's methods.
-            }
-        },
-        setAcceptResult(state, payload) {
-            return {
-                ...state,
-                acceptResult: payload.payload.res, // res should be same from different effect's methods.
-            }
-        },
-        setSendLoading(state, { payload: { loading } }) {
-            return {
-                ...state,
-                sendLoading: loading
-            }
-        },
-        setTagLoading(state, { payload: { loading } }) {
-            return {
-                ...state,
-                tagLoading: loading,
-            }
-        },
-        // setTags(state, { payload: { tags } }) {
-        //     return {
-        //         ...state,
-        //         tags: tags,
-        //     }
-        // },
-        update_exist_tags(state, { payload: { exist_tags } }) {
-            return {
-                ...state,
-                exist_tags: exist_tags,
-            }
-        }
     },
     effects: {
         // ------------------------------- Submit All Merge Request  -------------------------------
-        *sendMR({ payload: v }, { call, put, select }) {
+        *sendMR({ payload: v, callback }, { call, put, select }) {
             // assemble params
             let params = {
                 //   id: 'in for loop',
@@ -69,10 +25,6 @@ export default {
                 source_branch: v.mr_originBranch,
                 //   privateKey: v.mr_privateKey,
             }
-
-            // send_loading: true
-            yield put({ type: 'setSendLoading', payload: { loading: true } })
-
             // get git repositories which from selection
             const repositories = v.mr_repos
 
@@ -83,18 +35,18 @@ export default {
                 const r = yield call(publish.sendMR, params);
                 // 校验返回结果
                 if (r) {
-                    res.push(r);
+                    let repo_name = (repos.find(item => {
+                        return item.id == repositories[i]
+                    }).name)
+                    message.success(repo_name + ' 已提交 merge request')
+                    // res.push(r);
                 }
             }
-            // set localstore incase refresh page.
-            setStore('epro_publish_tool_mergeRequest', res);
-            // update state: result
-            yield put({ type: 'setMrResult', payload: { res } })
-            yield put({ type: 'setSendLoading', payload: { loading: false } })
+            if (callback) callback(true)
         },
 
         // ------------------------------- 接受单个Merge request -------------------------------
-        *acceptOne({ payload: v }, { call, put, select }) {
+        *acceptOne({ payload: v, callback }, { call, put, select }) {
             // -------------------- Step_1: Before accepting.
             let params = {
                 id: v.id,
@@ -102,67 +54,79 @@ export default {
             }
             // -------------------- Step_2: Doing accept.
             const r = yield call(publish.acceptMR, params);
-
-            // -------------------- Step_3: After accept.
-            // get merge requests from local storage.
-            let current_mrs = getStore("epro_publish_tool_mergeRequest");
-            // filter item from local items
-            let res = current_mrs.filter(item => {
-                return item.iid !== v.iid;
-            });
-
-            // update state: result.
-            yield put({ type: 'setMrResult', payload: { res } })
-            // update local storage.
-            setStore('epro_publish_tool_mergeRequest', res);
+            if (r) {
+                message.success('Accepted merge request')
+            }
         },
 
         // ------------------------------- 接受全部Merge request -------------------------------
-        *acceptAll(_, { call, put }) {
-            // get all merge request from local.
-            let current_mrs = getStore("epro_publish_tool_mergeRequest");
+        // *acceptAll({ payload }, { call, put }) {
+        //     console.info(payload)
+        //     // get all merge request from local.
 
-            // 🚧🚧🚧 call api to accept one by one.
-            let res_accept = [];
-            while (current_mrs.length != 0) {
-                // id is project_id
-                let params = { id: '', iid: '' };
-                params.id = current_mrs[0].project_id;
-                params.iid = current_mrs[0].iid;
-                const r = yield call(publish.acceptMR, params);
-                if (r.status === -1) {
-                    // 如果返回错误代码
+        //     // 🚧🚧🚧 call api to accept one by one.
+        //     let res_accept = [];
+        //     while (current_mrs.length != 0) {
+        //         // id is project_id
+        //         let params = { id: '', iid: '' };
+        //         params.id = current_mrs[0].project_id;
+        //         params.iid = current_mrs[0].iid;
+        //         const r = yield call(publish.acceptMR, params);
+        //         if (r.status === -1) {
+        //             // 如果返回错误代码
 
-                    // 执行删除操作
-                    const res_close = yield call(publish.close, params)
-                    console.info('res_close', res_close)
-                    if (res_close.status === 204) {
-                        message.success('无修改 merge request 删除成功!')
+        //             // 执行删除操作
+        //             const res_close = yield call(publish.close, params)
+        //             console.info('res_close', res_close)
+        //             if (res_close.status === 204) {
+        //                 message.success('无修改 merge request 删除成功!')
+        //             }
+        //             // 删除操作无数据返回. 请查看 utils/request.js文件
+
+        //             //🎃🎃🎃 删除当前数据 并更新 LocalStorage 和 state. 🎃🎃🎃
+        //             current_mrs.splice(0, 1);
+        //             // update state: result.
+        //             yield put({ type: 'setMrResult', payload: { res: current_mrs } })
+        //             // update local storage.
+        //             setStore('epro_publish_tool_mergeRequest', current_mrs);
+
+        //         } else {
+        //             // 将accept结果存储
+        //             res_accept.push(r);
+        //             //🎃🎃🎃 删除当前数据 并更新 LocalStorage 和 state. 🎃🎃🎃
+        //             current_mrs.splice(0, 1);
+        //             // update state: result.
+        //             yield put({ type: 'setMrResult', payload: { res: current_mrs } })
+        //             // update local storage.
+        //             setStore('epro_publish_tool_mergeRequest', current_mrs);
+        //         }
+        //     }
+        // },
+
+        // ------------------------------- 一次性接收所选merge requests -------------------------------
+        *acceptSelect({ payload, callback }, { call, put }) {
+            console.info(payload)
+            let flag = true
+            if (payload.length > 0) {
+                for (let i = 0; i < payload.length; i++) {
+                    // id is project_id
+                    let params = { id: '', iid: '' };
+                    params.id = payload[i].project_id;
+                    params.iid = payload[i].iid;
+                    const r = yield call(publish.acceptMR, params);
+                    if (r.status === -1) {
+                        flag = false
+                        // 执行删除操作
+                        // const res_close = yield call(publish.close, params)
+                        // if (res_close.status === 204) {
+                        //     message.success('无修改 merge request 删除成功!')
+                        // }
                     }
-                    // 删除操作无数据返回. 请查看 utils/request.js文件
-
-                    //🎃🎃🎃 删除当前数据 并更新 LocalStorage 和 state. 🎃🎃🎃
-                    current_mrs.splice(0, 1);
-                    // update state: result.
-                    yield put({ type: 'setMrResult', payload: { res: current_mrs } })
-                    // update local storage.
-                    setStore('epro_publish_tool_mergeRequest', current_mrs);
-
-                } else {
-                    // 将accept结果存储
-                    res_accept.push(r);
-                    //🎃🎃🎃 删除当前数据 并更新 LocalStorage 和 state. 🎃🎃🎃
-                    current_mrs.splice(0, 1);
-                    // update state: result.
-                    yield put({ type: 'setMrResult', payload: { res: current_mrs } })
-                    // update local storage.
-                    setStore('epro_publish_tool_mergeRequest', current_mrs);
                 }
+                if (callback) callback(flag)
+                // 重新查询
+                yield put({ type: 'searchOpenMR' })
             }
-            // set accept merge reqs into local 
-            setStore('epro_publish_tool_acceptRequest', res_accept);
-            // update state 
-            yield put({ type: 'setAcceptResult', payload: { res: res_accept } })
         },
 
         // ------------------------------- 一次性查询所有项目的tags -------------------------------
@@ -189,9 +153,7 @@ export default {
         // ------------------------------- 根据项目查询tags -------------------------------
         *searchProjectTags({ payload: project_id, callback }, { call, put }) {
             // console.info('project_id', project_id)
-            yield put({ type: 'setTagLoading', payload: { loading: true } })
             // 清空list
-            yield put({ type: 'update_exist_tags', payload: { exist_tags: [] } })
 
             let params = {
                 id: project_id,
@@ -199,13 +161,10 @@ export default {
             const r = yield call(publish.searchTags, params);
             if (callback) callback(r)
             //刷新list
-            yield put({ type: 'update_exist_tags', payload: { exist_tags: r } })
-            yield put({ type: 'setTagLoading', payload: { loading: false } })
         },
 
         // ------------------------------- 根据输入内容创建Tag -------------------------------
         *newSingleTag({ payload }, { call, put }) {
-            yield put({ type: 'setTagLoading', payload: { loading: true } })
             let params = {
                 id: payload.tag_project,
                 tag_name: payload.target_tag,
@@ -215,16 +174,14 @@ export default {
 
             const res_tag = yield call(publish.createTag, params);
 
-            // 本地化 Tag.
-            let local_tags = [];
-            if (getStore('epro_publish_tool_tags')) {
-                local_tags = getStore('epro_publish_tool_tags');
-            }
-            // 为结果增加属性
-            res_tag['project_id'] = payload.tag_project;
-            local_tags.push(res_tag);
-            setStore("epro_publish_tool_tags", local_tags);
-            yield put({ type: 'setTagLoading', payload: { loading: false } })
+            // // 本地化 Tag.
+            // let local_tags = [];
+            // if (getStore('epro_publish_tool_tags')) {
+            //     local_tags = getStore('epro_publish_tool_tags');
+            // }
+            // // 为结果增加属性
+            // res_tag['project_id'] = payload.tag_project;
+            // local_tags.push(res_tag);
         },
 
         // ------------------------------- 根据输入内容创建Tag -------------------------------
@@ -349,7 +306,6 @@ export default {
         },
         // ------------------------------- 根据项目查询tags -------------------------------
         *searchBranches({ payload: project_id, callback }, { call, put }) {
-            yield put({ type: 'setTagLoading', payload: { loading: true } })
             // 清空list
 
             let params = {
@@ -365,7 +321,6 @@ export default {
             // if (callback) callback(r)
 
             //刷新list
-            yield put({ type: 'setTagLoading', payload: { loading: false } })
         },
         *deleteBranch({ payload: record, rep_id: rep_id, callback }, { call, put, select }) {
             // 重构api参数

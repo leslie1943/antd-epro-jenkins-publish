@@ -57,8 +57,8 @@ class AcceptMR extends Component {
     render() {
         const { form: { getFieldDecorator, getFieldValue } } = this.props;
         // from mapStateToProps
-        const mrResult = this.props.mrResult;
-
+        // const mrResult = this.props.mrResult;
+        const mrResult = []
         // 列数据
         const columns = [
             {
@@ -159,7 +159,7 @@ class AcceptMR extends Component {
 function mapStateToProps(state) {
     // console.info(state.publish.result);
     return {
-        mrResult: state.publish.mrResult,
+        // mrResult: state.publish.mrResult,
     }
 }
 

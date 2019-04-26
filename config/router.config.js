@@ -57,12 +57,13 @@ export default [
             component: './Publish/SendMR',
           },
 
-          {
-            path: '/publish/accept-mr',
-            name: 'accept-mr',
-            icon: 'check',
-            component: './Publish/AcceptMR',
-          },
+          // 旧版的 accept merge request, need local data support
+          // {
+          //   path: '/publish/accept-mr',
+          //   name: 'accept-mr',
+          //   icon: 'check',
+          //   component: './Publish/AcceptMR',
+          // },
 
           {
             path: '/publish/mr-accept',
@@ -82,18 +83,13 @@ export default [
           //   icon: 'tags',
           //   component: './Publish/Tags',
           // },
-          {
-            path: '/publish/new-tag',
-            name: 'new-tag',
-            icon: 'tag',
-            component: './Publish/NewTag',
-          },
-          {
-            path: '/publish/action-tag',
-            name: 'action-tag',
-            icon: 'tool',
-            component: './Publish/ActionTag',
-          },
+          // {
+          //   path: '/publish/new-tag',
+          //   name: 'new-tag',
+          //   icon: 'tag',
+          //   component: './Publish/NewTag',
+          // },
+
           // {
           //   path: '/publish/batch-tag',
           //   name: 'batch-tag',
@@ -105,6 +101,13 @@ export default [
             name: 'batch-tag-basic',
             icon: 'code-sandbox',
             component: './Publish/BatchTagBasic',
+          },
+
+          {
+            path: '/publish/action-tag',
+            name: 'action-tag',
+            icon: 'tool',
+            component: './Publish/ActionTag',
           },
 
           {

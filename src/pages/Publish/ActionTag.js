@@ -20,7 +20,9 @@ class ActionTag extends Component {
         super(props)
         this.state = {
             repository_id: '',
-            selectedRowKeys: []
+            selectedRowKeys: [],
+            loading: false,
+            tagList: []
         }
     }
 
@@ -71,10 +73,17 @@ class ActionTag extends Component {
     // 查询选中仓库的tags
     onProjectChange = (value) => {
         // 执行查询
-        this.setState({ repository_id: value })
+
+        this.setState({ repository_id: value, loading: true })
         this.props.dispatch({
             type: 'publish/searchProjectTags',
             payload: value,
+            callback: (res) => {
+                this.setState({
+                    loading: false,
+                    tagList: res
+                })
+            }
         });
     }
 
@@ -136,12 +145,12 @@ class ActionTag extends Component {
         };
         const { form: { getFieldDecorator, getFieldValue } } = this.props;
         // from mapStateToProps
-        const exist_tags = this.props.exist_tags;
-        const tagLoading = this.props.tagLoading;
+        const loading = this.state.loading;
+        const tagList = this.state.tagList;
         return (
             <PageHeaderWrapper title="Action: query/delete tag" content="">
                 <Card bordered={false}>
-                    <Spin spinning={tagLoading} tip="Loading...">
+                    <Spin spinning={loading} tip="Loading...">
                         <Form style={{ marginTop: 8 }}>
                             {/* ------------ Tag project ------------ */}
                             <FormItem {...layout.formItemLayout} label={fieldLabels.tag_project}>{
@@ -154,7 +163,7 @@ class ActionTag extends Component {
                             }</FormItem>
                         </Form>
                         {/* 结果列表 */}
-                        <Table rowSelection={rowSelection} pagination={{ pageSize: 50 }} rowKey="name" scroll={{ y: 500 }} columns={columns} dataSource={exist_tags ? exist_tags : []} />
+                        <Table rowSelection={rowSelection} pagination={{ pageSize: 50 }} rowKey="name" scroll={{ y: 500 }} columns={columns} dataSource={tagList ? tagList : []} />
                         <div style={{ textAlign: 'center', marginTop: '10px' }}><Button type="primary" onClick={this.deleteTags}>删除选中tags</Button></div>
                     </Spin>
                 </Card>
@@ -164,14 +173,7 @@ class ActionTag extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        exist_tags: state.publish.exist_tags,
-        tagLoading: state.publish.tagLoading
-    }
-}
-
 // connect里的所有属性在UI层可以使用 this.props.xxx来使用.
-const _actionTag = connect(mapStateToProps)(ActionTag)
+const _actionTag = connect()(ActionTag)
 
 export default _actionTag

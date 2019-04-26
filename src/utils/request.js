@@ -29,7 +29,7 @@ const checkStatus = response => {
   } else {
     if (response.status === 405 && response.statusText === 'Method Not Allowed') {
       message.error('错误操作: 无修改的 merge request')
-      message.warn('即将执行后续操作...')
+      // message.warn('即将执行后续操作...')
     } else {
       message.error(codeMessage[response.status] || response.statusText)
     }

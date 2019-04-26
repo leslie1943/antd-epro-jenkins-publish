@@ -26,6 +26,9 @@ const fieldLabels = {
 class SendMR extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            loading: false
+        }
     }
 
     // 父子组件方法执行顺序: 子start=>父start=>父finish=>子finish
@@ -53,14 +56,19 @@ class SendMR extends Component {
                 if (values.mr_originBranch === values.mr_targetBranch) {
                     message.error('Can not be same branch!!!');
                 } else {
+                    this.setState({ loading: true })
                     Modal.confirm({
                         title: '勾选的项目发送 Merge request',
                         content: '请确认你的操作?',
                         okText: '确定',
                         cancelText: '取消',
+                        onCancel: () => this.setState({ loading: false }),
                         onOk: () => dispatch({
                             type: 'publish/sendMR',
                             payload: values,
+                            callback: () => {
+                                this.setState({ loading: false })
+                            }
                         })
                     })
                 }
@@ -71,12 +79,12 @@ class SendMR extends Component {
     render() {
         const { form: { getFieldDecorator, getFieldValue } } = this.props;
         // from mapStateToProps
-        const sendLoading = this.props.sendLoading;
+        const loading = this.state.loading;
         return (
             <PageHeaderWrapper title="Send merge request" content="">
                 {/* ####################### Panel_Step 1 ###################################### */}
                 <Card bordered={false} >
-                    <Spin spinning={sendLoading} tip="Merge requests are submitting...">
+                    <Spin spinning={loading} tip="Merge requests are submitting...">
                         <Form style={{ marginTop: 8 }}  >
                             {/* ---------------- 私钥  ---------------- */}
 
@@ -144,7 +152,6 @@ class SendMR extends Component {
 
 function mapStateToProps(state) {
     return {
-        sendLoading: state.publish.sendLoading,
     }
 }
 

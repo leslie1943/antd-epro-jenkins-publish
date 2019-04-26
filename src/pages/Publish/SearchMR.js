@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import styles from './BasicPublish.css';
 import moment from 'moment';
 import { connect } from 'dva';
 import { Form, Card, Select, Table, Button, message, Modal, Spin, Divider } from 'antd';
@@ -51,20 +50,6 @@ class SearchMR extends Component {
             }
         });
     };
-
-    // 查询所有open merge request
-    searchOpen = () => {
-        this.setState({ loading: true })
-        this.props.dispatch({
-            type: 'publish/searchOpenMR',
-            callback: res => {
-                this.setState({
-                    mergeList: res,
-                    loading: false
-                })
-            }
-        });
-    }
 
     deleteRecord(record) {
         const { dispatch } = this.props;
@@ -142,7 +127,6 @@ class SearchMR extends Component {
                     }
                 }
             },
-
         ];
         return (
             <PageHeaderWrapper title="Query merge request" content="">
@@ -161,7 +145,6 @@ class SearchMR extends Component {
                         {/*  */}
                         <FormItem {...layout.submitFormLayout} style={{ marginTop: 10 }}>
                             <Button type="primary" onClick={() => this.search()}>查询 merge request</Button>
-                            <Button style={{ marginLeft: '10px' }} type="primary" onClick={this.searchOpen}>查询 所有 open merge request</Button>
                         </FormItem>
                     </Form>
                     <Spin spinning={loading} tip="Loading...">
