@@ -28,13 +28,13 @@ class SearchMR extends Component {
 
     search = () => {
         const { form: { validateFields, getFieldValue }, dispatch } = this.props;
-        this.setState({ loading: true })
         validateFields(['repository'], (error, values) => {
             // 🎃🎃🎃KEEP DESC🎃🎃🎃 [getFieldValue('fieldName')]
             // 🎃🎃🎃KEEP DESC🎃🎃🎃 validateFieldsAndScroll: 校验所有当前页面所有的字段
             // 🎃🎃🎃KEEP DESC🎃🎃🎃 validateFields: 校验指定的Fields
             // 🎃🎃🎃KEEP DESC🎃🎃🎃 validateFieldsAndScroll((error, values) => {
             if (!error) {
+                this.setState({ loading: true })
                 let project_id = getFieldValue('repository');
                 dispatch({
                     type: 'publish/searchMR',

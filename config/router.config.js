@@ -43,52 +43,18 @@ export default [
         name: 'publish',
         icon: 'gitlab',
         routes: [
-          // {
-          //   path: '/publish/basic',
-          //   name: 'basic',
-          //   icon: 'pushpin',
-          //   component: './Publish/BasicPublish',
-          // },
-
           {
             path: '/publish/send-mr',
             name: 'send-mr',
             icon: 'rocket',
             component: './Publish/SendMR',
           },
-
-          // 旧版的 accept merge request, need local data support
-          // {
-          //   path: '/publish/accept-mr',
-          //   name: 'accept-mr',
-          //   icon: 'check',
-          //   component: './Publish/AcceptMR',
-          // },
-
           {
             path: '/publish/mr-accept',
             name: 'mr-accept',
             icon: 'check',
             component: './Publish/MRAccept',
           },
-          // {
-          //   path: '/publish/close',
-          //   name: 'close',
-          //   icon: 'close-circle',
-          //   component: './Publish/CloseRequest',
-          // },
-          // {
-          //   path: '/publish/tags',
-          //   name: 'tags',
-          //   icon: 'tags',
-          //   component: './Publish/Tags',
-          // },
-          // {
-          //   path: '/publish/new-tag',
-          //   name: 'new-tag',
-          //   icon: 'tag',
-          //   component: './Publish/NewTag',
-          // },
 
           // {
           //   path: '/publish/batch-tag',

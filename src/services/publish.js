@@ -24,7 +24,7 @@ export async function sendMR(params) {
 }
 
 export async function acceptMR(params) {
-  console.info(params);
+  // console.info(params);
   // Call service
   const res = await request('/api/v4/projects/' + params.id + '/merge_requests/' + params.iid + '/merge', {
     method: 'PUT',
@@ -59,7 +59,7 @@ export async function createTag(params) {
     // write area.
     // release_description: 'this is the release description for write area.',
   }
-  console.info(data);
+  // console.info(data);
   // Call service
   const res = await request('/api/v4/projects/' + params.id + '/repository/tags', {
     method: 'POST',
