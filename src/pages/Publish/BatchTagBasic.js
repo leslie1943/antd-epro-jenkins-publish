@@ -39,11 +39,9 @@ class BatchTag extends Component {
             return;
         } else {
             // 删除最后一个.
-            // keys.pop()
             // can use data-binding to set
             form.setFieldsValue({
                 keys: keys.filter(key => key !== k),
-                // keys: keys
             });
         }
     }
