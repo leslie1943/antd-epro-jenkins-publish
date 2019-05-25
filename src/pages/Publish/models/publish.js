@@ -35,10 +35,10 @@ export default {
                 const r = yield call(publish.sendMR, params);
                 // 校验返回结果
                 if (r) {
-                    let repo_name = (repos.find(item => {
-                        return item.id == repositories[i]
-                    }).name)
-                    message.success(repo_name + ' 已提交 merge request')
+                    // let repo_name = (repos.find(item => {
+                    //     return item.id == repositories[i]
+                    // }).name)
+                    message.success('已提交 merge request')
                     // res.push(r);
                 }
             }
@@ -73,10 +73,10 @@ export default {
                     if (r.status === -1) {
                         flag = false
                         // 执行删除操作
-                        // const res_close = yield call(publish.close, params)
-                        // if (res_close.status === 204) {
-                        //     message.success('无修改 merge request 删除成功!')
-                        // }
+                        const res_close = yield call(publish.close, params)
+                        if (res_close.status === 204) {
+                            message.success('无修改 merge request 删除成功!')
+                        }
                     }
                 }
                 if (callback) callback(flag)

@@ -103,9 +103,10 @@ class MRAccept extends Component {
                 key: 'project_id',
                 width: 200,
                 render: (text, record) => {
-                    return (repos.find(item => {
-                        return item.id == record.project_id
-                    }).name)
+                    return record.project_id
+                    // return (repos.find(item => {
+                    //     return item.id == record.project_id
+                    // }).name)
                 }
             },
             // {
