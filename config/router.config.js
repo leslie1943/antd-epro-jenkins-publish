@@ -18,7 +18,8 @@ export default [
     authority: ['admin', 'user'],
     routes: [
       // dashboard
-      { path: '/', redirect: '/publish/send-mr' },
+      // { path: '/', redirect: '/publish/send-mr' },
+      { path: '/', redirect: '/publish/projects' },
       // -------------- the code of Leslie demo
       // {
       //   path: '/demo',

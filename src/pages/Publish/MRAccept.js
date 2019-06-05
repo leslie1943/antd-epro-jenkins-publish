@@ -54,6 +54,7 @@ class MRAccept extends Component {
                 callback: (res) => {
                     if (res) {
                         message.success('Merged all selected items')
+                        this.searchOpen()
                     } else {
                         message.error('Error occurs during merge process.')
                     }

@@ -4,6 +4,8 @@ import { connect } from 'dva';
 import { Form, Card, Modal, Button, message, Divider, Tooltip, Select, Input, Spin, Text, Radio } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import layout from "@/utils/layout";
+import { getRepository } from '@/utils/gitMap';
+const repos = getRepository();
 const FormItem = Form.Item;
 const TextArea = Input.TextArea
 const { Option } = Select;
@@ -14,6 +16,7 @@ const fixedParams = ' -PvhscTracingVersion=0.1.0-SNAPSHOT -PvhscMetricsVersion=0
 
 const repository = [
     { value: 104, label: 'epro-user-svc' },
+    // { value: 107, label: 'epro-mall-web' },
     { value: 103, label: 'epro-certificate-svc' },
     { value: 116, label: 'epro-dmcc-svc' },
     { value: 106, label: 'epro-mall' },
@@ -448,7 +451,7 @@ class Job extends Component {
                                     initialValue: '',
                                     rules: [{ required: true, message: 'Repository is required' }],
                                 })(<Select placeholder="全部项目" onChange={this.projectChange}>
-                                    {repository.map(item => <Option key={item.value} value={item.value}>{item.label}</Option>)}
+                                    {repos.map(item => <Option key={item.value} value={item.value}>{item.label}</Option>)}
                                 </Select>)
                             }</FormItem>
 
@@ -468,20 +471,22 @@ class Job extends Component {
                                     initialValue: '',
                                     // rules: [{ required: true, message: 'Branch is required' }]
                                 })(<RadioGroup onChange={this.changeBranch}>
-                                    < Radio value="develop" > develop</Radio>
+                                    <Radio value="develop" > develop</Radio>
                                     <Radio value="develop-hx">develop-hx</Radio>
+                                    <Radio value="master">master</Radio>
+                                    <Radio value="master-hx">master-hx</Radio>
                                 </RadioGroup>)
                             }</FormItem>
 
                             {/* ------------ 对应依赖项 ------------ */}
                             <DependencyItem handleLevelOne={this.handleLevelOne} param={this.props} id={id} ></DependencyItem>
 
-                            {/* ------------ 依赖项生成 ------------ */}
+                            {/* ------------ 依赖项生成  disabled ------------ */}
                             <FormItem  {...layout.formItemLayout} label="Gradle properties">{
                                 getFieldDecorator('gradleProperties', {
                                     initialValue: '',
-                                    rules: [{ required: true, message: 'Gradle properties is required' }],
-                                })(<TextArea disabled rows={6}></TextArea>)
+                                    // rules: [{ required: true, message: 'Gradle properties is required' }],
+                                })(<TextArea rows={6}></TextArea>)
                             }</FormItem>
 
                             {/* ------------ 提交 ------------ */}

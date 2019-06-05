@@ -212,8 +212,22 @@ export default {
             const response = yield call(publish.listEproProjects)
             if (response) {
                 let local_repos = []
+                // filter no-epro projects
                 response.forEach(item => {
-                    if (item.id != 137 && item.id != 132)
+                    if (item.id != 276 &&
+                        item.id != 270 &&
+                        item.id != 269 &&
+                        item.id != 268 &&
+                        item.id != 267 &&
+                        item.id != 263 &&
+                        item.id != 206 &&
+                        item.id != 137 &&
+                        item.id != 132 &&
+                        item.id != 130 &&
+                        item.id != 122 &&
+                        item.id != 115 &&
+                        item.id != 108 &&
+                        item.id != 105)
                         local_repos.push({
                             id: item.id,
                             value: item.id,
@@ -221,7 +235,9 @@ export default {
                             label: item.name
                         })
                 })
+                // 设置localstorage
                 setStore("epro_repository", local_repos);
+                // 返回的是没过滤的.
                 callback(response)
             } else {
                 callback([])

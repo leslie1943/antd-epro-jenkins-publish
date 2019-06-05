@@ -1,8 +1,6 @@
 import request from '@/utils/request';
 import { getStore } from '@/utils/localStore';
 import { validateResult, toBase64 } from '@/utils/utils';
-// get crumb
-const crumb = getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth')['crumb'] : '';
 
 // --------------------------- 获取用户的Jenkins认证 ---------------------------
 export async function auth() {
@@ -25,7 +23,7 @@ export async function buildDeploy() {
     method: 'POST',
     headers: {
       'Authorization': 'Basic ' + toBase64(),
-      'Jenkins-Crumb': crumb,
+      'Jenkins-Crumb': getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth')['crumb'] : '',
       'Access-Control-Allow-Origin': '*',
       // 'Content-Type':'application/json;charset=UTF-8',
     }
@@ -46,7 +44,7 @@ export async function buildPipeline(params) {
     body: data,
     headers: {
       'Authorization': 'Basic ' + toBase64(),
-      'Jenkins-Crumb': crumb,
+      'Jenkins-Crumb': getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth')['crumb'] : '',
       'Access-Control-Allow-Origin': '*',
       // 'Content-Type':'application/json;charset=UTF-8',
     }
@@ -59,7 +57,7 @@ export async function getProjectJson(params) {
     method: 'POST',
     headers: {
       'Authorization': 'Basic ' + toBase64(),
-      'Jenkins-Crumb': crumb,
+      'Jenkins-Crumb': getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth')['crumb'] : '',
       'Access-Control-Allow-Origin': '*',
       // 'Content-Type':'application/json;charset=UTF-8',
     }
@@ -73,7 +71,7 @@ export async function getBuildDetail(params) {
     method: 'get',
     headers: {
       'Authorization': 'Basic ' + toBase64(),
-      'Jenkins-Crumb': crumb,
+      'Jenkins-Crumb': getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth')['crumb'] : '',
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json;charset=UTF-8',
     }

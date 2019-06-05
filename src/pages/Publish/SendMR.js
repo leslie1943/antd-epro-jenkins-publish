@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form, Card, Input, Spin, List, Collapse, Select, Checkbox, Modal, Button, message, Row, Col } from 'antd';
+import { Form, Card, Input, Spin, List, Collapse, Select, Checkbox, Popover, Modal, Button, message, Row, Col } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import RepositoryOptions from '@/components/RepositoryOptions';
 import { getRepository } from '../../utils/gitMap';
@@ -80,8 +80,38 @@ class SendMR extends Component {
         const { form: { getFieldDecorator, getFieldValue } } = this.props;
         // from mapStateToProps
         const loading = this.state.loading;
+        const filterredProject = [
+            { id: 276, name: 'temptation' },
+            { id: 270, name: 'epro-gy-job' },
+            { id: 269, name: 'epro-gy-svc' },
+            { id: 268, name: 'epro-gy-mall' },
+            { id: 267, name: 'epro-flyway-gy' },
+            { id: 263, name: 'epro-mall-web-gy' },
+            { id: 206, name: 'epro-web-kernel' },
+            { id: 137, name: 'epro_outline_design' },
+            { id: 132, name: 'cookie-book' },
+            { id: 130, name: 'epro-cms-vue' },
+            { id: 122, name: 'epro-search' },
+            { id: 115, name: 'epro-dexxx' },
+            { id: 108, name: 'epro-op-web-dexxxxx' },
+            { id: 105, name: 'vh-project-maker' },
+        ]
+        const filterSection = filterredProject.map(item => {
+            return (
+                <div key={item.id}>
+                    <i key={item.id}>
+                        {item.name}
+                    </i>
+                </div>
+            )
+        })
         return (
             <PageHeaderWrapper title="Send merge request" content="">
+                <div style={{ margin: '20px', textAlign: 'right' }}>
+                    <Popover content={filterSection} title="过滤掉的项目列表">
+                        <Button icon="exclamation-circle">过滤掉的项目</Button>
+                    </Popover>
+                </div>
                 {/* ####################### Panel_Step 1 ###################################### */}
                 <Card bordered={false} >
                     <Spin spinning={loading} tip="Merge requests are submitting...">
