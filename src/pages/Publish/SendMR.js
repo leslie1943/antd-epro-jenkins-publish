@@ -107,7 +107,7 @@ class SendMR extends Component {
         })
         return (
             <PageHeaderWrapper title="Send merge request" content="">
-                <div style={{ margin: '20px', textAlign: 'right' }}>
+                <div style={{ margin: '20px', textAlign: 'left' }}>
                     <Popover content={filterSection} title="过滤掉的项目列表">
                         <Button icon="exclamation-circle">过滤掉的项目</Button>
                     </Popover>
