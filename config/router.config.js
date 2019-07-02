@@ -90,6 +90,12 @@ export default [
             component: './Publish/Branches',
           },
           {
+            path: '/publish/commits',
+            name: 'commits',
+            icon: 'twitter',
+            component: './Publish/Commits',
+          },
+          {
             path: '/publish/projects',
             name: 'projects',
             icon: 'project',

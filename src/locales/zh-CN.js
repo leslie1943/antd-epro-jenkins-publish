@@ -54,6 +54,7 @@ export default {
   'menu.publish.branches': '查询 / 删除 branch',
   'menu.publish.projects': '易普项目 列表',
   'menu.publish.contributors': '易普项目 贡献',
+  'menu.publish.commits': '查询 commits',
 
   //jenkins
   'menu.jenkins': 'Jenkins- 操作',

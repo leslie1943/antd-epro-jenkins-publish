@@ -19,7 +19,7 @@ const fieldLabels = {
     branch_repository: 'Repository name:',
 };
 @Form.create()
-class Projects extends Component {
+class Contributors extends Component {
     constructor(props) {
         super(props)
         this.state = { people: [], loading: false, chartData: [] }
@@ -140,6 +140,6 @@ class Projects extends Component {
 }
 
 // connect里的所有属性在UI层可以使用 this.props.xxx来使用.
-const _projects = connect()(Projects)
+const _contributors = connect()(Contributors)
 
-export default _projects
+export default _contributors

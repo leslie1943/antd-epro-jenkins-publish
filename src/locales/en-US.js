@@ -52,7 +52,7 @@ export default {
   'menu.publish.branches': 'Repository branches',
   'menu.publish.projects': 'Epro repository list',
   'menu.publish.contributors': 'Repository contributors',
-
+  'menu.publish.commits': 'Repository commits',
 
   // Jenkins
   'menu.jenkins': 'Jenkins - action',

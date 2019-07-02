@@ -122,7 +122,6 @@ export async function deleteTag(params) {
 }
 
 // DELETE /projects/:id/repository/branches/:branch
-
 export async function deleteBranch(params) {
   return request('/api/v4/projects/' + params.id + '/' + 'repository/branches/' + params.name, {
     method: 'DELETE',
@@ -167,6 +166,18 @@ export async function listContributors(params) {
       'Content-Type': 'application/json;charset=UTF-8',
       "PRIVATE-TOKEN": token,
     },
-  });
+  })
+  return validateResult(res);
+}
+
+export async function listCommits(params) {
+  // Call service
+  const res = await request(`/api/v4/projects/${params.id}/repository/commits?per_page=2000`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      "PRIVATE-TOKEN": token
+    }
+  })
   return validateResult(res);
 }

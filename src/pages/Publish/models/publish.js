@@ -253,6 +253,15 @@ export default {
                 callback([])
             }
         },
+        *listCommits({ payload, callback }, { call, put, select }) {
+            // 执行查询api
+            const response = yield call(publish.listCommits, payload)
+            if (response) {
+                callback(response)
+            } else {
+                callback([])
+            }
+        }
     },
     subscriptions: {
         resize({ dispatch, history }) {
