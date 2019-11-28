@@ -213,10 +213,10 @@ export default {
             if (response) {
                 let local_repos = []
                 // filter no-epro projects
+                // item.id != 269 &&
                 response.forEach(item => {
                     if (item.id != 276 &&
                         item.id != 270 &&
-                        item.id != 269 &&
                         item.id != 268 &&
                         item.id != 267 &&
                         item.id != 263 &&

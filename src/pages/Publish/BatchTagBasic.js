@@ -113,6 +113,7 @@ class BatchTag extends Component {
                             <Option value="master-hx">master-hx</Option>
                             <Option value="develop">develop</Option>
                             <Option value="develop-hx">develop-hx</Option>
+                            <Option value="staging">staging</Option>
                         </Select>)}
                     </FormItem>
                 </Col>

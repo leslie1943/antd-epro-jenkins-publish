@@ -103,7 +103,7 @@ export async function close(params) {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
-      "PRIVATE-TOKEN": tokens['renzhisen'], //RenZhiSen's Token
+      "PRIVATE-TOKEN": tokens['liupeijiang'], //RenZhiSen's Token
     },
   });
   // 删除操作 直接返回结果
@@ -116,7 +116,7 @@ export async function deleteTag(params) {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
-      "PRIVATE-TOKEN": tokens['renzhisen'], //RenZhiSen's Token
+      "PRIVATE-TOKEN": tokens['liupeijiang'], //RenZhiSen's Token
     },
   })
 }
@@ -127,7 +127,7 @@ export async function deleteBranch(params) {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
-      "PRIVATE-TOKEN": tokens['renzhisen'], //RenZhiSen's Token
+      "PRIVATE-TOKEN": tokens['liupeijiang'], //RenZhiSen's Token
     },
   })
 }

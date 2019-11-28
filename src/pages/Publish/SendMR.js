@@ -137,6 +137,7 @@ class SendMR extends Component {
                                     <Option value="develop-hx">develop-hx</Option>
                                     <Option value="master">master</Option>
                                     <Option value="master-hx">master-hx</Option>
+                                    <Option value="staging">staging</Option>
                                 </Select>)
                             }</FormItem>
                             {/* ---------------- 目标分支 ---------------- */}
@@ -149,6 +150,7 @@ class SendMR extends Component {
                                     <Option value="develop-hx">develop-hx</Option>
                                     <Option value="master">master</Option>
                                     <Option value="master-hx">master-hx</Option>
+                                    <Option value="staging">staging</Option>
                                 </Select>)
                             }</FormItem>
 
