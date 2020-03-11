@@ -61,6 +61,12 @@ export default {
   'menu.jenkins.pipeline': 'Jenkins-pipeline',
   'menu.jenkins.info': 'Project info',
 
+  // demo
+  'menu.demos': 'Demos',
+  'menu.demos.ref': 'Demos ref',
+  'menu.demos.hoc': 'Demos hoc',
+  'menu.demos.pubsub': 'Demos pubsub',
+  'menu.demos.hook': 'Demos hook',
 
   // Antd
   'menu.antd': 'Antd demos',

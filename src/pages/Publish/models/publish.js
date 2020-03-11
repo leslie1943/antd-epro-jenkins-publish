@@ -1,9 +1,11 @@
+/* eslint-disable */
 import * as publish from '@/services/publish';
 import { setStore, getStore } from '@/utils/localStore';
 import { getLatestRecord, generateLatestTag } from '@/utils/utils';
 
 import { message } from 'antd';
 import { getRepository } from '@/utils/gitMap';
+
 const repos = getRepository();
 
 
@@ -17,7 +19,7 @@ export default {
         // ------------------------------- Submit All Merge Request  -------------------------------
         *sendMR({ payload: v, callback }, { call, put, select }) {
             // assemble params
-            let params = {
+            const params = {
                 //   id: 'in for loop',
                 title: v.mr_title,
                 description: v.mr_description,
@@ -29,8 +31,8 @@ export default {
             const repositories = v.mr_repos
 
             // start call services.
-            let res = [];
-            for (var i = 0; i < repositories.length; i++) {
+            const res = [];
+            for (let i = 0; i < repositories.length; i++) {
                 params.id = repositories[i]
                 const r = yield call(publish.sendMR, params);
                 // 校验返回结果
@@ -48,7 +50,7 @@ export default {
         // ------------------------------- 接受单个Merge request -------------------------------
         *acceptOne({ payload: v, callback }, { call, put, select }) {
             // -------------------- Step_1: Before accepting.
-            let params = {
+            const params = {
                 id: v.id,
                 iid: v.iid,
             }
@@ -66,7 +68,7 @@ export default {
             if (payload.length > 0) {
                 for (let i = 0; i < payload.length; i++) {
                     // id is project_id
-                    let params = { id: '', iid: '' };
+                    const params = { id: '', iid: '' };
                     params.id = payload[i].project_id;
                     params.iid = payload[i].iid;
                     const r = yield call(publish.acceptMR, params);
@@ -89,18 +91,18 @@ export default {
             // console.info('project_id', project_id)
             // 清空list
 
-            let params = {
+            const params = {
                 id: project_id,
             }
             const r = yield call(publish.searchTags, params);
             if (callback) callback(r)
-            //刷新list
+            // 刷新list
         },
 
         // ------------------------------- 根据输入内容创建Tag -------------------------------
         *batchTag({ payload, callback }, { call, put }) {
             // 循环所有的tag
-            let all_res = [];
+            const all_res = [];
             for (let i = 0; i < payload.length; i++) {
                 const res_tag = yield call(publish.createTag, payload[i]);
                 all_res.push(res_tag)
@@ -110,7 +112,7 @@ export default {
 
         // ------------------------------- 查询Merge request -------------------------------
         *searchMR({ payload, callback }, { call, put, select }) {
-            let params = {
+            const params = {
                 id: payload.repository
             }
             const r = yield call(publish.searchMR, params);
@@ -121,7 +123,7 @@ export default {
         *searchOpenMR({ payload, callback }, { call, put, select }) {
             let res = [];
             for (let i = 0; i < repos.length; i++) {
-                let params = {
+                const params = {
                     id: repos[i].id
                 }
                 const r = yield call(publish.searchOpenMR, params);
@@ -135,7 +137,7 @@ export default {
 
         // ------------------------------- close -------------------------------
         *close({ payload: record, callback }, { call, put, select }) {
-            let params = {
+            const params = {
                 id: record.project_id,
                 iid: record.iid,
             }
@@ -144,9 +146,9 @@ export default {
             const r = yield call(publish.searchMR, params);
             if (callback) callback(r)
         },
-        *deleteTag({ payload: record, rep_id: rep_id, callback }, { call, put, select }) {
+        *deleteTag({ payload: record, rep_id, callback }, { call, put, select }) {
             // 重构api参数
-            let params = {
+            const params = {
                 id: rep_id,
                 name: record.name
             }
@@ -161,10 +163,10 @@ export default {
                 payload: rep_id
             })
         },
-        *deleteTags({ payload: tags, rep_id: rep_id, callback }, { call, put, select }) {
+        *deleteTags({ payload: tags, rep_id, callback }, { call, put, select }) {
             // 重构api参数
             for (let i = 0; i < tags.length; i++) {
-                let params = { id: rep_id, name: tags[i] }
+                const params = { id: rep_id, name: tags[i] }
                 // 执行删除api
                 const response = yield call(publish.deleteTag, params)
                 // 返回结果to前台页面
@@ -180,7 +182,7 @@ export default {
         *searchBranches({ payload: project_id, callback }, { call, put }) {
             // 清空list
 
-            let params = {
+            const params = {
                 id: project_id,
             }
             const r = yield call(publish.searchBranches, params);
@@ -190,9 +192,9 @@ export default {
                 message.error('Error')
             }
         },
-        *deleteBranch({ payload: record, rep_id: rep_id, callback }, { call, put, select }) {
+        *deleteBranch({ payload: record, rep_id, callback }, { call, put, select }) {
             // 重构api参数
-            let params = {
+            const params = {
                 id: rep_id,
                 name: record.name
             }
@@ -211,14 +213,14 @@ export default {
             // 执行删除api
             const response = yield call(publish.listEproProjects)
             if (response) {
-                let local_repos = []
+                const local_repos = []
                 // filter no-epro projects
                 // item.id != 269 &&
+                // item.id != 267 &&
+                // item.id != 270 &&
+                // item.id != 268 &&
                 response.forEach(item => {
                     if (item.id != 276 &&
-                        item.id != 270 &&
-                        item.id != 268 &&
-                        item.id != 267 &&
                         item.id != 263 &&
                         item.id != 206 &&
                         item.id != 137 &&

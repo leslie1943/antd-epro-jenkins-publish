@@ -56,12 +56,18 @@ export default {
   'menu.publish.contributors': '易普项目 贡献',
   'menu.publish.commits': '查询 commits',
 
-  //jenkins
+  // jenkins
   'menu.jenkins': 'Jenkins- 操作',
   'menu.jenkins.auth': 'Jenkins-auth',
   'menu.jenkins.job': 'Jenkins-job',
   'menu.jenkins.pipeline': 'Jenkins-pipeline',
   'menu.jenkins.info': 'Project info',
+
+  'menu.demos': 'Demos',
+  'menu.demos.ref': 'Demos ref',
+  'menu.demos.hoc': 'Demos hoc',
+  'menu.demos.pubsub': 'Demos pubsub',
+  'menu.demos.hook': 'Demos hook',
 
   // Antd
   'menu.antd': 'Antd demos',

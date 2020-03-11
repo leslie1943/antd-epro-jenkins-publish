@@ -1,11 +1,13 @@
+/* eslint-disable */
+
 import React, { Component } from 'react';
-import styles from './TodoList.css';
 import { connect } from 'dva';
-import { Button, Input,Checkbox,message} from 'antd';
+import { Button, Input, Checkbox, message } from 'antd';
+import styles from './TodoList.css';
 
 
-class TodoList extends Component{
-    constructor(props){
+class TodoList extends Component {
+    constructor(props) {
         /**
          * this.props:
          *  => dispatch
@@ -15,49 +17,53 @@ class TodoList extends Component{
          *  => match
          */
         super(props)
-        
+
         this.state = {
             value: ''
         }
     }
-    componentDidMount(){}
+
+    componentDidMount() { }
 
     // 删除待办事项.
-    removeItem(index){
+    removeItem(index) {
         this.props.dispatch({
             type: 'todo/delete',
             payload: index
         })
     }
+
     // 改变待办事项状态.
-    toggleItem(index){
+    toggleItem(index) {
         this.props.dispatch({
             type: 'todo/toggle',
             payload: index
         })
     }
+
     // 改变待办事项内容.
-    modify(value,index){
+    modify(value, index) {
         this.props.dispatch({
             type: 'todo/modify',
-            payload: {value,index}
+            payload: { value, index }
         })
     }
+
     // 增加待办事项
-    addTodo(value){
-        if(value){
+    addTodo(value) {
+        if (value) {
             this.props.dispatch({
                 type: 'todo/addTodo',
                 payload: value
             });
             // 添加后清空.
-            this.setState({value: ''});
-        }else{
+            this.setState({ value: '' });
+        } else {
             message.error('待办事项不能为空.');
         }
     }
 
-    render(){
+    render() {
         /**
          * this.props:
          *  => dispatch
@@ -66,61 +72,59 @@ class TodoList extends Component{
          *  => location
          *  => match
          */
-        const {list} = this.props;
+        const { list } = this.props;
         let count = 0;
-        list.map(item => count = !item.finished ? count + 1: count);
-        return(
+        list.map(item => count = !item.finished ? count + 1 : count);
+        return (
             <div className={styles.container}>
                 <span>
                     <h1>我的待办事项</h1>
                     <h3>你有{count}项待办事项未处理</h3>
                 </span>
-                
+
                 <Input
-                    style={{borderWidth:1,borderColor: '#5aaafa',width:'300px'}}
+                    style={{ borderWidth: 1, borderColor: '#5aaafa', width: '300px' }}
                     placeholder="请输入待办事项,按回车键直接添加..."
                     value={this.state.value}
-                    onChange={(e) => this.setState({value : e.target.value})}
-                    onKeyDown={(e)=>{
-                        if(e.keyCode === 13){
-                            let title = e.target.value
-                            if(title.length > 0){
+                    onChange={(e) => this.setState({ value: e.target.value })}
+                    onKeyDown={(e) => {
+                        if (e.keyCode === 13) {
+                            const title = e.target.value
+                            if (title.length > 0) {
                                 this.addTodo(title)
                             }
                         }
                     }}
                 />
-                <span style={{paddingLeft:'10px'}}></span>
+                <span style={{ paddingLeft: '10px' }} />
                 <Button type="primary" onClick={() => this.addTodo(this.state.value)}>添加</Button>
                 <span>
                     <ul>
                         {
-                            list.map((item,index) => {
-                                return(
-                                    <li key={index} style={{marginTop:'10px'}}>
+                            list.map((item, index) => (
+                                <li key={index} style={{ marginTop: '10px' }}>
 
-                                        <Checkbox
-                                            checked={item.finished}
-                                            onChange={() => this.toggleItem(index)}
-                                        />
-                                        <span style={{width:'20px'}}></span>
+                                    <Checkbox
+                                        checked={item.finished}
+                                        onChange={() => this.toggleItem(index)}
+                                    />
+                                    <span style={{ width: '20px' }} />
 
-                                        <Input
-                                            style={{borderWidth:1,borderColor: '#98A3AE',width:'230px'}}
-                                            defaultValue={item.title}
-                                            autoFocus={false}
-                                            onKeyDown={(e) => {
-                                                if(e.keyCode === 13){
-                                                    let title = e.target.value;
-                                                    this.modify(title,index)
-                                                }
-                                            }}
-                                        />
-                                        <span style={{paddingLeft:'10px'}}></span>
-                                        <Button type="danger" onClick={() => this.removeItem(index)}>删除</Button>
-                                    </li>
-                                )
-                            })
+                                    <Input
+                                        style={{ borderWidth: 1, borderColor: '#98A3AE', width: '230px' }}
+                                        defaultValue={item.title}
+                                        autoFocus={false}
+                                        onKeyDown={(e) => {
+                                            if (e.keyCode === 13) {
+                                                const title = e.target.value;
+                                                this.modify(title, index)
+                                            }
+                                        }}
+                                    />
+                                    <span style={{ paddingLeft: '10px' }} />
+                                    <Button type="danger" onClick={() => this.removeItem(index)}>删除</Button>
+                                </li>
+                            ))
                         }
                     </ul>
                 </span>
@@ -140,7 +144,7 @@ class TodoList extends Component{
  *      - routing: location
  *      - todo: list:[]
  */
-function mapStateToProps(state){
+function mapStateToProps(state) {
     // 按需加载.
     return {
         list: state.todo.list,

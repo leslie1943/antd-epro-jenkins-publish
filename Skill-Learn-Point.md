@@ -93,7 +93,7 @@
   ```javascript
     // STEP 1 : 父组件 引入子组件
     import RepositoryOptions from '@/components/RepositoryOptions';
-    // STEP 2 : 父组件 定义子组件在父组件执行的方法, 命名可以不是event标准事件, 可以在此将子组件数据map到父组件.
+    // STEP 2 : 父组件 定义方法,传给子组件并供子组件调用, 命名可以不是event标准事件, 可以在此将子组件数据map到父组件.
     onChangeParent(value){
         this.props.form.setFieldsValue({
             mr_repos: value,

@@ -25,40 +25,40 @@ export function getGitMap() {
 export function getRepository() {
     // 直接从localstorage里取值
     if (getStore('epro_repository')) {
-        let res = getStore('epro_repository')
+        const res = getStore('epro_repository')
         return res;
-    } else {
-        // 调用后台接口获取列表信息
-        listEproProjects().then(res => {
-            let local_repos = []
-            res.forEach(item => {
-                // filter no-epro projects
-                if (item.id != 276 &&
-                    item.id != 270 &&
-                    item.id != 269 &&
-                    item.id != 268 &&
-                    item.id != 267 &&
-                    item.id != 263 &&
-                    item.id != 206 &&
-                    item.id != 137 &&
-                    item.id != 132 &&
-                    item.id != 130 &&
-                    item.id != 122 &&
-                    item.id != 115 &&
-                    item.id != 108 &&
-                    item.id != 105
-                )
-                    local_repos.push({
-                        id: item.id,
-                        value: item.id,
-                        name: item.name,
-                        label: item.name
-                    })
-            })
-            setStore("epro_repository", local_repos);
-            return local_repos
-        })
     }
+    // 调用后台接口获取列表信息
+    listEproProjects().then(res => {
+        const local_repos = []
+        res.forEach(item => {
+            // filter no-epro projects
+            // item.id != 270 &&
+            // item.id != 269 &&
+            // item.id != 268 &&
+            // item.id != 267 &&
+            if (item.id != 276 &&
+                item.id != 263 &&
+                item.id != 206 &&
+                item.id != 137 &&
+                item.id != 132 &&
+                item.id != 130 &&
+                item.id != 122 &&
+                item.id != 115 &&
+                item.id != 108 &&
+                item.id != 105
+            )
+                local_repos.push({
+                    id: item.id,
+                    value: item.id,
+                    name: item.name,
+                    label: item.name
+                })
+        })
+        setStore("epro_repository", local_repos);
+        return local_repos
+    })
+
     // return [
     //     { value: 103, label: 'epro-certificate-svc' },
     //     { value: 104, label: 'epro-user-svc' },

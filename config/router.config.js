@@ -142,6 +142,38 @@ export default [
           // },
         ],
       },
+      // jenkins
+      {
+        path: '/demos',
+        name: 'demos',
+        icon: 'deployment-unit',
+        routes: [
+          {
+            path: '/demos/ref',
+            name: 'ref',
+            icon: 'key',
+            component: './Demo/TestRef',
+          },
+          {
+            path: '/demos/hoc',
+            name: 'hoc',
+            icon: 'key',
+            component: './Demo/TestHoc',
+          },
+          {
+            path: '/demos/pubsub',
+            name: 'pubsub',
+            icon: 'key',
+            component: './Demo/PubSub',
+          },
+          {
+            path: '/demos/hook',
+            name: 'hook',
+            icon: 'key',
+            component: './Demo/Hook',
+          },
+        ],
+      },
       {
         name: 'exception',
         icon: 'warning',

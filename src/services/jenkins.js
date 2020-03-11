@@ -8,7 +8,7 @@ export async function auth() {
   const res = await request('/crumbIssuer/api/json', {
     method: 'GET',
     headers: {
-      'Authorization': 'Basic ' + toBase64(),
+      'Authorization': `Basic ${toBase64()}`,
       'Access-Control-Allow-Origin': '*'
     }
   })
@@ -22,8 +22,8 @@ export async function buildDeploy() {
   const res = await request('/job/epro-mall/buildWithParameters', {
     method: 'POST',
     headers: {
-      'Authorization': 'Basic ' + toBase64(),
-      'Jenkins-Crumb': getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth')['crumb'] : '',
+      'Authorization': `Basic ${toBase64()}`,
+      'Jenkins-Crumb': getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth').crumb : '',
       'Access-Control-Allow-Origin': '*',
       // 'Content-Type':'application/json;charset=UTF-8',
     }
@@ -32,7 +32,7 @@ export async function buildDeploy() {
 
 // --------------------------- Pipeline ---------------------------
 export async function buildPipeline(params) {
-  let data = {
+  const data = {
     gitTagName: params.gitTagName,
     gitBranch: params.gitBranch,
     gradleProperties: params.gradleProperties,
@@ -43,8 +43,8 @@ export async function buildPipeline(params) {
     method: 'POST',
     body: data,
     headers: {
-      'Authorization': 'Basic ' + toBase64(),
-      'Jenkins-Crumb': getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth')['crumb'] : '',
+      'Authorization': `Basic ${toBase64()}`,
+      'Jenkins-Crumb': getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth').crumb : '',
       'Access-Control-Allow-Origin': '*',
       // 'Content-Type':'application/json;charset=UTF-8',
     }
@@ -56,8 +56,8 @@ export async function getProjectJson(params) {
   const res = await request(`/job/${params.project}/api/json?pretty=true`, {
     method: 'POST',
     headers: {
-      'Authorization': 'Basic ' + toBase64(),
-      'Jenkins-Crumb': getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth')['crumb'] : '',
+      'Authorization': `Basic ${toBase64()}`,
+      'Jenkins-Crumb': getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth').crumb : '',
       'Access-Control-Allow-Origin': '*',
       // 'Content-Type':'application/json;charset=UTF-8',
     }
@@ -70,8 +70,8 @@ export async function getBuildDetail(params) {
   const res = await request(`/job/${params.project}/${params.buildId}/`, {
     method: 'get',
     headers: {
-      'Authorization': 'Basic ' + toBase64(),
-      'Jenkins-Crumb': getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth')['crumb'] : '',
+      'Authorization': `Basic ${toBase64()}`,
+      'Jenkins-Crumb': getStore('epro_jenkins_auth') ? getStore('epro_jenkins_auth').crumb : '',
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json;charset=UTF-8',
     }
